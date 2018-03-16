@@ -1,0 +1,1078 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2018-02-12T06:14:47 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="demo" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e0a4263-5d0f-4a9d-914b-4371806b5817">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TH" mode="Opaque" backcolor="#DCDCDC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_TH" mode="Opaque" backcolor="#DCDCDC">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table 1_CH" mode="Opaque" backcolor="#FFBFBF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Dataset1" uuid="95170537-e43e-4ab1-90df-0476023bc977">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="listEquipment" class="java.lang.String"/>
+		<field name="floatDeposit" class="java.lang.Float"/>
+		<field name="serialNo" class="java.lang.String"/>
+		<field name="price" class="java.lang.String"/>
+		<field name="lendStatus" class="java.lang.String"/>
+		<field name="unitName" class="java.lang.String"/>
+		<field name="quantity" class="java.lang.String"/>
+		<field name="deposit" class="java.lang.String"/>
+		<variable name="floatDeposit1" class="java.lang.Float" calculation="Sum">
+			<variableExpression><![CDATA[$F{floatDeposit}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="Dataset2" uuid="fa7ae8ff-9eac-493f-bc36-b021e0970470">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<queryString>
+			<![CDATA[]]>
+		</queryString>
+		<field name="listEquipment" class="java.lang.String"/>
+		<field name="serialNo" class="java.lang.String"/>
+		<field name="quantity" class="java.lang.String"/>
+		<field name="unitName" class="java.lang.String"/>
+		<field name="price" class="java.lang.String"/>
+		<field name="floatDeposit" class="java.lang.Float"/>
+		<field name="lendStatus" class="java.lang.String"/>
+		<variable name="floatDeposit1" class="java.lang.Float" calculation="Sum">
+			<variableExpression><![CDATA[$F{floatDeposit}]]></variableExpression>
+		</variable>
+		<variable name="floatDeposit2" class="java.lang.Float" calculation="Sum">
+			<variableExpression><![CDATA[$F{floatDeposit}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="pathLogo" class="java.lang.String"/>
+	<field name="workSheetReportBeanSubTables" class="java.util.Collection"/>
+	<field name="customer" class="java.lang.String"/>
+	<field name="createDate" class="java.lang.String"/>
+	<field name="codeService" class="java.lang.String"/>
+	<field name="nameService" class="java.lang.String"/>
+	<field name="typeService" class="java.lang.String"/>
+	<field name="payment" class="java.lang.String"/>
+	<field name="servicePrice" class="java.lang.String"/>
+	<field name="duration" class="java.lang.String"/>
+	<field name="workSheetReportBeanSubTables2" class="java.util.Collection"/>
+	<field name="servicePriceTxt" class="java.lang.String"/>
+	<field name="serviceApplicationNo" class="java.lang.String"/>
+	<field name="installationFee" class="java.lang.String"/>
+	<field name="installationFeeTxt" class="java.lang.String"/>
+	<field name="deposit" class="java.lang.String"/>
+	<field name="depositTxt" class="java.lang.String"/>
+	<field name="sum" class="java.lang.String"/>
+	<field name="sumTxt" class="java.lang.String"/>
+	<field name="cusCode" class="java.lang.String"/>
+	<field name="identityNumber" class="java.lang.String"/>
+	<field name="mobile" class="java.lang.String"/>
+	<field name="collectDetail" class="java.lang.String"/>
+	<field name="serviceDate" class="java.lang.String"/>
+	<field name="recipient" class="java.lang.String"/>
+	<field name="printDate" class="java.lang.String"/>
+	<field name="serviceType" class="java.lang.String"/>
+	<field name="packages" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="167" splitType="Stretch">
+			<staticText>
+				<reportElement x="32" y="135" width="495" height="22" forecolor="#000000" uuid="ea0f5645-db1c-4da5-9748-8f6c0da8293e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[14/116 หมู่ 7 ต.บางตลาด อ.ปากเกร็ด จ.นนทบุรี 11120  โทร  :  (025)  843 – 255  แฟกซ์  :  (025)  843 – 285]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="32" y="88" width="495" height="50" forecolor="#000000" uuid="a65c7ef0-c211-47e8-8e67-871417e6f9a5"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="18" isBold="true"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[สัญญาบอกรับสมาชิก
+บริษัท อีซี่ เน็ต (ไทยแลนด์) จำกัด
+]]></text>
+			</staticText>
+			<image>
+				<reportElement x="206" y="27" width="150" height="68" uuid="0e3dc891-d8c3-49de-b626-d4aca5c4d0be"/>
+				<imageExpression><![CDATA[$P{pathLogo}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="401" y="40" width="135" height="22" forecolor="#000000" uuid="c608219c-7669-4355-a9bf-ae546eb1d998"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="false"/>
+				</textElement>
+				<text><![CDATA[เลขที่สัญญา........................................]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="450" y="39" width="77" height="24" uuid="d952dbd4-45b8-4b14-b568-c0a6ce83413c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{serviceApplicationNo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="390" y="1" width="146" height="22" forecolor="#000000" uuid="8b9bd45b-27fe-4396-842b-eebc8bc98c46"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="false"/>
+				</textElement>
+				<text><![CDATA[F-CC-008 Rev.1 29/11/17]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="216">
+			<staticText>
+				<reportElement x="180" y="3" width="353" height="57" forecolor="#000000" uuid="349e0d0c-c742-47f9-b10b-1794bb81de8e"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[เลขที่สมาชิก....................................... วันที่บันทึก.........................................................
+วันที่ลูกค้านัดดำเนินการติดตั้ง .........................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="62" width="510" height="128" forecolor="#000000" uuid="9deeb4ba-b9ff-4f87-b854-dd5354c96871"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[                  บริษัท อีซี่ เน็ต (ไทยแลนด์) จำกัด สำนักงานตั้งอยู่ที่เลขที่ 14/116 หมู่ 7 ต.บางตลาด อ.ปากเกร็ด จ.นนทบุรี 11120
+( ซึ่งต่อไปในสัญญาฉบับนี้ จะเรียกว่า “ผู้ให้บริการ” ฝ่ายหนึ่ง ) กับ.......................................................................................................................
+ที่อยู่ที่ติดตั้งอุปกรณ์กล่องรับสัญญาณเคเบิลทีวีระบบดิจิตอล.................................................................................................................................................................................................................................................................................................................................................................
+หมายเลขบัตรประชาชนเลขที่..........................................................................โทรศัพท์.............................................................(ซึ่งต่อไปนี้จะเรียกว่า “สมาชิก” อีกฝ่ายหนึ่ง) คู่สัญญาทั้งสองฝ่ายจึงตกลงทำสัญญาฉบับนี้ขึ้นเพื่อให้มีผลผูกพันคู่สัญญา โดยมีข้อความดังต่อไปนี้
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="190" width="100" height="20" uuid="5c667184-8d1e-4d57-8640-5a2850354f10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ข้อ 1.  วัตถุประสงค์]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="280" y="77" width="230" height="20" uuid="70a0dece-e07f-44cd-bc30-94d4d8182854"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{customer}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="410" y="8" width="117" height="17" uuid="8daff37c-ca3c-4721-b137-b06df294114a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{createDate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="272" y="9" width="90" height="17" uuid="a61dcf40-6542-4093-880e-1afa41da3017"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cusCode}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="24" y="98" width="508" height="43" uuid="16435bdb-cb48-4cb8-a9ae-79d14f82a6fb"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                                                                            " + $F{collectDetail}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="337" y="142" width="120" height="19" uuid="0eea6f1b-6565-4fb9-aca8-5287ec308388"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{mobile}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="140" y="142" width="150" height="20" uuid="1d4183e9-d247-421e-9107-7d09310df72f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{identityNumber}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="26" width="117" height="23" uuid="abf818e5-3f12-4a7f-a729-6d6a4ab624e9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{serviceDate}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="146">
+			<staticText>
+				<reportElement x="48" y="2" width="486" height="68" forecolor="#000000" uuid="2fa23935-583b-4961-a4c8-880a75ba210f"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[1.1 สมาชิกตกลงรับกล่อง Set Top Box และอุปกรณ์เสริมเพื่อนำไปเชื่อมต่อสัญญาณโครงข่ายผู้ให้บริการระบบรับสัญญาณเคเบิลทีวี ในการรับชมช่องรายการโทรทัศน์ตามเงื่อนไขที่ระบุในสัญญาระหว่างผู้ให้บริการกับสมาชิก โดยตกลงเลือกการรับมอบกล่อง Set Top Box โดยมีรายละเอียดรายการอุปกรณ์ ดังต่อไปนี้]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="48" y="70" width="486" height="60" uuid="e02f18d7-5855-4f62-941e-507133c5887e">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Dataset1" uuid="754bedf0-222c-449b-8ca0-b72127962ed0">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{workSheetReportBeanSubTables})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="40" uuid="2b423656-4a7d-4af7-8f0c-7d0a162d7c3b">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader style="Table_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="40" height="20" uuid="59767618-1189-4ce6-9b85-92cb544d68ca"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ลำดับ]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="40" height="20" uuid="17bbad88-72cd-4cf8-a3b0-e5c1cf3fa8c8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="af5aba17-9082-460c-9617-ce791c3c76ad">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader style="Table_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="20" uuid="6296ed3e-226a-4e87-a160-bec92c05a083"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[รายการ]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="130" height="20" uuid="66e95716-f15b-4a2b-ae34-f17388dda84d"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{listEquipment}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="d70c6a12-970d-4b2d-ab91-747a7ed646b3">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader style="Table_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="20" uuid="fe707147-29f0-4da9-a068-55883d9cae6f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[SN]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="e7e58ba8-a940-40c1-9886-3d0cc6e6abe7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{serialNo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="b881a7fa-b76e-4885-b52b-512128fab6a1">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableHeader style="Table_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="20" uuid="e1fbaa9a-7e97-4072-ab4b-4ed1efc44e04"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[จำนวน]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="d659edd9-7e64-4ef1-a30e-862992abee74"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="40a7ca78-19e1-4f4e-8932-c46772555500">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
+						<jr:tableHeader style="Table_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="20" uuid="9eed8249-a40c-4e81-adf4-722f745ffda7"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[หน่วย]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" uuid="a0e88376-8897-49d2-83d2-e7f81ca4f5bc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{unitName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="60" uuid="6d420a54-f38b-4932-bb02-f721a4a4d2b5">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
+						<jr:tableHeader style="Table_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="20" uuid="2fa7eefa-21e4-4db7-8f0d-29b0a7f6e15a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ราคาต่อหน่วย]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="20" uuid="fd51d6f5-d025-4e8b-be04-2033db145798"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<text><![CDATA[รวม]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" uuid="f06c017c-abb1-41aa-bce5-942f224e178d"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{price}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="317af4c2-b991-41b9-806a-00a70e6c1c06">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
+						<jr:tableHeader style="Table_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="20" uuid="e3e18e62-87da-4a8f-9fb0-17e00f47ce3c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ราคารวม]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="20" rowSpan="1">
+							<textField pattern="#,###.###;(#,###.###-)">
+								<reportElement x="0" y="0" width="50" height="20" uuid="890d8ac7-2558-4c11-b686-b1b97b51c1f8"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{floatDeposit1}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="50" height="20" uuid="73303b1b-8abc-43b2-8d8d-c6fb6ddd9d47"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{deposit}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="9ec80cbd-5091-4b80-8a43-c23370bf601c">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
+						<jr:tableHeader style="Table_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="46" height="20" uuid="b935b0d0-54ce-4b6e-8d83-8d8835268cd8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[หมายเหตุ]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table_TH" height="20" rowSpan="1"/>
+						<jr:detailCell style="Table_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="46" height="20" uuid="bdf0ac0f-3766-42a3-8e37-1f6cf248a8fd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{lendStatus}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="150">
+			<staticText>
+				<reportElement x="48" y="0" width="486" height="68" forecolor="#000000" uuid="511158d9-89a0-4e86-9dbc-3543b01fa351"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[1.2 สมาชิกตกลงวางค่ามัดจำสำหรับอุปกรณ์ Set Top Box ในระบบ HD และอุปกรณ์เสริมอื่นๆ เพื่อประกันความเสียหายเป็น จำนวนเงินทั้งสิ้น................................บาท (...........................................................................) ให้แก่ผู้ให้บริการในวันทำสัญญาฉบับนี้ โดยสมาชิกได้รับมอบกล่อง Set Top Box ระบบ HD และอุปกรณ์เสริมอื่นๆ ครบถ้วนในสภาพเรียบร้อยใช้งานได้ดี และผู้ให้บริการตกลงชำระเงินมัดจำจำนวนดังกล่าวคืนให้แก่สมาชิก ภายหลังจากหักค่าเสียหาย (ถ้ามี) ภายใน 60 วัน นับตั้งแต่วันที่สัญญาฉบับนี้สิ้นสุดลง รายละเอียดค่ามัดจำแสดงได้ดังต่อไปนี้]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="47" y="68" width="486" height="60" uuid="f884a609-86a9-4045-b71f-4d883a9b9615">
+					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
+					<property name="com.jaspersoft.studio.table.style.table_header" value="Table 1_TH"/>
+					<property name="com.jaspersoft.studio.table.style.column_header" value="Table 1_CH"/>
+					<property name="com.jaspersoft.studio.table.style.detail" value="Table 1_TD"/>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Dataset2" uuid="5d44f7e9-64cd-4719-94f3-d9d418902a03">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{workSheetReportBeanSubTables2})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="60" uuid="32090e0e-3315-4a18-8491-f21161089d46">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
+						<jr:tableHeader style="Table 1_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="60" height="20" uuid="40007a18-67ff-458b-9895-4e4b129af314"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ลำดับ]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="60" height="20" uuid="71eadefb-2c77-4b9b-b889-ffeab358ccc8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="180" uuid="71878be2-1c03-4d8e-a8cc-16631ca51bb4">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
+						<jr:tableHeader style="Table 1_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="180" height="20" uuid="a8444e68-735c-4360-9981-3cf1184cc27a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[รายการ]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:detailCell style="Table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="180" height="20" uuid="722a0b8b-3cb0-4396-bfaf-f8cd35c72183"/>
+								<textElement verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+									<paragraph leftIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{listEquipment}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="130" uuid="3a6429cb-00dd-4306-9ee0-3db54e0e82b5">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
+						<jr:tableHeader style="Table 1_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="20" uuid="588bd1fb-dceb-4b01-85d8-974e7c4b4706"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[SN]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table 1_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="130" height="20" uuid="4a884b19-7409-462e-9ca3-569a85a03adb"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<text><![CDATA[รวม]]></text>
+							</staticText>
+						</jr:tableFooter>
+						<jr:detailCell style="Table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="130" height="20" uuid="c2c8ac1f-9ec5-4c1e-9847-ca3d966621e6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{serialNo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="116" uuid="0db8e218-ead9-48ff-b307-9a731a682fe3">
+						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
+						<jr:tableHeader style="Table 1_TH" height="20" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="116" height="20" uuid="970c5e25-03b1-4ada-aee2-2ff7fffe6933"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+								</textElement>
+								<text><![CDATA[ค่ามัดจำ (บาท)]]></text>
+							</staticText>
+						</jr:tableHeader>
+						<jr:tableFooter style="Table 1_TH" height="20" rowSpan="1">
+							<textField pattern="#,###.###;(#,###.###-)">
+								<reportElement x="0" y="0" width="116" height="20" uuid="08c0ae52-bbdc-4817-b7f3-5cf5eecbb439"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{floatDeposit2}]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:detailCell style="Table 1_TD" height="20">
+							<textField>
+								<reportElement x="0" y="0" width="116" height="20" uuid="f80d4357-ed6f-481e-aab5-f9ef84e395ec"/>
+								<textElement textAlignment="Right" verticalAlignment="Middle">
+									<font fontName="TH SarabunPSK" size="14"/>
+									<paragraph rightIndent="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{floatDeposit}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+			<textField>
+				<reportElement x="105" y="16" width="70" height="20" uuid="d5311edf-bdf1-4fa7-85eb-dc1348eeb145"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{deposit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="16" width="170" height="18" uuid="0930eb72-8f90-4997-a8b6-786e057e4d01"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{depositTxt}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="96">
+			<staticText>
+				<reportElement x="50" y="6" width="486" height="40" forecolor="#000000" uuid="71bd5337-225c-4aef-8fed-af8cda48be47"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[1.3 สมาชิกตกลงรับบริการสัญญาณเคเบิลทีวีระบบอนาล็อกสำหรับเครื่องรับโทรทัศน์ภายในที่พักอาศัย
+จำนวน....................................จุด และ ระบบดิจิตอล จำนวน.....................................จุด
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="46" width="40" height="20" uuid="c0ea0d9f-7f6f-4085-aace-f474cf309916"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="50" width="486" height="40" forecolor="#000000" uuid="8236a1e3-f67e-4f4d-b896-ff3f6b33f358"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[                    ผู้ให้บริการขอสงวนสิทธิ์ในการให้บริการสัญญาณเคเบิลทีวีระบบอนาล็อกสูงสุดไม่เกิน 4 เครื่องรับโทรทัศน์ สำหรับบ้านพักอาศัยเดียวกันเท่านั้น]]></text>
+			</staticText>
+		</band>
+		<band height="205">
+			<staticText>
+				<reportElement x="30" y="22" width="100" height="20" uuid="37e5fa8b-59ab-4e0d-82f2-2f6dd5e855c8"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ข้อ 2.  ค่าบริการ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="50" y="44" width="486" height="157" forecolor="#000000" uuid="10e58a4a-9dbc-46d0-83af-e722ad1e15d4"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[2.1 สมาชิกตกลงชำระค่าบริการให้แก่ผู้ให้บริการตามรอบบิล ระยะเวลา..........................เดือน ต่อรอบบิล โดยอัตราค่าบริการรอบบิลละ...............................................บาท (........................................................................)
+ประเภทบริการ.............................................................................. Package .........................................................................................
+2.2       ค่าบริการอื่นๆ..........................................................................................................................................................
+2.3 สมาชิกจะต้องชำระค่าบริการรายเดือนล่วงหน้า 1 เดือนในวันทำสัญญาฉบับนี้ หากสมาชิกประสงค์จะบอกเลิกการรับบริการ 
+จะต้องแจ้งให้ผู้ให้บริการรับทราบล่วงหน้าไม่น้อยกว่า 30 วัน
+2.4 ผู้ให้บริการขอสงวนสิทธิ์ในการปรับลด เพิ่ม หรือเปลี่ยนแปลงช่องรายการทั้งระบบดิจิตอล และอนาล็อก เพื่อให้เป็นไปตาม
+ความเหมาะสมในการรับชมโดยไม่ต้องแจ้งให้สมาชิกทราบล่วงหน้า
+]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="68" y="110" width="11" height="13" uuid="16ed7dde-aade-41bd-84d0-414e5b032f72"/>
+			</rectangle>
+			<textField>
+				<reportElement x="311" y="39" width="49" height="20" uuid="ebfb68f3-975e-4ac7-98a3-80b39890c111"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{duration}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="59" width="90" height="20" uuid="5cbc267f-9c94-4569-a8c1-1d64905c8193"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicePrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="59" width="150" height="20" uuid="429f3d99-834b-4b5d-9db3-594f37a5cf24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicePriceTxt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="109" y="81" width="171" height="20" uuid="46361c83-b9a2-4ca4-8f89-328aa38f3050"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{serviceType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="324" y="81" width="196" height="20" uuid="cd11c82c-97b4-42f9-a8e4-3d091803ceeb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{packages}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="177">
+			<staticText>
+				<reportElement x="30" y="1" width="30" height="20" uuid="aa6354e3-cdaf-4c2c-8f91-9e1fae863057"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ข้อ 3.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="67" y="4" width="469" height="136" forecolor="#000000" uuid="97792e4f-b1b4-4d5f-b117-3857345be0ca"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[เมื่อสิ้นสุดการใช้สัญญาณไม่ว่ากรณีใดๆ ถือว่าเป็นการสิ้นสุดแห่งสัญญานี้ สมาชิกมีหน้าที่ต้องส่งคืนอุปกรณ์รับสัญญาณเคเบิลทีวี 
+( Set Top Box ) สมาร์ทการ์ด ( Smart Card ) และอุปกรณ์อื่นๆ (ถ้ามี) ให้แก่ผู้ให้บริการในสภาพเรียบร้อยสมบูรณ์
+
+สมาชิกตกลงชำระค่าติดตั้งอุปกรณ์	รวมทั้งสิ้น................................. บาท (................................................................)
+สมาชิกตกลงชำระค่ามัดจำอุปกรณ์	รวมทั้งสิ้น................................. บาท (................................................................)
+สมาชิกตกลงชำระค่าบริการรายเดือน	รวมทั้งสิ้น................................. บาท (................................................................)
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="141" width="386" height="19" forecolor="#000000" uuid="f2249399-3b8a-4b49-9049-f77afec08e1d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[รวมทั้งสิ้น...............................................บาท (.................................................................)]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="266" y="108" width="71" height="20" uuid="bc57c09c-dd97-4954-9665-c7fee009a5c2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicePrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="108" width="148" height="20" uuid="4c16a748-88d6-4a7e-856f-b66bcedd7a0e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{servicePriceTxt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="266" y="85" width="71" height="20" uuid="9d2dd861-8d72-4810-82b1-9a9571d05653"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{deposit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="87" width="148" height="18" uuid="ca2de405-f2d8-46d7-871e-7aa7ed1dfe7f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{depositTxt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="266" y="62" width="84" height="23" uuid="43afdc8a-cbe9-4e45-bfb7-cb86c85f29f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{installationFee}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="64" width="148" height="19" uuid="ee0481ae-6fc3-4502-b882-6d677b1a5fa5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{installationFeeTxt}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="136" width="126" height="20" uuid="b53e2645-f312-4be5-9e5d-0fbd22fe7405"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sum}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="136" width="160" height="20" uuid="b6a9c353-3a13-4082-923c-9ac9b52d40b4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumTxt}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="312">
+			<staticText>
+				<reportElement x="67" y="4" width="469" height="176" forecolor="#000000" uuid="90bb2f5e-5a30-41db-a71e-2c2bfc087514"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[ระเบียบสมาชิก
+4.1 ชำระค่าติดตั้งอุปกรณ์...........................บาท เมื่อยกเลิกบริการ สมาชิกจะไม่ได้รับค่าติดตั้งอุปกรณ์คืน
+4.2 เมื่อสมาชิกชำระค่าบริการต่างๆให้แก่บริษัทฯ จะต้องมีใบเสร็จจากทางบริษัทฯ ทุกครั้ง และสมาชิกจะต้องชำระเงินค่าบำรุงล่วงหน้าก่อนใช้บริการเป็นรายเดือน รายปี หรือรายครึ่งปี ทุกครั้งที่ครบกำหนด และจะค้างชำระเงินค่ารายเดือน รายปี หรือรายครึ่งปีได้ไม่เกิน 15 วัน
+4.3 ในกรณีที่สมาชิกไม่ชำระเงินใดๆ ที่จะต้องชำระให้แก่บริษัทฯ ทางบริษัทฯ ขอสงวนสิทธิระงับการให้บริการ หรือยกเลิกสัญญาได้ทันที อนึ่ง ระหว่างระงับการให้บริการ สมาชิกจะต้องชำระหนี้ที่ค้างชำระทั้งหมด
+4.4 การซ่อมสัญญาณเคเบิลทีวี ทางบริษัทฯ ให้บริการสมาชิกฟรี โดยไม่เสียค่าใช้จ่ายใดๆ ทั้งสิ้น
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="1" width="30" height="20" uuid="0ab1933d-f4c1-4f66-b0db-0a408ac59276"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ข้อ 4.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="199" width="512" height="110" forecolor="#000000" uuid="1334b23f-bf22-4176-9de9-54626f9bb2c6"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[            ข้าพเจ้าได้ทราบรายละเอียดและเงื่อนไขต่างๆ ของบริษัท อีซี่ เน็ต (ไทยแลนด์) จำกัด โดยละเอียดถี่ถ้วนทั้งหมด และตกลงใช้บริการ พร้อมทั้งยินยอมปฏิบัติตามเงื่อนไขทุกประการ ทั้งนี้ ข้าพเจ้ายินยอมให้บริษัทฯเข้าทำการตรวจสอบระบบสัญญาณเคเบิลทีวีภายในที่พำนัก
+อาศัยและรับทราบว่าการลักลอบพ่วงสัญญาณเคเบิลทีวี ทั้งภายในและภายนอกตัวอาคารหรือที่พักอาศัยถือว่ามีความผิดข้อหาลักทรัพย์
+หากข้าพเจ้ากระทำการดังกล่าว  บริษัทฯ สามารถแจ้งดำเนินการตามกฎหมายได้ทันทีและเมื่อบริษัทฯ เปิดให้ข้าพเจ้าใช้บริการแล้ว
+ให้ถือว่าเอกสารนี้เป็นสัญญาเช่าใช้บริการผูกพันต่อไปทันที และได้เซ็นชื่อรับทราบการเดินสายและสัญญาณภาพชัดเจนเป็นที่เรียบร้อย]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="162" y="20" width="58" height="23" uuid="c69231b0-6811-4bba-a3d9-264136cbf1e0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{installationFee}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="24" y="180" width="220" height="19" uuid="4cb521ef-368f-43d2-8601-5020071e23d0"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ระยะเวลาการใช้งานขั้นต่ำ 6 เดือน]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<summary>
+		<band height="267" splitType="Stretch">
+			<staticText>
+				<reportElement x="24" y="10" width="224" height="21" uuid="7037f304-2bb1-4831-9fe3-0ee0c86b98fe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[..............................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="10" width="223" height="21" uuid="cb34e6cf-2ae4-45f2-9c45-e7df7364ca9c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[..............................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="30" width="224" height="21" uuid="a63b8f0d-6ebc-492d-b405-98bfdec00739"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[( ........................................................... )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="80" width="224" height="21" uuid="b1ece15a-9d15-4e0b-821d-e9c3e3adb910"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[..............................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="80" width="223" height="21" uuid="d48953f3-f0db-4067-879c-906049fa79bf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[..............................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="100" width="223" height="21" uuid="944728b3-aaca-4cf3-9039-7f4baafce970"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[( ........................................................... )]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="311" y="30" width="223" height="21" uuid="7b80fa89-32f8-4024-b844-e0ef89e63e41"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["( "+ $F{customer} +" )"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="24" y="100" width="224" height="21" uuid="db09629a-c1a8-454e-b86d-f7ccc2908b1e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[( ........................................................... )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="51" width="224" height="21" uuid="7f423c81-3374-4ece-a027-9b5d1bce1ec4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[เจ้าหน้าที่บริษัท อีซี่ เน็ต (ไทยแลนด์) จำกัด]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="50" width="223" height="21" uuid="62d60a03-f077-42bc-8a48-077df2fe3de4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[ สมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="121" width="224" height="21" uuid="87ca37e9-2933-47fe-a141-60e4e5f897d1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[พยาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="311" y="121" width="223" height="21" uuid="ad8801f3-18c6-4b64-a064-7fb760732e7a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<text><![CDATA[พยาน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="78" y="148" width="458" height="40" forecolor="#000000" uuid="8b6beda3-1b71-49d7-bf4f-c8339032d94c"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="14" isBold="false"/>
+					<paragraph lineSpacing="1_1_2" lineSpacingSize="5.0"/>
+				</textElement>
+				<text><![CDATA[บริษัท ฯ ขอสงวนสิทธิ์ในการรับประกันอุปกรณ์  ชุด  Set  Top  Box , รีโมท , หม้อแปลงไฟฟ้า และสาย  HDMI ในระยะเวลา 6  เดือนนับตั้งแต่วันที่ติดตั้งแล้วเสร็จ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="144" width="43" height="20" uuid="4c8524f3-8a24-44e0-86e0-7ff2f647876a"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Bottom">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[หมายเหตุ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="79" y="220" width="401" height="20" uuid="c817e707-14f1-46a5-a628-37f69a50a280"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["- ผู้บันทึก"+$F{recipient} + " -"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="240" width="401" height="20" uuid="5e1256e8-f6a1-41c2-a87b-bc5bd94e9c26"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{printDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-07-04T15:46:30 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="demo" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e0a4263-5d0f-4a9d-914b-4371806b5817">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<subDataset name="Dataset1" uuid="539967c2-b5e2-432b-a11b-1c0a39639fab">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<field name="receiptCode" class="java.lang.String"/>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="workSheetCode" class="java.lang.String"/>
+	<field name="billDocumentList" class="java.util.Collection"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="234" splitType="Stretch">
+			<rectangle>
+				<reportElement x="166" y="91" width="155" height="20" uuid="278c3860-5bd1-4f69-b14c-6290228d7b38"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="121" y="91" width="45" height="20" uuid="10740d55-af0b-47e4-823c-799e7bd3eb11"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="321" y="91" width="100" height="20" uuid="f9b5e7ee-1a4c-4e69-837b-c75d69c21024"/>
+			</rectangle>
+			<textField>
+				<reportElement x="180" y="90" width="141" height="20" uuid="8947dcc9-d7c0-4b8f-8549-241d630cd61d"/>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="16" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{workSheetCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="135" y="90" width="31" height="20" uuid="f3526ec0-f046-480d-a9b1-b20e85dfdede"/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<break>
+				<reportElement x="0" y="233" width="558" height="1" uuid="e74dcad9-50df-4888-98c1-90b8029d78c1"/>
+			</break>
+			<staticText>
+				<reportElement x="321" y="91" width="100" height="19" uuid="90de190a-39e9-4fbd-8f3c-e26bfe34e20f"/>
+				<text><![CDATA[Static Text]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="20" width="557" height="30" uuid="b9d37dde-5ded-4108-b999-a03dca9012b7"/>
+				<jr:list xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" printOrder="Vertical">
+					<datasetRun subDataset="Dataset1" uuid="7f1ac4ef-e07c-42eb-80ee-37ddf560d114">
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{billDocumentList})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:listContents height="30" width="557">
+						<textField>
+							<reportElement x="0" y="0" width="100" height="30" uuid="0e5284db-c402-415b-bebe-f2044fccaf89"/>
+							<textFieldExpression><![CDATA[$F{receiptCode}]]></textFieldExpression>
+						</textField>
+					</jr:listContents>
+				</jr:list>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

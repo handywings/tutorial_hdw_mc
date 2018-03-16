@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-07-14T16:55:08 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="demo" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e0a4263-5d0f-4a9d-914b-4371806b5817">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="header" class="java.lang.String"/>
+	<parameter name="title" class="java.lang.String"/>
+	<parameter name="footer" class="java.lang.String"/>
+	<parameter name="pathLogo" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="no" class="java.lang.Integer"/>
+	<field name="productCode" class="java.lang.String"/>
+	<field name="productName" class="java.lang.String"/>
+	<field name="supplier" class="java.lang.String"/>
+	<field name="productCategory" class="java.lang.String"/>
+	<field name="stock" class="java.lang.String"/>
+	<field name="amount" class="java.lang.String"/>
+	<field name="pricePerUnitTotal" class="java.lang.String"/>
+	<field name="noText" class="java.lang.String"/>
+	<field name="productCodeText" class="java.lang.String"/>
+	<field name="productNameText" class="java.lang.String"/>
+	<field name="supplierText" class="java.lang.String"/>
+	<field name="productCategoryText" class="java.lang.String"/>
+	<field name="stockText" class="java.lang.String"/>
+	<field name="amountText" class="java.lang.String"/>
+	<field name="pricePerUnitTotalText" class="java.lang.String"/>
+	<field name="groupData" class="java.lang.String"/>
+	<field name="sumText" class="java.lang.String"/>
+	<field name="sumAmount" class="java.lang.String"/>
+	<field name="sumPrice" class="java.lang.String"/>
+	<field name="checkGroupData" class="java.lang.Boolean"/>
+	<field name="checkHeaderTable" class="java.lang.Boolean"/>
+	<field name="checkSum" class="java.lang.Boolean"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="80">
+			<image>
+				<reportElement x="697" y="30" width="105" height="50" uuid="c60f3739-bfda-4c89-b77f-1e57773b8ef1"/>
+				<imageExpression><![CDATA[$P{pathLogo}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="0" y="60" width="696" height="20" uuid="e7473cdc-c219-4e42-990a-a734496da0a7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{header}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="669" y="0" width="80" height="20" uuid="4e0c8945-1c0f-46de-9d8e-a8416391e641"/>
+				<textElement textAlignment="Right">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้าที่ "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="749" y="0" width="53" height="20" uuid="09b77ee2-2ff5-43b1-86e4-25aaa8c22ec2"/>
+				<textElement textAlignment="Right">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" จาก "+$V{PAGE_NUMBER}+" หน้า"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="31" width="696" height="30" uuid="d9d17fc3-74fc-48c9-af30-2f2b69c4f67b"/>
+				<textElement textAlignment="Right">
+					<font fontName="TH SarabunPSK" size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{title}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30">
+			<textField>
+				<reportElement x="669" y="0" width="80" height="20" uuid="c96f8fc0-7e53-4536-9d50-5ca3f9d703c7">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() != 1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["หน้าที่ "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="749" y="0" width="53" height="20" uuid="b0b58f4a-470a-40cd-a87f-65201299bc5b">
+					<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() != 1)]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" จาก "+$V{PAGE_NUMBER}+" หน้า"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="672" height="26" backcolor="#1A1A1A" uuid="609e03d0-52e1-4268-8598-519c798e2141">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && $F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="672" y="0" width="59" height="26" backcolor="#D4D4D4" uuid="9b994424-1178-46aa-989d-2a84649d3ae0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && $F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="731" y="0" width="70" height="26" backcolor="#D4D4D4" uuid="17771980-e29a-4e5f-9bdd-d30b6d9a3db2">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && $F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="2" width="801" height="24" backcolor="#D4D4D4" uuid="d213aefe-1763-4177-86fc-cdf2e3369816">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && $F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="151" y="0" width="129" height="26" uuid="8947dcc9-d7c0-4b8f-8549-241d630cd61d">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="40" height="26" backcolor="#BFBFBF" uuid="f3526ec0-f046-480d-a9b1-b20e85dfdede">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="0" width="111" height="26" backcolor="#F0706E" uuid="2b9dfe18-3569-491b-a94a-a26a34552bde">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productCode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="0" width="140" height="26" uuid="92460552-acd0-4691-bfd5-78a524d5a0b6">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{supplier}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="0" width="120" height="26" uuid="84d0a89d-a18b-4897-9051-5857cfc1f90e">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productCategory}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="540" y="0" width="132" height="26" uuid="f234ecc3-676b-4327-98d6-613dbf7be7e1">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stock}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="672" y="0" width="59" height="26" uuid="6ec45ca9-17e7-4178-ad82-b715b1d49c99">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="731" y="0" width="70" height="26" uuid="6c5c3687-0a9e-43f2-9435-a6207ea2b731">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pricePerUnitTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="151" y="2" width="129" height="24" uuid="8cd86ed7-7939-487c-915e-da047b6a0e90">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && $F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productNameText}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="2" width="40" height="24" backcolor="#BFBFBF" uuid="1cbe4434-1ada-43cb-9063-50f8b1a6ea0a">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && $F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{noText}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="2" width="111" height="24" backcolor="#F0706E" uuid="4e2e7ad6-1fe9-4210-8041-9a61c6207a4c">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && $F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineColor="#000000"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productCodeText}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="280" y="2" width="140" height="24" uuid="6b7cf196-66c0-4cc1-9cd4-018a688a350b">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && $F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" isItalic="false" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{supplierText}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="420" y="2" width="120" height="24" uuid="d95cdd7a-4ea3-4a36-8ebf-54a4e20ea528">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && $F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{productCategoryText}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="540" y="2" width="132" height="24" uuid="b673b989-9ed2-49ac-87a3-15ddcb36aade">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && $F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{stockText}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="672" y="0" width="59" height="26" uuid="185956f7-564b-4e31-ba76-d1959aff4d61">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && $F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumAmount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="3" width="801" height="22" backcolor="#BFBFBF" uuid="0fd70bc1-55fb-485e-ae94-ebdcddbf8b95">
+					<printWhenExpression><![CDATA[$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{groupData}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="731" y="2" width="70" height="24" uuid="a548679d-3a28-40a5-8aec-badfe1565f79">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && $F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pricePerUnitTotalText}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="672" y="2" width="59" height="24" uuid="9901cc77-3150-48fb-8c56-a0cc3977ee55">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && $F{checkHeaderTable}.booleanValue() && !$F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{amountText}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="731" y="0" width="70" height="26" uuid="99522a2f-bf53-4dc1-b017-b8d28e1a3d28">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && $F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+					<paragraph rightIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumPrice}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="540" y="0" width="132" height="26" forecolor="#FFFFFF" uuid="f17d5ec5-7a5c-4fe1-989a-01c48d80f5c2">
+					<printWhenExpression><![CDATA[!$F{checkGroupData}.booleanValue() && !$F{checkHeaderTable}.booleanValue() && $F{checkSum}.booleanValue()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sumText}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="61">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="0" y="15" width="802" height="46" uuid="00342cf7-4f77-4335-88f3-64c0dc4c26ef"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{footer}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

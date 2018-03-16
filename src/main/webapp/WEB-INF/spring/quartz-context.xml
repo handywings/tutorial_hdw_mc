@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+		
+		<!-- datasource bean -->
+		<beans:import resource="dataSource/datasource_sit.xml"/>
+		
+		<!-- dao bean -->
+		<beans:import resource="dao.xml"/>
+		<!-- service bean -->
+		<beans:import resource="service.xml"/> 
+		
+		<beans:bean id="messageSource" 
+			class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+			<beans:property name="basename" value="classpath:messages" />
+			<beans:property name="defaultEncoding" value="UTF-8" />
+		</beans:bean>
+	
+		<context:component-scan base-package="com.hdw.mccable" annotation-config="true" />	
+		<context:annotation-config />
+		<tx:annotation-driven transaction-manager="transactionManager"/>
+		<beans:bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+			<beans:property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory" />
+		</beans:bean>
+	
+		<!-- task -->
+		<beans:bean id="createBillTask" class="com.hdw.mccable.job.ExecutorCreateBill" />
+		<beans:bean id="updateStatusBillTask" class="com.hdw.mccable.job.ExecutorUpdateStatusBill" />
+		<beans:bean id="backupDBTask" class="com.hdw.mccable.job.ExecutorBackupDB" />
+		<!-- job -->
+		<beans:bean id="createBillJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<beans:property name="targetObject" ref="createBillTask" />
+			<beans:property name="targetMethod" value="generateInvoiceAuto" />
+		</beans:bean>
+		<beans:bean id="rollBackAssignJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<beans:property name="targetObject" ref="createBillTask" />
+			<beans:property name="targetMethod" value="rollBackAssignInvoice" />
+		</beans:bean>
+		<beans:bean id="updateStatusBillJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<beans:property name="targetObject" ref="updateStatusBillTask" />
+			<beans:property name="targetMethod" value="updateStatusBillInvoice" />
+		</beans:bean>
+		<beans:bean id="backupDBJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+			<beans:property name="targetObject" ref="backupDBTask" />
+			<beans:property name="targetMethod" value="processBackupDB" />
+		</beans:bean>
+		
+		<!-- way 1 
+		<bean id="simpleTrigger"
+			class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+			<property name="jobDetail" ref="createBillJob" />
+			<property name="repeatInterval" value="1000" /> 
+			<property name="startDelay" value="1000" /> 	
+		</bean> -->
+		
+		<!-- trigger -->
+		<beans:bean id="createBillTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<beans:property name="jobDetail" ref="createBillJob" />
+			<beans:property name="cronExpression" value="0 0 1 * * ?" /> <!-- run every day 1 AM -->
+		</beans:bean>
+		
+		<beans:bean id="rollBackAssignTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<beans:property name="jobDetail" ref="rollBackAssignJob" />
+			<beans:property name="cronExpression" value="0 0 0 * * ?" /> <!-- run very day at 00.00  0 0 0 ? * *-->
+		</beans:bean>
+		
+		<beans:bean id="updateStatusBillTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<beans:property name="jobDetail" ref="updateStatusBillJob" />
+			<beans:property name="cronExpression" value="0 30 0 * * ?" /> <!-- run very day at 00.30  0 30 0 ? * *-->
+		</beans:bean>
+		
+		<beans:bean id="backupDBTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+			<beans:property name="jobDetail" ref="backupDBJob" />
+			<beans:property name="cronExpression" value="0 0 3 * * ?" /> <!-- run every day 3 AM-->
+		</beans:bean>
+		
+		<beans:bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	 		<beans:property name="autoStartup" value="true" />
+			<beans:property name="jobDetails">
+				<beans:list>
+					<beans:ref bean="createBillJob" />
+					<beans:ref bean="rollBackAssignJob" />
+					<beans:ref bean="updateStatusBillJob" />
+					<beans:ref bean="backupDBJob" />
+				</beans:list>
+			</beans:property>
+			<beans:property name="triggers">
+				<beans:list>
+					<beans:ref bean="createBillTrigger" />
+					<beans:ref bean="rollBackAssignTrigger" />
+					<beans:ref bean="updateStatusBillTrigger" />
+					<beans:ref bean="backupDBTrigger" />
+				</beans:list>
+			</beans:property>
+		</beans:bean>
+		
+	
+</beans:beans>

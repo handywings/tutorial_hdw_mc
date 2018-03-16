@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-07-15T23:08:16 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="demo" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e0a4263-5d0f-4a9d-914b-4371806b5817">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<subDataset name="Dataset1" uuid="539967c2-b5e2-432b-a11b-1c0a39639fab">
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+		<field name="receiptCode" class="java.lang.String"/>
+	</subDataset>
+	<queryString language="SQL">
+		<![CDATA[]]>
+	</queryString>
+	<field name="workSheetCode" class="java.lang.String"/>
+	<field name="billDocumentList" class="java.util.Collection"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="434" splitType="Stretch">
+			<staticText>
+				<reportElement x="350" y="0" width="204" height="30" uuid="72866f8e-6e00-43c5-aa07-241e539c6164"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<text><![CDATA[เลขที่สัญญา........................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="30" width="534" height="20" uuid="73c4ad48-876b-483c-a898-a6b481f32c51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[สัญญาบอกรับสมาชิก]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="73" width="204" height="26" uuid="e71a4538-ecdf-474b-bfc4-48dda48a2e9e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<text><![CDATA[เลขที่สมาชิก........................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="350" y="99" width="204" height="26" uuid="5f7df222-3b37-4a9e-a74c-054c8da43698"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12"/>
+				</textElement>
+				<text><![CDATA[วันที่....................................................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="140" width="554" height="20" uuid="30a085d3-7f45-4e8d-a64c-080baea4184b"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="10"/>
+				</textElement>
+				<text><![CDATA[บริษัท มหาชัย เคเบิลทีวี จำกัด สำนักงานตั้งอยู่ที่เลขที่ 1600/103 ถ.ท่าปรง ต.มหาชัย อ.เมือง จ.สมุทรสาคร 74000 (ซึ่งต่อไปใน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="160" width="554" height="20" uuid="6fef4d90-02fd-475e-baea-2ff08275dc54"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="10"/>
+				</textElement>
+				<text><![CDATA[สัญญาฉบับนี้ จะเรียกว่า “ผู้ให้บริการ” ฝ่ายหนึ่ง) กับ__________________________________________ที่อยู่ที่ติดตั้งอุปกรณ์กล่อง]]></text>
+			</staticText>
+		</band>
+		<band height="109"/>
+	</detail>
+</jasperReport>

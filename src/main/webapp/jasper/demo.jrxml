@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-07-15T22:18:34 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="demo" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7e0a4263-5d0f-4a9d-914b-4371806b5817">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="id" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select * from company]]>
+	</queryString>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="taxId" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="91" splitType="Stretch">
+			<staticText>
+				<reportElement x="221" y="12" width="122" height="33" uuid="e13520ee-50ef-4ec6-a288-770da2db69fe"/>
+				<textElement>
+					<font pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[DEMO CABLE REPORT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="40" width="122" height="33" uuid="c45ae575-b419-4284-9107-1055845417aa"/>
+				<textElement>
+					<font pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[DEMO CABLE REPORT]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<rectangle>
+				<reportElement x="127" y="3" width="45" height="20" backcolor="#CCCCFF" uuid="68b0e958-6795-4c52-8022-333fe57eb2e8"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="172" y="3" width="155" height="20" backcolor="#CCCCFF" uuid="24eff1a6-b8e6-49f7-b82b-f5b55965b2f6"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="186" y="3" width="100" height="20" uuid="5aafc214-b44c-4376-9295-b9b1e3b0cf1c"/>
+				<text><![CDATA[company name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="141" y="3" width="80" height="20" uuid="84806311-319e-4919-ad37-27f13923939a"/>
+				<text><![CDATA[No.]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="327" y="3" width="100" height="20" backcolor="#CCCCFF" uuid="e74367be-350f-4380-85b3-a20b2aed86a1"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="343" y="4" width="84" height="19" uuid="0f1f102c-9130-4e50-96bf-7ac8def8fe74"/>
+				<text><![CDATA[Tax Id]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement x="172" y="1" width="155" height="20" uuid="278c3860-5bd1-4f69-b14c-6290228d7b38"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="127" y="1" width="45" height="20" uuid="10740d55-af0b-47e4-823c-799e7bd3eb11"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="327" y="1" width="100" height="20" uuid="f9b5e7ee-1a4c-4e69-837b-c75d69c21024"/>
+			</rectangle>
+			<textField>
+				<reportElement x="186" y="0" width="141" height="20" uuid="8947dcc9-d7c0-4b8f-8549-241d630cd61d"/>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="16" pdfEncoding="Cp1250" isPdfEmbedded="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="141" y="0" width="31" height="20" uuid="f3526ec0-f046-480d-a9b1-b20e85dfdede"/>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="343" y="2" width="100" height="18" uuid="9d06a543-11cb-4c49-ac96-2e986a1655a3"/>
+				<textFieldExpression><![CDATA[$F{taxId}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

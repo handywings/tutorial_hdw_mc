@@ -1,0 +1,109 @@
+.card-mini {
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+  transition: all .2s, transform .2s, opacity .2s; }
+  .card-mini:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); }
+  .card-mini h1 {
+    display: inline-block; }
+  .card-mini .format {
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 10px;
+    opacity: 0.9; }
+  .card-mini .t-content .text-uppercase {
+    margin-bottom: 10px; }
+  .card-mini .t-icon i {
+    color: #000;
+    opacity: 0.05;
+    transition: all .2s, transform .2s, opacity .2s; }
+  .card-mini:hover .t-icon i {
+    padding-bottom: 25px; }
+
+.bill-staff {
+  padding: 0px 15px 15px 15px; }
+  .bill-staff .avatar {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px; }
+    .bill-staff .avatar img {
+      width: 100%;
+      height: 100%; }
+  .bill-staff .name {
+    display: inline-block; }
+
+.stock-staff .avatar {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px; }
+  .stock-staff .avatar img {
+    width: 100%;
+    height: 100%; }
+.stock-staff .name {
+  display: inline-block; }
+
+.bill-progress .count {
+  display: inline-block;
+  width: 35px; }
+.bill-progress .progress {
+  display: inline-block;
+  width: calc(100% - 85px); }
+
+.ct-title-main {
+  display: inline-block;
+  vertical-align: bottom;
+  margin-right: 15px; }
+
+.nav-link {
+  color: #888;
+  border-bottom: 3px solid #fff; }
+  .nav-link:hover {
+    background-color: rgba(62, 112, 201, 0.05) !important;
+    border-bottom: 3px solid rgba(62, 112, 201, 0.25); }
+
+.tab-active {
+  color: #3e70c9;
+  background-color: rgba(62, 112, 201, 0.05);
+  border-bottom: 3px solid #3e70c9; }
+
+.color-danger {
+  color: #000; }
+
+.color-success {
+  color: #4bcb73; }
+
+.color-primary {
+  color: #000; }
+
+.color-warning {
+  color: #fea45c; }
+
+.color-danger {
+  color: #f44236; }
+
+.color-dark {
+  color: #34495e; }
+
+.header-card {
+  padding-top: 20px;
+  margin-bottom: 20px; }
+
+.bil-count {
+  margin-top: 5px; }
+
+.card-title {
+  margin: 10px 10px 25px 30px;
+  display: inline-block; }
+
+.card-text {
+  margin-right: 5px; }
+
+.card-time {
+  display: inline-block;
+  width: 100% px; }
+
+/*# sourceMappingURL=site.css.map */

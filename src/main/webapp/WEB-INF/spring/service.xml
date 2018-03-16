@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+		
+		<beans:bean id="companyService" class="com.hdw.mccable.serviceImpl.CompanyServiceImpl">
+			<beans:property name="companyDAO" ref="companyDAO"></beans:property>
+		</beans:bean>
+
+		<beans:bean id="personnelService" class="com.hdw.mccable.serviceImpl.PersonnelServiceImpl">
+			<beans:property name="personnelDAO" ref="personnelDAO"></beans:property>
+		</beans:bean>
+
+		<beans:bean id="positionService" class="com.hdw.mccable.serviceImpl.PositionServiceImpl">
+			<beans:property name="positionDAO" ref="positionDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="permissionGroupService" class="com.hdw.mccable.serviceImpl.PermissionGroupServiceImpl">
+			<beans:property name="permissionGroupDAO" ref="permissionGroupDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="functionService" class="com.hdw.mccable.serviceImpl.FunctionServiceImpl">
+			<beans:property name="functionDAO" ref="functionDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="technicianGroupService" class="com.hdw.mccable.serviceImpl.TechnicianGroupServiceImpl">
+			<beans:property name="technicainGroupDAO" ref="technicainGroupDAO"></beans:property>
+		</beans:bean>
+
+		<beans:bean id="zoneService" class="com.hdw.mccable.serviceImpl.ZoneServiceImpl">
+			<beans:property name="zoneDAO" ref="zoneDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="unitService" class="com.hdw.mccable.serviceImpl.UnitServiceImpl">
+			<beans:property name="unitDAO" ref="unitDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="servicePackageTypeService" class="com.hdw.mccable.serviceImpl.ServicePackageTypeServiceImpl">
+			<beans:property name="servicePackageTypeDAO" ref="servicePackageTypeDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="equipmentProductCategoryService" class="com.hdw.mccable.serviceImpl.EquipmentProductCategoryServiceImpl">
+			<beans:property name="equipmentProductCategoryDAO" ref="equipmentProductCategoryDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="productService" class="com.hdw.mccable.serviceImpl.ProductServiceImpl">
+			<beans:property name="productDAO" ref="productDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="stockService" class="com.hdw.mccable.serviceImpl.StockServiceImpl">
+			<beans:property name="stockDAO" ref="stockDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="internetProductService" class="com.hdw.mccable.serviceImpl.InternetProductServiceImpl">
+			<beans:property name="internetProductDAO" ref="internetProductDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="serviceProductService" class="com.hdw.mccable.serviceImpl.ServiceProductServiceImpl">
+			<beans:property name="serviceProductDAO" ref="serviceProductDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="historyUpdateStatusService" class="com.hdw.mccable.serviceImpl.HistoryUpdateStatusServiceImpl">
+			<beans:property name="historyUpdateStatusDAO" ref="historyUpdateStatusDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="historyUseEquipmentService" class="com.hdw.mccable.serviceImpl.HistoryUseEquipmentServiceImpl">
+			<beans:property name="historyUseEquipmentDAO" ref="historyUseEquipmentDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="equipmentProductItemService" class="com.hdw.mccable.serviceImpl.EquipmentProductItemServiceImpl">
+			<beans:property name="equipmentProductItemDAO" ref="equipmentProductItemDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="servicePackageService" class="com.hdw.mccable.serviceImpl.ServicePackageServiceImpl">
+			<beans:property name="servicePackageDAO" ref="servicePackageDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="internetProductItemService" class="com.hdw.mccable.serviceImpl.InternetProductItemServiceImpl">
+			<beans:property name="internetProductItemDAO" ref="internetProductItemDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="requisitionDocumentService" class="com.hdw.mccable.serviceImpl.RequisitionDocumentServiceImpl">
+			<beans:property name="requisitionDocumentDAO" ref="requisitionDocumentDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="requisitionItemService" class="com.hdw.mccable.serviceImpl.RequisitionItemServiceImpl">
+			<beans:property name="requisitionItemDAO" ref="requisitionItemDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="customerService" class="com.hdw.mccable.serviceImpl.CustomerServiceImpl">
+			<beans:property name="customerDAO" ref="customerDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="addressService" class="com.hdw.mccable.serviceImpl.AddressServiceImpl">
+			<beans:property name="addressDAO" ref="addressDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="serviceApplicationService" class="com.hdw.mccable.serviceImpl.ServiceApplicationServiceImpl">
+			<beans:property name="serviceApplicationDAO" ref="serviceApplicationDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="equipmentProductService" class="com.hdw.mccable.serviceImpl.EquipmentProductServiceImpl">
+			<beans:property name="equipmentProductDAO" ref="equipmentProductDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="productItemService" class="com.hdw.mccable.serviceImpl.ProductItemServiceImpl">
+			<beans:property name="productItemDAO" ref="productItemDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="documentFileService" class="com.hdw.mccable.serviceImpl.DocumentFileServiceImpl">
+			<beans:property name="documentFileDAO" ref="documentFileDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="workSheetService" class="com.hdw.mccable.serviceImpl.WorkSheetServiceImpl">
+			<beans:property name="workSheetDAO" ref="workSheetDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="productItemWorksheetService" class="com.hdw.mccable.serviceImpl.ProductItemWorksheetServiceImpl">
+			<beans:property name="productItemWorksheetDAO" ref="productItemWorksheetDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="historyTechnicianGroupWorkService" class="com.hdw.mccable.serviceImpl.HistoryTechnicianGroupWorkServiceImpl">
+			<beans:property name="historyTechnicianGroupWorkDAO" ref="historyTechnicianGroupWorkDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="bankService" class="com.hdw.mccable.serviceImpl.BankServiceImpl">
+			<beans:property name="bankDAO" ref="bankDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="financialService" class="com.hdw.mccable.serviceImpl.FinancialServiceImpl">
+			<beans:property name="financialDAO" ref="financialDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="backupFileService" class="com.hdw.mccable.serviceImpl.BackupFileServiceImpl">
+			<beans:property name="backupFileDAO" ref="backupFileDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="authenService" class="com.hdw.mccable.serviceImpl.AuthenServiceImpl">
+			<beans:property name="authenDAO" ref="authenDAO"></beans:property>
+		</beans:bean>
+		
+		<beans:bean id="jasperJrxmlComponent" class="com.hdw.mccable.Manager.JasperJrxmlComponent">
+		</beans:bean>
+		
+		<beans:bean id="dashboardService" class="com.hdw.mccable.serviceImpl.DashboardServiceImpl">
+			<beans:property name="dashboardDAO" ref="dashboardDAO"></beans:property>
+		</beans:bean>
+		
+</beans:beans>

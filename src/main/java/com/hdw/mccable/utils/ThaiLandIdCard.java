@@ -1,0 +1,83 @@
+package com.hdw.mccable.utils;
+
+public class ThaiLandIdCard {
+	
+	public static byte[] getCommandAPDU() {
+		byte[] commandCommandAPDU = { (byte) 0x00, (byte) 0xA4, (byte) 0x04, (byte) 0x00, (byte) 0x08, (byte) 0xA0,
+				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x54, (byte) 0x48, (byte) 0x00, (byte) 0x01 };
+		return commandCommandAPDU;
+	}
+
+	public static byte[] getCommandIdCard() {
+		byte[] commandIdCard = { (byte) 0x80, (byte) 0xB0, (byte) 0x00, (byte) 0x04, (byte) 0x02, (byte) 0x00, (byte) 0x0D };
+		return commandIdCard;
+	}
+
+	public static byte[] getCommandThFullname() {
+		byte[] commandThFullname = { (byte) 0x80, (byte) 0xB0, (byte) 0x00, (byte) 0x11, (byte) 0x02, (byte) 0x00, (byte) 0x64 };
+		return commandThFullname;
+	}
+
+	public static byte[] getCommandEnFullname() {
+		byte[] commandEnFullname = { (byte) 0x80, (byte) 0xB0, (byte) 0x00, (byte) 0x75, (byte) 0x02, (byte) 0x00, (byte) 0x64 };
+		return commandEnFullname;
+	}
+
+	public static byte[] getCommandDateOfDirth() {
+		byte[] commandDateOfDirth = { (byte) 0x80, (byte) 0xB0, (byte) 0x00, (byte) 0xD9, (byte) 0x02, (byte) 0x00, (byte) 0x08 };
+		return commandDateOfDirth;
+	}
+
+	public static byte[] getCommandGender() {
+		byte[] commandGender = { (byte) 0x80, (byte) 0xB0, (byte) 0x00, (byte) 0xE1, (byte) 0x02, (byte) 0x00, (byte) 0x01 };
+		return commandGender;
+	}
+
+	public static byte[] getCommandCardIssuer() {
+		byte[] commandCardIssuer = { (byte) 0x80, (byte) 0xB0, (byte) 0x00, (byte) 0xF6, (byte) 0x02, (byte) 0x00, (byte) 0x64 };
+		return commandCardIssuer;
+	}
+
+	public static byte[] getCommandIssueDate() {
+		byte[] commandIssueDate = { (byte) 0x80, (byte) 0xB0, (byte) 0x01, (byte) 0x67, (byte) 0x02, (byte) 0x00, (byte) 0x08 };
+		return commandIssueDate;
+	}
+
+	public static byte[] getCommandExpireDate() {
+		byte[] commandExpireDate = { (byte) 0x80, (byte) 0xB0, (byte) 0x01, (byte) 0x6F, (byte) 0x02, (byte) 0x00, (byte) 0x08 };
+		return commandExpireDate;
+	}
+
+	public static byte[] getCommandAddress() {
+		byte[] commandAddress = { (byte) 0x80, (byte) 0xB0, (byte) 0x15, (byte) 0x79, (byte) 0x02, (byte) 0x00, (byte) 0x64 };
+		return commandAddress;
+	}
+
+	public static byte[][] getCommandCardPhoto() {
+		byte[][] commandCardPhoto = {
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x01, (byte) 0x7B, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x02, (byte) 0x7A, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x03, (byte) 0x79, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x04, (byte) 0x78, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x05, (byte) 0x77, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x06, (byte) 0x76, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x07, (byte) 0x75, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x08, (byte) 0x74, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x09, (byte) 0x73, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x0A, (byte) 0x72, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x0B, (byte) 0x71, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x0C, (byte) 0x70, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x0D, (byte) 0x6F, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x0E, (byte) 0x6E, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x0F, (byte) 0x6D, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x10, (byte) 0x6C, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x11, (byte) 0x6B, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x12, (byte) 0x6A, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x13, (byte) 0x69, (byte) 0x02, (byte) 0x00, (byte) 0xFF },
+				{ (byte) 0x80, (byte) 0xB0, (byte) 0x14, (byte) 0x68, (byte) 0x02, (byte) 0x00, (byte) 0xFF }
+			};
+		return commandCardPhoto;
+	}
+
+	
+}

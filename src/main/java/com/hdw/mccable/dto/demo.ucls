@@ -1,0 +1,935 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.13" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="com.hdw.mccable.dto.ReducePointWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ReducePointWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="188" x="47" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="com.hdw.mccable.dto.InvoiceDocumentBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/InvoiceDocumentBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="151" x="2904" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="com.hdw.mccable.dto.CustomerBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/CustomerBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="109" x="2030" y="884"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="com.hdw.mccable.dto.PersonnelSearchBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/PersonnelSearchBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="152" x="1442" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="com.hdw.mccable.dto.BorrowWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/BorrowWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="275" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="com.hdw.mccable.dto.CustomerTypeBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/CustomerTypeBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="135" x="1855" y="987"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="com.hdw.mccable.dto.InternetProductBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/InternetProductBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="142" x="2463" y="781"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="com.hdw.mccable.dto.MaterialCategoryBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/MaterialCategoryBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="150" x="2234" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="com.hdw.mccable.dto.ChangeAndCancelServiceApplicationBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ChangeAndCancelServiceApplicationBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="263" x="2620" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="com.hdw.mccable.dto.FunctionBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/FunctionBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="101" x="2893" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="com.hdw.mccable.dto.WorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/WorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="116" x="1711" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="com.hdw.mccable.dto.AddPointWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/AddPointWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="167" x="913" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="com.hdw.mccable.dto.TuneWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/TuneWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="143" x="730" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="com.hdw.mccable.dto.AddressBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/AddressBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="101" x="2030" y="987"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="com.hdw.mccable.dto.AddSetTopBoxWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/AddSetTopBoxWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="199" x="1698" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="com.hdw.mccable.dto.FinancialDocumentBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/FinancialDocumentBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="163" x="3025" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="com.hdw.mccable.dto.JobScheduleBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/JobScheduleBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="127" x="2714" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="com.hdw.mccable.dto.RequisitionItemBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/RequisitionItemBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="141" x="3280" y="502"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="com.hdw.mccable.dto.MoveWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/MoveWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="146" x="1120" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="20" language="java" name="com.hdw.mccable.dto.ServicePackageBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ServicePackageBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="146" x="2321" y="502"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="21" language="java" name="com.hdw.mccable.dto.CompanyBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/CompanyBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="106" x="2918" y="884"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="com.hdw.mccable.dto.PrintHistoryBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/PrintHistoryBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="120" x="3240" y="130"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="com.hdw.mccable.dto.ZoneBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ZoneBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="101" x="1908" y="502"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" name="com.hdw.mccable.dto.PersonnelBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/PersonnelBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="111" x="3034" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" name="com.hdw.mccable.dto.StatusBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/StatusBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="101" x="2883" y="502"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="com.hdw.mccable.dto.MovePointWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/MovePointWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="175" x="2112" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="com.hdw.mccable.dto.RequisitionDocumentBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/RequisitionDocumentBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="174" x="3045" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="com.hdw.mccable.dto.TemplateServiceBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/TemplateServiceBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="148" x="2488" y="595"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="com.hdw.mccable.dto.ServiceApplicationBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ServiceApplicationBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="159" x="2327" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="com.hdw.mccable.dto.PermissionGroupBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/PermissionGroupBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="152" x="2670" y="502"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="com.hdw.mccable.dto.TechnicianGroupBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/TechnicianGroupBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="148" x="3045" y="502"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="com.hdw.mccable.dto.SetupWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/SetupWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="149" x="1509" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="com.hdw.mccable.dto.CutWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/CutWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="135" x="1937" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="com.hdw.mccable.dto.PaymentItemBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/PaymentItemBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="3005" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="com.hdw.mccable.dto.ConnectWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ConnectWorksheetBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="163" x="1306" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="com.hdw.mccable.dto.EquipmentProductBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/EquipmentProductBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="158" x="3253" y="781"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="37" language="java" name="com.hdw.mccable.dto.BillDocumentBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/BillDocumentBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="2876" y="130"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="38" language="java" name="com.hdw.mccable.dto.DocumentFileBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/DocumentFileBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="130" x="2151" y="502"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="com.hdw.mccable.dto.UnitBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/UnitBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="101" x="2655" y="781"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="com.hdw.mccable.dto.RepairConnectionWorksheetBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/RepairConnectionWorksheetBean.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="217" x="473" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="com.hdw.mccable.dto.ProductItemBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ProductItemBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2562" y="502"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="42" language="java" name="com.hdw.mccable.dto.ContactBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ContactBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="101" x="2918" y="987"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="43" language="java" name="com.hdw.mccable.dto.StockBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/StockBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="101" x="2796" y="781"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="com.hdw.mccable.dto.PositionBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/PositionBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="101" x="2912" y="688"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="45" language="java" name="com.hdw.mccable.dto.ServicePackageTypeBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ServicePackageTypeBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="172" x="2070" y="781"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="46" language="java" name="com.hdw.mccable.dto.ServiceProductBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ServiceProductBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="141" x="2282" y="781"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="47" language="java" name="com.hdw.mccable.dto.ProductBean" project="cable" 
+    file="/cable/src/main/java/com/hdw/mccable/dto/ProductBean.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="101" x="2655" y="688"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <association id="48">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="49" name="subcompanyList"/>      
+      <multiplicity id="50" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="52" name="customerType"/>      
+      <multiplicity id="53" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="54">    
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <association id="55">    
+    <bendpoint x="3014" y="409"/>    
+    <bendpoint x="3014" y="502"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="56" name="personnel"/>      
+      <multiplicity id="57" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="58">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="59">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="60" name="technicianGroup"/>      
+      <multiplicity id="61" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="31" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="62">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="63" name="serviceApplication"/>      
+      <multiplicity id="64" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="65">    
+    <bendpoint x="2871" y="409"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="66" name="status"/>      
+      <multiplicity id="67" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="68">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="69" name="document"/>      
+      <multiplicity id="70" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="38" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="71">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="72" name="unit"/>      
+      <multiplicity id="73" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="39" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="74">    
+    <bendpoint x="2841" y="595"/>    
+    <bendpoint x="2881" y="688"/>    
+    <bendpoint x="2927" y="781"/>    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="75" name="company"/>      
+      <multiplicity id="76" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="77">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="78" name="address"/>      
+      <multiplicity id="79" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="80">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="81" name="productitemList"/>      
+      <multiplicity id="82" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="83">    
+    <bendpoint x="1877" y="502"/>    
+    <bendpoint x="1877" y="595"/>    
+    <bendpoint x="1877" y="688"/>    
+    <bendpoint x="1877" y="781"/>    
+    <bendpoint x="1877" y="884"/>    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="84" name="addressList"/>      
+      <multiplicity id="85" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="86">    
+    <bendpoint x="3249" y="223"/>    
+    <bendpoint x="3249" y="316"/>    
+    <bendpoint x="3249" y="409"/>    
+    <bendpoint x="3249" y="502"/>    
+    <end type="SOURCE" refId="22" navigable="false">      
+      <attribute id="87" name="personnel"/>      
+      <multiplicity id="88" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="89">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="90" name="jobscheduleList"/>      
+      <multiplicity id="91" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="92">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="47"/>  
+  </generalization>  
+  <association id="93">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="94" name="permissionGroup"/>      
+      <multiplicity id="95" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="96">    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="97" name="personnels"/>      
+      <multiplicity id="98" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="99">    
+    <bendpoint x="2948" y="781"/>    
+    <end type="SOURCE" refId="44" navigable="false">      
+      <attribute id="100" name="company"/>      
+      <multiplicity id="101" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="102">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="103">    
+    <bendpoint x="2892" y="409"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="104" name="status"/>      
+      <multiplicity id="105" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="106">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="107">    
+    <end type="SOURCE" refId="37" navigable="false">      
+      <attribute id="108" name="invoice"/>      
+      <multiplicity id="109" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="110">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="111" name="addressList"/>      
+      <multiplicity id="112" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="14" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="113">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="114">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="115" name="servicepackage"/>      
+      <multiplicity id="116" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="117">    
+    <bendpoint x="3043" y="688"/>    
+    <bendpoint x="3043" y="781"/>    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="118" name="company"/>      
+      <multiplicity id="119" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="120">    
+    <end type="SOURCE" refId="21" navigable="false">      
+      <attribute id="121" name="contact"/>      
+      <multiplicity id="122" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="123">    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="124" name="template"/>      
+      <multiplicity id="125" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="126">    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="127" name="position"/>      
+      <multiplicity id="128" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="44" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="129">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="130" name="contact"/>      
+      <multiplicity id="131" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="132">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="133" name="status"/>      
+      <multiplicity id="134" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="135">    
+    <bendpoint x="3034" y="130"/>    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="16"/>  
+  </generalization>  
+  <generalization id="136">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="137">    
+    <bendpoint x="2852" y="502"/>    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="138" name="personnelList"/>      
+      <multiplicity id="139" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="140">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="141" name="requisitionItemList"/>      
+      <multiplicity id="142" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="18" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="143">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="144">    
+    <end type="SOURCE" refId="43" navigable="false">      
+      <attribute id="145" name="company"/>      
+      <multiplicity id="146" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="21" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="147">    
+    <bendpoint x="2039" y="502"/>    
+    <bendpoint x="2039" y="595"/>    
+    <bendpoint x="2039" y="688"/>    
+    <bendpoint x="2039" y="781"/>    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="148" name="customer"/>      
+      <multiplicity id="149" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="150">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="151" name="stock"/>      
+      <multiplicity id="152" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="43" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="153">    
+    <end type="SOURCE" refId="30" navigable="false">      
+      <attribute id="154" name="functions"/>      
+      <multiplicity id="155" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="10" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="156">    
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <generalization id="157">    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="47"/>  
+  </generalization>  
+  <association id="158">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="159" name="worksheet"/>      
+      <multiplicity id="160" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="11" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="161">    
+    <bendpoint x="2913" y="316"/>    
+    <bendpoint x="2913" y="409"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="162" name="status"/>      
+      <multiplicity id="163" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="164">    
+    <end type="SOURCE" refId="28" navigable="false">      
+      <attribute id="165" name="productList"/>      
+      <multiplicity id="166" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="47" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="167">    
+    <bendpoint x="2862" y="595"/>    
+    <end type="SOURCE" refId="41" navigable="false">      
+      <attribute id="168" name="product"/>      
+      <multiplicity id="169" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="47" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="170">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="171">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="172" name="zoneList"/>      
+      <multiplicity id="173" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="23" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="174">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="175" name="productType"/>      
+      <multiplicity id="176" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="177">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="178" name="personnelList"/>      
+      <multiplicity id="179" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="180">    
+    <bendpoint x="3064" y="688"/>    
+    <bendpoint x="3064" y="781"/>    
+    <bendpoint x="3064" y="884"/>    
+    <end type="SOURCE" refId="24" navigable="false">      
+      <attribute id="181" name="contact"/>      
+      <multiplicity id="182" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="42" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="183">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="184" name="paymentItemList"/>      
+      <multiplicity id="185" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="186">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="187" name="serviceApplication"/>      
+      <multiplicity id="188" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="189">    
+    <end type="SOURCE" refId="46"/>    
+    <end type="TARGET" refId="47"/>  
+  </generalization>  
+  <association id="190">    
+    <end type="SOURCE" refId="16" navigable="false">      
+      <attribute id="191" name="printhistory"/>      
+      <multiplicity id="192" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="193">    
+    <end type="SOURCE" refId="27" navigable="false">      
+      <attribute id="194" name="status"/>      
+      <multiplicity id="195" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="196">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="197">    
+    <bendpoint x="3275" y="595"/>    
+    <bendpoint x="3275" y="688"/>    
+    <end type="SOURCE" refId="18" navigable="false">      
+      <attribute id="198" name="equipment"/>      
+      <multiplicity id="199" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="200">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="201">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="202" name="materialCategory"/>      
+      <multiplicity id="203" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="204">    
+    <end type="SOURCE" refId="31" navigable="false">      
+      <attribute id="205" name="personnel"/>      
+      <multiplicity id="206" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <association id="207">    
+    <bendpoint x="2516" y="409"/>    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="208" name="productItemList"/>      
+      <multiplicity id="209" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="41" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <generalization id="210">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="11"/>  
+  </generalization>  
+  <association id="211">    
+    <bendpoint x="2205" y="595"/>    
+    <bendpoint x="2205" y="688"/>    
+    <end type="SOURCE" refId="20" navigable="false">      
+      <attribute id="212" name="serviceType"/>      
+      <multiplicity id="213" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="45" navigable="true"/>    
+    <display labels="false" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="true"/>  
+  </classifier-display>  
+  <association-display labels="false" multiplicity="true"/>
+</class-diagram>
