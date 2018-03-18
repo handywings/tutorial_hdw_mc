@@ -10,6 +10,13 @@
 		style="padding-bottom: 40px">
 		<ul class="sidebar-menu" style="margin-bottom: 4rem;">
 			<li class="menu-title">เมนูหลัก</li>
+				<li
+					<c:if test="${requestScope.mainMenu eq 'xxx' }">class="active-menu"</c:if>><a
+					href="${pageContext.request.contextPath}/xxx"
+					class="waves-effect waves-light"> <span class="s-icon"
+						style="background: #e97293;"><i class="ti-home"></i></span> <span
+						class="s-text">XXX</span>
+				</a></li>
 			<perm:permission object="M1.check">
 				<li
 					<c:if test="${requestScope.mainMenu eq 'dashboard' }">class="active-menu"</c:if>><a
