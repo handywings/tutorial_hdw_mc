@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_career">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="career" />
+		    <sqlCheck expectedResult="0">select count(*) from career</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล career</comment>
+	    <sql>
+INSERT INTO `career` (`id`, `careerCode`, `careerName`) VALUES
+(1, '0001', 'ค้าขาย'),
+(2, '0002', 'รับจ้าง'),
+(3, '0003', 'ตำรวจ (แฟลต)'),
+(4, '0004', 'ตำรวจ (บ้าน)'),
+(5, '0005', 'บริษัท /ห้างร้าน'),
+(6, '0006', 'พระภิกษุ /สามเณร'),
+(7, '0007', 'พ่อบ้าน/แม่บ้าน'),
+(8, '0008', 'ธุรกิจส่วนตัว'),
+(9, '0009', 'สรรพากร'),
+(10, '0010', 'รับราชการ'),
+(11, '0011', 'รัฐวิสาหกิจ'),
+(12, '0012', 'แพทย์/พยาบาล'),
+(13, '0013', 'นักศึกษา'),
+(14, '0014', 'ทนายความ'),
+(15, '0015', 'ทหาร'),
+(16, '0016', 'ธุรกิจส่วนตัว (ตร.)'),
+(17, '0017', 'ประมง'),
+(18, '0018', 'พระ/สามเณร'),
+(19, '0019', 'พ่อค้า,นักธุรกิจ'),
+(20, '0020', 'แม่บ้าน'),
+(21, '0021', 'แม่บ้าน/พ่อบ้าน'),
+(22, '0022', 'รับจ้าง(ธนาคาร)'),
+(23, '0023', 'รับราชการ (ครู)'),
+(24, '0024', 'รับราชการ (ผู้คุม)'),
+(25, '0025', 'รับราชการ (อบต.)'),
+(26, '0026', 'รับราชการ (อัยการ)'),
+(27, '0027', 'รับราชการ(สรรพสามิตร'),
+(28, '0028', 'วิศวกร'),
+(29, '0029', 'อื่นๆ');
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

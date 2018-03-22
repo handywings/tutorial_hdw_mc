@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_service_package_type">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="service_package_type" />
+		    <sqlCheck expectedResult="0">select count(*) from service_package_type</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล service_package_type</comment>
+	    <sql>
+INSERT INTO `service_package_type` (`id`, `createDate`, `createdBy`, `description`, `isDeleted`, `packageTypeCode`, `packageTypeName`, `updatedBy`, `updatedDate`) VALUES
+(1, NOW(), 'System', 'รายละเอียดบริการ เคเบิล', b'0', '00001', 'เคเบิล', NULL, NULL),
+(2, NOW(), 'System', 'รายละเอียดบริการ กล้องวงจรปิด', b'0', '00002', 'กล้องวงจรปิด', NULL, NULL),
+(3, NOW(), 'System', 'รายละเอียดบริการ Internet', b'0', '00003', 'Internet', NULL, NULL),
+(4, NOW(), 'System', 'รายละเอียดบริการ เคเบิล + กล้องวงจรปิด + Internet', b'0', '00004', 'เคเบิล + กล้องวงจรปิด + Internet', NULL, NULL),
+(5, NOW(), 'System', 'รายละเอียดบริการ เคเบิล + Internet', b'0', '00005', 'เคเบิล + Internet', NULL, NULL),
+(6, NOW(), 'System', 'รายละเอียดบริการ เคเบิล + กล้องวงจรปิด', b'0', '00006', 'เคเบิล + กล้องวงจรปิด', NULL, NULL),
+(7, NOW(), 'System', 'รายละเอียดบริการ Internet + กล้องวงจรปิด', b'0', '00007', 'Internet + กล้องวงจรปิด', NULL, NULL);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

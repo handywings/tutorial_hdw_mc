@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_positions">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="positions" />
+		    <sqlCheck expectedResult="0">select count(*) from positions</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล positions</comment>
+	    <sql>
+INSERT INTO `positions` (`id`, `createDate`, `createdBy`, `desctiption`, `isDeleted`, `positionName`, `updatedBy`, `updatedDate`, `companyId`) VALUES
+(1, NOW(), 'System', 'Administrator', b'0', 'ผู้ดูแลระบบ', NULL, NULL, 1),
+(2, NOW(), 'System', 'ดูแลคลังสินค้า', b'0', 'เจ้าหน้าที่คลังสินค้า', NULL, NULL, 1),
+(3, NOW(), 'System', 'ดูแลข้อมูลทางด้านการเงิน', b'0', 'เจ้าหน้าที่การเงิน', NULL, NULL, 1),
+(4, NOW(), 'System', 'สร้างบิล พิมพ์บิล ตรวจสอบความถูกต้องของบิล แะจำนวนเงิน', b'0', 'เจ้าหน้าที่สร้างบิล  ', NULL, NULL, 1),
+(5, NOW(), 'System', 'ต้อนรับลูกค้า ดูแลลูกค้า พร้อมทั้งจัดการเอกสาร', b'0', 'ฝ่ายลูกค้าสัมพันธ์', NULL, NULL, 1),
+(6, NOW(), 'System', 'ช่างเทคนิคที่ดำเนินการติดตั้งและซ่อมแซมบำรุง', b'0', 'เจ้าหน้าที่เทคนิค', NULL, NULL, 1),
+(7, NOW(), 'System', 'สำหรับกรรมการบริหาร', b'0', 'กรรมการบริหาร', NULL, NULL, 1),
+(8, NOW(), 'System', 'สำหรับเจ้าหน้าที่ห้องวิทยุ', b'0', 'เจ้าหน้าที่ห้องโสตฯ-วิทยุ', NULL, NULL, 1),
+(9, NOW(), 'System', 'สำหรับฝ่ายการตลาด', b'0', 'เจ้าหน้าที่การตลาด', NULL, NULL, 1),
+(10, NOW(), 'System', 'ตำแหน่งเจ้าหน้าที่ที่เกี่ยวข้องกับห้องแพร่สัญญาณภาพ', b'0', 'เจ้าหน้าที่แพร่ภาพ', NULL, NULL, 1),
+(11, NOW(), 'System', 'ตรวจสอบบิลเข้า-ออก ', b'0', 'เจ้าหน้าที่คุมบิล', NULL, NULL, 1),
+(12, NOW(), 'System', 'สำหรับเจ้าหน้าที่ที่เกี่ยวข้องกับงานข่าว', b'0', 'เจ้าหน้าที่บันทึกข่าว', NULL, NULL, 1),
+(13, NOW(), 'System', 'สำหรับเจ้าหน้าที่ดูแลระบบไอที ', b'0', 'เจ้าหน้าที่ฝ่าย IT', NULL, NULL, 1),
+(14, NOW(), 'System', 'ดูแลเกี่ยวกับระบบการเงินท้งหมด ปิดงบ ตรวจสอบการเงิน', b'0', 'เจ้าหน้าที่บัญชี', NULL, NULL, 1),
+(15, NOW(), 'System', 'ดูแลระบบเงินประจำวัน', b'0', 'เจ้าหน้าที่แคชเชียร์', NULL, NULL, 1),
+(16, NOW(), 'System', 'ดูแลความสะอาดในบริษัท', b'0', 'แม่บ้าน', NULL, NULL, 1),
+(17, NOW(), 'System', 'เก็บเงินลูกค้าตามบิล', b'0', 'พนักงานเก็บเงิน', NULL, NULL, 1);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

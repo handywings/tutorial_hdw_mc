@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<include file="changelog/init/insert-service_package_type.xml"/>
+	<include file="changelog/init/insert-bank.xml"/>
+	<include file="changelog/init/insert-career.xml"/>
+	<include file="changelog/init/insert-company.xml"/>
+	<include file="changelog/init/insert-customer_feature.xml"/>
+	<include file="changelog/init/insert-equipment_product_category.xml"/>
+	<include file="changelog/init/insert-permission_group.xml"/>
+	<include file="changelog/init/insert-function.xml"/>
+	<include file="changelog/init/insert-positions.xml"/>
+	<include file="changelog/init/insert-service_application_type.xml"/>
+	<include file="changelog/init/insert-stock.xml"/>
+	<include file="changelog/init/insert-unit.xml"/>
+	<include file="changelog/init/insert-zipcode.xml"/>
+	<include file="changelog/init/insert-zone.xml"/>
+	<include file="changelog/init/insert-personnel.xml"/>
+	<include file="changelog/init/insert-authentication.xml"/>
+	<include file="changelog/init/insert-contact.xml"/>
+	<include file="changelog/init/insert-geography.xml"/>
+	<include file="changelog/init/insert-province.xml"/>
+	<include file="changelog/init/insert-amphur.xml"/>
+	<include file="changelog/init/insert-district.xml"/>
+	<include file="changelog/init/insert-address.xml"/>
+	<include file="changelog/init/insert-service_product.xml"/>
+	
+</databaseChangeLog>

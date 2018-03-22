@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_unit">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="unit" />
+		    <sqlCheck expectedResult="0">select count(*) from unit</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล unit</comment>
+	    <sql>
+INSERT INTO `unit` (`id`, `createDate`, `createdBy`, `isDeleted`, `unitName`, `updatedBy`, `updatedDate`) VALUES
+(1, NOW(), 'System', b'0', 'หน่วย', NULL, NULL),
+(2, NOW(), 'System', b'0', 'จุด', NULL, NULL),
+(3, NOW(), 'System', b'0', 'อัน', NULL, NULL),
+(4, NOW(), 'System', b'0', 'ชิ้น', NULL, NULL),
+(5, NOW(), 'System', b'0', 'เมตร', NULL, NULL),
+(6, NOW(), 'System', b'0', 'ใบ', NULL, NULL),
+(7, NOW(), 'System', b'0', 'ตัว', NULL, NULL),
+(8, NOW(), 'System', b'0', 'งาน', NULL, NULL),
+(9, NOW(), 'System', b'0', 'คู่', NULL, NULL),
+(10, NOW(), 'System', b'0', 'กิโลกรัม', NULL, NULL),
+(11, NOW(), 'System', b'0', 'มิลลิกรัม', NULL, NULL),
+(12, NOW(), 'System', b'0', 'แท่ง', NULL, NULL),
+(13, NOW(), 'System', b'0', 'user', NULL, NULL),
+(14, NOW(), 'System', b'0', 'กล่อง', NULL, NULL),
+(15, NOW(), 'System', b'0', 'เส้น', NULL, NULL),
+(16, NOW(), 'System', b'0', 'ม้วน', NULL, NULL),
+(17, NOW(), 'System', b'0', 'ถุง', NULL, NULL),
+(18, NOW(), 'System', b'0', 'หัว', NULL, NULL),
+(19, NOW(), 'System', b'0', 'เครื่อง', NULL, NULL),
+(20, NOW(), 'System', b'0', 'ไม่ได้ระบุ', NULL, NULL);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

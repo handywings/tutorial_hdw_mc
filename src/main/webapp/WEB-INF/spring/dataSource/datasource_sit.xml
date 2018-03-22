@@ -14,7 +14,7 @@
 				
 			<beans:property name="driverClassName" value="org.mariadb.jdbc.Driver" />
 
-			<beans:property name="url" value="jdbc:mariadb://localhost:3306/cabledb_easynet?characterEncoding=utf-8" />
+<!-- 			<beans:property name="url" value="jdbc:mariadb://localhost:3306/cabledb_easynet?characterEncoding=utf-8" /> -->
 
 <!-- 			<beans:property name="url" value="jdbc:mariadb://localhost:3306/cabledb_easynet_demo?characterEncoding=utf-8" /> -->
 
@@ -23,14 +23,14 @@
 <!-- 			<beans:property name="url" value="jdbc:mariadb://localhost:3306/cabledb?characterEncoding=utf-8" /> -->
 <!-- 			<beans:property name="url" value="jdbc:mariadb://localhost:3306/cabledbmobile?characterEncoding=utf-8" /> -->
 <!-- 			<beans:property name="url" value="jdbc:mariadb://localhost:3306/cabledb_old?characterEncoding=utf-8" /> -->
-<!-- 			<beans:property name="url" value="jdbc:mariadb://localhost:3306/cabledbdemo?characterEncoding=utf-8" /> -->
+			<beans:property name="url" value="jdbc:mariadb://localhost:3306/cabledbdemo?characterEncoding=utf-8" />
 <!-- 			<beans:property name="url" value="jdbc:mariadb://103.13.31.231:3306/cabledbdemo?characterEncoding=utf-8" /> -->
 			<beans:property name="username" value="root" />
 			<beans:property name="password" value="" />
 <!-- 			<beans:property name="password" value="hdw2018!" /> -->
 <!-- 			<beans:property name="password" value="dst!hdw" /> -->
 		</beans:bean>
-
+	 
 	<!-- Hibernate 4 SessionFactory Bean definition -->
 	<beans:bean id="hibernate4AnnotatedSessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -127,6 +127,12 @@
 				<beans:prop key="hibernate.hbm2ddl.auto">update</beans:prop>
 			</beans:props>
 		</beans:property>
+	</beans:bean>
+	
+	<beans:bean id="liquibase" class="liquibase.integration.spring.SpringLiquibase">
+	      <beans:property name="dataSource" ref="dataSource" />
+	      <beans:property name="changeLog" value="classpath:db-changelog.xml" />
+	      <beans:property name="contexts" value="development, production" />
 	</beans:bean>
 	
 </beans:beans>

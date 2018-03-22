@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_customer_feature">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="customer_feature" />
+		    <sqlCheck expectedResult="0">select count(*) from customer_feature</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล customer_feature</comment>
+	    <sql>
+INSERT INTO `customer_feature` (`id`, `customerFeatureCode`, `customerFeatureName`) VALUES
+(1, '0001', 'สมาชิกบ้าน (ที่พักอาศัยส่วนตัว)'),
+(2, '0002', 'สมาชิกโครงการ (ราคาเหมาจ่าย)'),
+(3, '0003', 'สมาชิก VIP (ไม่เสียค่าบริการ)');
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_permission_group">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="permission_group" />
+		    <sqlCheck expectedResult="0">select count(*) from permission_group</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล permission_group</comment>
+	    <sql>
+INSERT INTO `permission_group` (`id`, `createDate`, `createdBy`, `isDeleted`, `permissionGroupDesc`, `permissionGroupName`, `permissionType`, `status`, `updatedBy`, `updatedDate`) VALUES
+(1, NOW(), 'System', b'0', 'permissionGroupDefault', 'Default', 'Default', b'1', NULL, NULL),
+(2, NOW(), 'System', b'0', 'ใช้สำหรับผู้ที่มีสิทธิ์สูงสุดในระบบ', 'กลุ่มผู้ดูแลระบบ', 'init', b'1', NULL, NULL),
+(4, NOW(), 'System', b'0', 'สำหรับผู้บริหารองค์กร โดยมีสิทธิ์สูงสุด เข้าได้ในทุกเมนู และทำได้ทุกเรื่อง', 'ผู้บริหารสูงสุดขององค์กร', NULL, b'1', NULL, NULL),
+(5, NOW(), 'System', b'0', 'สำหรับผู้ที่สามารถบริหารจัดการข้อมูลพนักงาน', 'ข้อมูลพนักงาน', NULL, b'1', NULL, NULL),
+(6, NOW(), 'System', b'0', 'สำหรับผู้ที่มีหน้าที่บริหารจัดการ Packages และ บริการ', 'ข้อมูล Package บริการ', NULL, b'1', NULL, NULL),
+(7, NOW(), 'System', b'0', 'สำหรับผู้ที่มีหน้าที่รับผิดชอบในการนำเข้าข้อมูลสินค้าและบริการเข้าคลัง และบริหารจัดการคลังสินค้า', 'ข้อมูลคลังสินค้าและบริการ', NULL, b'1', NULL, NULL),
+(8, NOW(), 'System', b'0', 'สำหรับช่างที่ต้องออกไปทำการติดตั้งตามใบงาน', 'กลุ่มช่างเทคนิค', NULL, b'1', NULL, NULL),
+(9, NOW(), 'System', b'0', 'สำหรับพนักงานที่เก็บเงินตามบ้านลูกค้า', 'กลุ่มพนักงานเก็บเงิน', NULL, b'1', NULL, NULL),
+(10, NOW(), 'System', b'0', 'สำหรับพนักงานที่ดูแลเกี่ยวกับการจัดรายการช่อง และดูแลลูกค้าในช่วงเวลากลางคืน', 'กลุ่มห้องแพร่ภาพ', NULL, b'1', NULL, NULL),
+(12, NOW(), 'System', b'0', 'สำหรับ พนักงานที่ดูแลระบบการเงินทั้งหมด', 'กลุ่มการเงิน', NULL, b'1', NULL, NULL);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

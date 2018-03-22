@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_service_application_type">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="service_application_type" />
+		    <sqlCheck expectedResult="0">select count(*) from service_application_type</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล service_application_type</comment>
+	    <sql>
+INSERT INTO `service_application_type` (`id`, `serviceApplicationTypeCode`, `serviceApplicationTypeName`) VALUES
+(1, '0001', 'สมาชิกรายเดือน'),
+(2, '0002', 'สมาชิกรายครึ่งปี'),
+(3, '0003', 'สมาชิกรายปี'),
+(4, '0004', 'สมาชิกถูกตัดสาย'),
+(5, '0005', 'สมาชิกรายครั้ง'),
+(6, '0006', 'อื่นๆ');
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_company">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="company" />
+		    <sqlCheck expectedResult="0">select count(*) from company</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล company</comment>
+	    <sql>
+INSERT INTO `company` (`id`, `companyName`, `createDate`, `createdBy`, `invCredit`, `isDeleted`, `parent`, `taxId`, `updatedBy`, `updatedDate`, `vat`, `logo`) VALUES
+(1, 'ชื่อบริษัท', NOW(), 'System', 7, b'0', 0, '0', NULL, NULL, 7, 'company/1/1511997722095.png');
+	    </sql>
+	</changeSet>
+    
+</databaseChangeLog>

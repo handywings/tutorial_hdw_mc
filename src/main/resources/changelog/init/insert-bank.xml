@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_bank">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="bank" />
+		    <sqlCheck expectedResult="0">select count(*) from bank</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล bank</comment>
+	    <sql>
+INSERT INTO `bank` (`id`, `bankCode`, `bankNameEn`, `bankNameTh`, `bankShortName`) VALUES
+(1, '002', NULL, 'ธนาคารกรุงเทพ', 'BBL'),
+(2, '004', NULL, 'ธนาคารกสิกรไทย', 'KBANK'),
+(3, '006', NULL, 'ธนาคารกรุงไทย', 'KTB'),
+(4, '008', NULL, 'ธนาคารเจพีมอร์แกน เชส สาขากรุงเทพฯ', 'JPMC'),
+(5, '011', NULL, 'ธนาคารทหารไทย', 'TMB'),
+(6, '014', NULL, 'ธนาคารไทยพาณิชย์', 'SCB'),
+(7, '017', NULL, 'ธนาคารซิตี้แบงก์', 'CITI'),
+(8, '018', NULL, 'ธนาคารชูมิโตโม มิตซุย แบงกิ้ง คอร์ปอเรชั่น', 'SMBC'),
+(9, '020', NULL, 'ธนาคารสแตนดาร์ดชาร์เตอร์ด (ไทย)', 'SCBT'),
+(10, '022', NULL, 'ธนาคาร ซีไอเอ็มบี ไทย', 'CIMBT'),
+(11, '024', NULL, 'ธนาคารยูโอบี', 'UOBT'),
+(12, '025', NULL, 'ธนาคารกรุงศรีอยุธยา', 'BAY'),
+(13, '026', NULL, 'ธนาคารเมกะ สากลพาณิชย์', 'MEGA ICBC'),
+(14, '027', NULL, 'ธนาคารแห่งอเมริกา เนชั่นแนล แอสโซซิเอชั่น', 'AMERICA'),
+(15, '030', NULL, 'ธนาคารออมสิน', 'GSB'),
+(16, '031', NULL, 'ธนาคารฮ่องกงและเซี่ยงไฮ้', 'HSBC'),
+(17, '032', NULL, 'ธนาคารดอยซ์แบงก์', 'DEUTSCHE'),
+(18, '033', NULL, 'ธนาคารอาคารสงเคราะห์', 'GHB'),
+(19, '034', NULL, 'ธนาคารเพื่อการเกษตรและสหกรณ์การเกษตร', 'BAAC'),
+(20, '039', NULL, 'ธนาคารมิซูโฮ จำกัด สาขากรุงเทพฯ', 'MHCB'),
+(21, '045', NULL, 'ธนาคาร บีเอ็นพี พารีบาส์ สาขากรุงเทพฯ', 'BNPP'),
+(22, '052', NULL, 'ธนาคารแห่งประเทศจีน สาขากรุงเทพฯ', 'BOC'),
+(23, '065', NULL, 'ธนาคารธนชาต', 'TBANK'),
+(24, '066', NULL, 'ธนาคารอิสลามแห่งประเทศไทย', 'ISBT'),
+(25, '067', NULL, 'ธนาคารทิสโก้', 'TISCO'),
+(26, '069', NULL, 'ธนาคารเกียรตินาคิน', 'KKB'),
+(27, '070', NULL, 'ธนาคารไอซีบีซี (ไทย)', 'ICBC'),
+(28, '071', NULL, 'ธนาคารไทยเครดิต เพื่อรายย่อย', 'TCRB'),
+(29, '079', NULL, 'ธนาคารเอเอ็นแซด (ไทย) จำกัด (มหาชน)', 'ANZ');
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

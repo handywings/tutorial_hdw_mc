@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_zone">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="zone" />
+		    <sqlCheck expectedResult="0">select count(*) from zone</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล zone</comment>
+	    <sql>
+INSERT INTO `zone` (`id`, `createDate`, `createdBy`, `isDeleted`, `updatedBy`, `updatedDate`, `zoneDetail`, `zoneName`, `zoneType`) VALUES
+(NULL, NOW(), 'System', b'0', NULL, NULL, 'ไม่ระบุ', 'ไม่ระบุ', 'ทั่วไป');
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_contact">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="contact" />
+		    <sqlCheck expectedResult="0">select count(*) from contact</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล contact</comment>
+	    <sql>
+INSERT INTO `contact` (`id`, `contactType`, `createDate`, `createdBy`, `email`, `facebook`, `fax`, `ig`, `isDeleted`, `line`, `mobile`, `twitter`, `updatedBy`, `updatedDate`, `website`, `companyId`, `customerId`, `personnelId`) VALUES
+(1, NULL, NOW(), 'System', 'test@gmail.com', NULL, '0', NULL, b'0', NULL, '0', NULL, NULL, NULL, NULL, 1, NULL, NULL),
+(3, NULL, NOW(), 'System', 'admin@admin', NULL, NULL, NULL, b'0', NULL, '0123456789', NULL, NULL, NULL, NULL, NULL, NULL, 1);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_address">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="address" />
+		    <sqlCheck expectedResult="0">select count(*) from address</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล address</comment>
+	    <sql>
+INSERT INTO `address` (`id`, `addressType`, `alley`, `building`, `country`, `createDate`, `createdBy`, `detail`, `district`, `floor`, `imagePath`, `isDeleted`, `latitude`, `longitude`, `nearbyPlaces`, `no`, `overrideAddressId`, `overrideAddressType`, `postcode`, `province`, `road`, `room`, `section`, `subdistrict`, `updatedBy`, `updatedDate`, `village`, `amphurId`, `companyId`, `customerId`, `districtId`, `provinceId`, `serviceApplicationId`, `stockId`, `worksheetMoveId`, `zoneId`, `zoneIdOld`) VALUES
+(1, NULL, NULL, NULL, NULL, NOW(), 'System', 'ที่อยู่บริษัท', NULL, NULL, NULL, b'0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(2, NULL, NULL, NULL, NULL, NOW(), 'System', 'ที่อยู่คลัง', NULL, NULL, NULL, b'0', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, NULL);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

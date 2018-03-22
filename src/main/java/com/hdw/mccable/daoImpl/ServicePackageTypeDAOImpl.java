@@ -89,7 +89,7 @@ public class ServicePackageTypeDAOImpl implements ServicePackageTypeDAO{
 		logger.info("[method : getNumberOfCountPackage][Type : DAO]");
 		
 		Session session = this.sessionFactory.getCurrentSession();
-		SQLQuery query = session.createSQLQuery("SELECT COUNT(*) AS count_num FROM `cabledb`.`service_package` WHERE ServicePackageTypeId = :param");
+		SQLQuery query = session.createSQLQuery("SELECT COUNT(*) AS count_num FROM service_package WHERE ServicePackageTypeId = :param");
 		query.setLong("param", servicePackageTypeID);
 		
 		int count = 0;

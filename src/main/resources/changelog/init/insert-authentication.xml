@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_authentication">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="authentication" />
+		    <sqlCheck expectedResult="0">select count(*) from authentication</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล authentication</comment>
+	    <sql>
+INSERT INTO `authentication` (`id`, `createDate`, `createdBy`, `enabled`, `password`, `updatedBy`, `updatedDate`, `username`, `personnelId`) VALUES
+(1, NOW(), 'Admin', b'1', '008cd8004262c0bf', NULL, NULL, 'admin', 1);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

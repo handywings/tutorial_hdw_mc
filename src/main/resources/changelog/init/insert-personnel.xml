@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_personnel">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="personnel" />
+		    <sqlCheck expectedResult="0">select count(*) from personnel</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล personnel</comment>
+	    <sql>
+INSERT INTO `personnel` (`id`, `createDate`, `createdBy`, `firstName`, `isDeleted`, `lastName`, `nickName`, `personnelCode`, `prefix`, `sex`, `updatedBy`, `updatedDate`, `companyId`, `historyTechnicianGroupWorkId`, `permissionGroupId`, `positionId`, `technicianGroupId`, `isCashier`) VALUES
+(1, NOW(), 'System', 'ผู้ดูแลระบบ', b'0', '', 'Admin', 'AD000001-2017', 'นาย', 'male', NULL, NULL, 1, NULL, 2, 1, NULL, 0);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

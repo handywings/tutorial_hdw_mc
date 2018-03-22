@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_equipment_product_category">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="equipment_product_category" />
+		    <sqlCheck expectedResult="0">select count(*) from equipment_product_category</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล equipment_product_category</comment>
+	    <sql>
+INSERT INTO `equipment_product_category` (`id`, `createDate`, `createdBy`, `description`, `equipmentProductCategoryCode`, `equipmentProductCategoryName`, `isDeleted`, `updatedBy`, `updatedDate`) VALUES
+(1, NOW(), 'System', 'สินค้าประเภทวัสดุอุปกรณ์ทั่วไป', '00001', 'วัสดุอุปกรณ์สินค้า', b'0', NULL, NULL),
+(2, NOW(), 'System', 'Internet Account', '00002', 'บริการ Internet User', b'0', NULL, NULL),
+(3, NOW(), 'System', 'ค่าบริการด้านต่างๆ', '00003', 'ค่าบริการ', b'0', NULL, NULL),
+(4, NOW(), 'System', 'อุปกรณ์ในงานระบบวงจรปิด', '00004', 'อุปกรณ์ในงานระบบวงจรปิด', b'0', NULL, NULL),
+(5, NOW(), 'System', 'อุปกรณ์ในงานระบบอินเตอร์เน็ต', '00005', 'อุปกรณ์ในงานระบบอินเตอร์เน็ต', b'0', NULL, NULL),
+(6, NOW(), 'System', 'อุปกรณ์ในงานระบบเคเบิล', '00006', 'อุปกรณ์ในงานระบบเคเบิล', b'0', NULL, NULL),
+(7, NOW(), 'System', 'CCTV equipments', '00007', 'วัสดุอุปกรณ์กล้องวงจรปิด', b'0', NULL, NULL);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>

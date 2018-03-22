@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+	
+	<changeSet author="Tent" id="insert_service_product">
+		<preConditions onFail="MARK_RAN">
+		    <tableExists tableName="service_product" />
+		    <sqlCheck expectedResult="0">select count(*) from service_product</sqlCheck>
+		</preConditions>
+		<comment>เพิ่มข้อมูล service_product</comment>
+	    <sql>
+INSERT INTO `service_product` (`id`, `createDate`, `createdBy`, `isDeleted`, `price`, `productCode`, `serviceChargeName`, `updatedBy`, `updatedDate`, `productCategoryId`, `stockId`, `unitId`) VALUES
+(1, NOW(), 'System', b'0', 0, '00001', 'ค่าแรงติดตั้ง', NULL, NULL, 3, 1, 1),
+(2, NOW(), 'System', b'0', 0, '00002', 'ค่าติดตั้งจุด Digital', NULL, NULL, 3, 1, 2),
+(3, NOW(), 'System', b'0', 0, '00003', 'ค่าติดตั้งจุด Analog', NULL, NULL, 3, 1, 2),
+(4, NOW(), 'System', b'0', 0, '00004', 'ค่าบริการเสริมจุด Digital', NULL, NULL, 3, 1, 2),
+(5, NOW(), 'System', b'0', 0, '00005', 'ค่าบริการเสริมจุด Analog', NULL, NULL, 3, 1, 2),
+(6, NOW(), 'System', b'0', 0, '00006', 'ค่าบริการย้ายจุด', NULL, NULL, 3, 1, 2),
+(7, NOW(), 'System', b'0', 0, '00007', 'ค่าบริการเชื่อมสาย', NULL, NULL, 3, 1, 2),
+(8, NOW(), 'System', b'0', 0, '00008', 'ค่าบริการย้ายสาย', NULL, NULL, 3, 1, 2),
+(9, NOW(), 'System', b'0', 0, '00009', 'ค่าใช้จ่ายเพิ่มเติม', NULL, NULL, 3, 1, 1),
+(10, NOW(), 'System', b'0', 0, '00010', 'ค่าบริการรายเดือนจุดเสริมจุดที่1', NULL, NULL, 3, 1, 2),
+(11, NOW(), 'System', b'0', 0, '00011', 'ค่าบริการรายเดือนจุดเสริมจุดที่2', NULL, NULL, 3, 1, 2),
+(12, NOW(), 'System', b'0', 0, '00012', 'ค่าบริการรายเดือนจุดเสริมจุดที่3', NULL, NULL, 3, 1, 2),
+(13, NOW(), 'System', b'0', 0, '00013', 'ค่าบริการรายเดือนจุดเสริมจุดที่4', NULL, NULL, 3, 1, 2),
+(14, NOW(), 'System', b'0', 0, '00014', 'ค่าบริการรายเดือนจุดเสริมจุดที่5', NULL, NULL, 3, 1, 2),
+(15, NOW(), 'System', b'0', 0, '00015', 'ค่าบริการรายเดือนจุดเสริมจุดที่6', NULL, NULL, 3, 1, 2),
+(16, NOW(), 'System', b'0', 0, '00016', 'ค่าบริการรายเดือนจุดเสริมจุดที่7', NULL, NULL, 3, 1, 2),
+(17, NOW(), 'System', b'0', 0, '00017', 'ค่าบริการรายเดือนจุดเสริมจุดที่8', NULL, NULL, 3, 1, 2),
+(18, NOW(), 'System', b'0', 0, '00018', 'ค่าบริการรายเดือนจุดเสริมจุดที่9', NULL, NULL, 3, 1, 2),
+(19, NOW(), 'System', b'0', 0, '00019', 'ค่าบริการรายเดือนจุดเสริมจุดที่10', NULL, NULL, 3, 1, 2);
+		</sql>
+	</changeSet>
+    
+</databaseChangeLog>
