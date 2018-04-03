@@ -2451,6 +2451,7 @@ public class MigrateController extends BaseController{
 			        	List<MigrateCustomerBean> migrateCustomerBeanList = ReadWriteExcelFile.ReadExcelCustomer(inputStream);
 //			        	processMigrateCustomer(migrateCustomerBeanList, fileName.contains("internet"));
 			        	
+			        	
 			        	// อัพเดทลูกค้าตัดสาย
 			        	processMigrateCustomerCut(migrateCustomerBeanList, fileName.contains("internet"));
 			        	

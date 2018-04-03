@@ -104,6 +104,7 @@ public class ReadWriteExcelFile {
     	    result.add(bean);
         }
         
+        
         long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
 		int seconds = (int) (totalTime / 1000) % 60 ;
