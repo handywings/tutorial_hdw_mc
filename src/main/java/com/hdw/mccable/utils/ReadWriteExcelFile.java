@@ -90,53 +90,20 @@ public class ReadWriteExcelFile {
         return workbook;
     }
     
-    public static Workbook ReadXLSX(InputStream inputStream) throws IOException {
-    	long startTime = System.currentTimeMillis();
-    	
-    	Workbook workbook = new XSSFWorkbook(inputStream);
-
-        long endTime   = System.currentTimeMillis();
-		long totalTime = endTime - startTime;
-		int seconds = (int) (totalTime / 1000) % 60 ;
-		int minutes = (int) ((totalTime / (1000*60)) % 60);
-		int hours   = (int) ((totalTime / (1000*60*60)) % 24);
-		System.out.println("ReadExcelProduct TotalTime : "+String.format("%d hour, %d min, %d sec", hours,minutes,seconds));
-        return workbook;
-    }
-    
-    public static List<MigrateCustomerBean> ReadExcelCustomer(InputStream inputStream) throws IOException {
+    public static List<MigrateCustomerBean> ReadExcelCustomer(InputStream inputStream) throws Exception {
     	long startTime = System.currentTimeMillis();
     	List<MigrateCustomerBean> result = new ArrayList<MigrateCustomerBean>();
 
-//    	extractExcelContentByColumnIndex(61,inputStream);
-    	
-      Workbook workbook = new XSSFWorkbook(inputStream);
-//
-      Sheet sheet = workbook.getSheetAt(0);
+    	Workbook workbook = new XSSFWorkbook(inputStream);
 
-//	  workbook = new XSSFWorkbook(inputStream);
-    	
-//		System.out.println(getCellData("Credentials","หมายเหตุ / ข้อมูลเพิ่มเติม",2));
-    	
-//    	readFormula(inputStream);
-    	
-    	
-		
+      	int sheetIndex = 0, intRow = 1;
 
-		
-		
-        boolean isTitle = true;
-        for(Row row : sheet) {
-        		if(isTitle){ // ไม่นำข้อมูลหัวตาราง
-        			isTitle = false;
-        		}else{
-        			MigrateCustomerBean bean = new MigrateCustomerBean();
-        			bean = setDataMigrateCustomerEasyNet(row, bean);
-	        	    if(null != bean){
-	        	    	result.add(bean);
-	        	    }
-	        	}
-        	}
+        for (Row rows : workbook.getSheetAt(sheetIndex)) {
+        	MigrateCustomerBean bean = new MigrateCustomerBean();
+			bean = setDataMigrateCustomer(workbook, bean, sheetIndex, intRow++);
+    	    result.add(bean);
+        }
+        
         long endTime   = System.currentTimeMillis();
 		long totalTime = endTime - startTime;
 		int seconds = (int) (totalTime / 1000) % 60 ;
@@ -145,6 +112,154 @@ public class ReadWriteExcelFile {
 		System.out.println("ReadExcelCustomer TotalTime : "+String.format("%d hour, %d min, %d sec", hours,minutes,seconds));
         return result;
     }
+    
+	private static MigrateCustomerBean setDataMigrateCustomer(Workbook workbook, MigrateCustomerBean bean, int sheetIndex, int intRow) throws Exception {
+    		String customerCode = getDataString(workbook, sheetIndex, "A", intRow);
+    		String firstName = getDataString(workbook, sheetIndex, "C", intRow);
+    		String lastName = getDataString(workbook, sheetIndex, "D", intRow);
+    		String customerFeatures = "1"; // fix
+    		String career = "".equals(getDataString(workbook, sheetIndex, "AH", intRow))?"อื่นๆ":getDataString(workbook, sheetIndex, "AH", intRow);
+    		String mobile = getDataString(workbook, sheetIndex, "P", intRow);
+    		String no = getDataString(workbook, sheetIndex, "F", intRow);
+    		String nearbyPlaces = getDataString(workbook, sheetIndex, "E", intRow);
+    		String zone = StringUtils.isBlank(getDataString(workbook, sheetIndex, "Y", intRow))?"ไม่ได้ระบุ":getDataString(workbook, sheetIndex, "Y", intRow);
+    		Date serviceApplicationDate = getDataStringDate(workbook, sheetIndex, "T", intRow);
+    		String serviceApplicationTypeName = getDataString(workbook, sheetIndex, "AA", intRow);
+    		String serviceApplicationTypeCode = String.valueOf(getDataDouble(workbook, sheetIndex, "Z", intRow));
+    		String servicePackage = getDataString(workbook, sheetIndex, "AA", intRow);
+    		Date dateOrderBill = getDataStringDate(workbook, sheetIndex, "U", intRow);
+    		String billingFee = String.valueOf(getDataDouble(workbook, sheetIndex, "AE", intRow));
+    		
+    		String totalPoint = String.valueOf(getDataDouble(workbook, sheetIndex, "AJ", intRow));
+    		String costBill = String.valueOf(getDataDouble(workbook, sheetIndex, "AB", intRow));
+    		
+    		Date dateCut = getDataStringDate(workbook, sheetIndex, "AK", intRow);
+    		String cutStatus = String.valueOf(getDataDouble(workbook, sheetIndex, "AI", intRow));
+    		
+    		Date datePayment = getDataStringDate(workbook, sheetIndex, "U", intRow); // วันที่นัดชำระ
+    		
+			bean.setCustomerCode(customerCode);
+			bean.setSex("");// *เพศ // ข้อมูลเดิมไม่มี
+			bean.setPrefix("");// คำนำหน้า
+			bean.setIdentityNumber("");// *เลขที่บัตรประชาชน // ข้อมูลเดิมไม่มี
+
+			bean.setFirstName(firstName);
+			bean.setLastName(lastName);
+
+			String customerType = "I"; // I = บุคคลธรรมดา, C = นิติบุคคล
+			bean.setCustomerType(customerType);// *ประเภทลูกค้า
+			
+			bean.setCustomerFeatures(customerFeatures);// ลักษณะของลูกค้า
+			bean.setCareer(career);
+			
+			bean.setMobile(mobile);// เบอร์ติดต่อ
+			bean.setFax("");// Fax
+			bean.setEmail("");// E-mail
+			
+			bean.setNo(no);// *บ้านเลขที่
+			bean.setProvince("11");// *จังหวัด : -> fix ชลบุรี = 11
+			bean.setAmphur("136");// *อำเภอ / เขต : -> fix เมืองชลบุรี = 136
+			bean.setDistrict("1085");// *ตำบล / แขวง : -> fix แสนสุข = 1085
+			bean.setPostcode("20130");// *รหัสไปรษณีย์  -> fix 20130
+			bean.setPlat("");// เพลท000015
+			bean.setNearbyPlaces(nearbyPlaces);// สถานที่ใกล้เคียง
+			bean.setZone(zone);// *เขตชุมชน
+			bean.setServiceApplicationDate(serviceApplicationDate);// วันที่สมัคร : bdate
+			
+			bean.setServiceApplicationType(serviceApplicationTypeName);// *ประเภทใบสมัคร
+			bean.setServiceApplicationTypeCode(serviceApplicationTypeCode);
+			bean.setServicePackage(servicePackage);
+			
+			bean.setDateOrderBill(dateOrderBill);// *ครบกำหนด
+			bean.setBillingFee(billingFee); // *ค่าบริการรอบบิล : 30
+
+			bean.setTotalPoint(totalPoint); // จำนวนจุดทั้งหมด : 35
+			
+			bean.setDateBill(dateOrderBill);
+			bean.setCostBill(costBill);
+			
+			bean.setDateCut(dateCut);
+			bean.setCutStatus(cutStatus);
+			
+			bean.setDatePayment(datePayment);
+			
+//			bean.setDigitalPoint(row.getCell(54, Row.CREATE_NULL_AS_BLANK).toString());// จำนวนจุด Digital : 54
+//			bean.setInstallDigital(row.getCell(55, Row.CREATE_NULL_AS_BLANK).toString());// วันที่ติด Digital : 55
+//			bean.setStatusDigital(row.getCell(56, Row.CREATE_NULL_AS_BLANK).toString());// วันที่ติด Digital : 56
+//			bean.setDigitalPrice(row.getCell(57, Row.CREATE_NULL_AS_BLANK).toString());// ราคา Digital : 57
+//			bean.setAnalogPoint(row.getCell(58, Row.CREATE_NULL_AS_BLANK).toString());// จำนวนจุด Analog : 58
+//			bean.setAnalogPrice(row.getCell(59, Row.CREATE_NULL_AS_BLANK).toString());// ราคา Analog : 59
+//			bean.setDeposit(row.getCell(60, Row.CREATE_NULL_AS_BLANK).toString());// เงินประกัน/ค่ามัดจำ : 60
+//			bean.setRemark(row.getCell(61, Row.CREATE_NULL_AS_BLANK).toString());// หมายเหตุ / ข้อมูลเพิ่มเติม : 61
+
+		return bean;
+	}
+    
+	private static Date getDataStringDate(Workbook workbook, int indexSheet, String key, int index) throws Exception {
+		Date date = null;
+		Sheet sheet = workbook.getSheetAt(indexSheet);
+	    FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+
+	    CellReference cellReference = new CellReference(key+index); //pass the cell which contains formula
+	    int intRow = cellReference.getRow();
+	    Row row = sheet.getRow(cellReference.getRow());
+	    Cell cell = row.getCell(cellReference.getCol());
+
+	    CellValue cellValue = evaluator.evaluate(cell);
+	    
+	    if(null != cellValue){
+		    switch (cellValue.getCellType()) {
+		    case Cell.CELL_TYPE_NUMERIC:
+		    	date = cell.getDateCellValue();
+		    	break;
+		    }
+	    }
+
+		return date;
+	}
+	
+	private static String getDataString(Workbook workbook, int indexSheet, String key, int index) throws Exception {
+		String data = "";
+		Sheet sheet = workbook.getSheetAt(indexSheet);
+	    FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+
+	    CellReference cellReference = new CellReference(key+index); //pass the cell which contains formula
+	    int intRow = cellReference.getRow();
+	    Row row = sheet.getRow(cellReference.getRow());
+	    Cell cell = row.getCell(cellReference.getCol());
+
+	    CellValue cellValue = evaluator.evaluate(cell);
+
+	    if(null != cellValue){
+		    switch (cellValue.getCellType()) {
+		    case Cell.CELL_TYPE_STRING:
+		    	data = cellValue.getStringValue();
+		    	break;
+		    }
+	    }
+		return data;
+	}
+    
+	private static double getDataDouble(Workbook workbook, int indexSheet, String key, int index) throws Exception {
+		double data = 0;
+		Sheet sheet = workbook.getSheetAt(indexSheet);
+	    FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+	    
+	    CellReference cellReference = new CellReference(key+index); //pass the cell which contains formula
+	    Row row = sheet.getRow(cellReference.getRow());
+	    Cell cell = row.getCell(cellReference.getCol());
+
+	    CellValue cellValue = evaluator.evaluate(cell);
+
+	    if(null != cellValue){
+		    switch (cellValue.getCellType()) {
+		    case Cell.CELL_TYPE_NUMERIC:
+		    	data = cellValue.getNumberValue();
+		    	break;
+		    }
+	    }
+		return data;
+	}
     
     @SuppressWarnings("deprecation")
 	public static String getCellData(String sheetName, String colName, int rowNum)
@@ -220,258 +335,6 @@ public class ReadWriteExcelFile {
     }
 
 }
-    
-    @SuppressWarnings("deprecation")
-	private static MigrateCustomerBean setDataMigrateCustomerEasyNet(Row row, MigrateCustomerBean bean) {
-    	String begin = row.getCell(0, Row.CREATE_NULL_AS_BLANK).toString();
-		if(null != row && !"Begin".equals(begin)){
-			bean.setCustomerCode(row.getCell(0, Row.CREATE_NULL_AS_BLANK).toString());// *รหัสสมาชิก/รหัสลูกค้า : 0
-//			String sex = "-"; //male or female
-//			if("ชาย".equals(row.getCell(2, Row.CREATE_NULL_AS_BLANK).toString())){
-//				sex = "male";
-//			}else if("หญิง".equals(row.getCell(2, Row.CREATE_NULL_AS_BLANK).toString())){
-//				sex = "female";
-//			}
-			bean.setSex("");// *เพศ // ข้อมูลเดิมไม่มี
-			bean.setPrefix("");// คำนำหน้า
-			bean.setIdentityNumber("");// *เลขที่บัตรประชาชน // ข้อมูลเดิมไม่มี
-			String name = row.getCell(2, Row.CREATE_NULL_AS_BLANK).toString();// *ชื่อ : 2
-			if(!"".equals(name) && name.length() > 2){
-				if("คุณ".equals(name.substring(0,3))){ // เช็คคำนำหน้าต้องเป็นคำว่าคุณ
-					name = name.substring(3); // ตัดคำนำหน้าออก "คุณ"
-					bean.setPrefix("คุณ");// คำนำหน้า // กรณีที่คำนำหน้า "คุณ"
-				}
-			}
-			bean.setFirstName(name);
-			bean.setLastName(row.getCell(3, Row.CREATE_NULL_AS_BLANK).toString());// *นามสกุล : 5
-
-			String serviceApplicationType = row.getCell(25, Row.CREATE_NULL_AS_BLANK).toString();
-			// id_type -> 01 = สมาชิกรายเดือน, 02 = สมาชิกรายครึ่งปี, 03 = สมาชิกรายปี, 07 = โครงการ, 08 = กล้องวงจรปิด, VIP = VIP, NET = VIPพนักงาน
-			String customerType = "I"; // บุคคลธรรมดา
-			if("07".equals(serviceApplicationType) || "7".equals(serviceApplicationType) || "7.0".equals(serviceApplicationType)){
-				customerType = "C"; // นิติบุคคล
-			}
-			bean.setCustomerType(customerType);// *ประเภทลูกค้า
-			
-			String customerFeatures = "1"; // สมาชิกบ้าน (ที่พักอาศัยส่วนตัว)
-			if("07".equals(serviceApplicationType) || "7".equals(serviceApplicationType) || "7.0".equals(serviceApplicationType)){
-				customerFeatures = "2"; // สมาชิกโครงการ (ราคาเหมาจ่าย)
-			}else if("VIP".equals(serviceApplicationType)){
-				customerFeatures = "3"; // สมาชิก VIP (ไม่เสียค่าบริการ)
-			}else if("NET".equals(serviceApplicationType)){
-				customerFeatures = "3"; // สมาชิก VIP (ไม่เสียค่าบริการ)
-			}
-			bean.setCustomerFeatures(customerFeatures);// ลักษณะของลูกค้า
-			bean.setCareer(row.getCell(33, Row.CREATE_NULL_AS_BLANK).toString());// อาชีพ : 33
-			
-			String mobile1 = row.getCell(15, Row.CREATE_NULL_AS_BLANK).toString();
-//			String mobile2 = row.getCell(26, Row.CREATE_NULL_AS_BLANK).toString();
-//			if(StringUtils.isBlank(mobile1)){
-//				mobile1 = mobile2;
-//			}else{
-//				if(StringUtils.isNotBlank(mobile2)){
-//					mobile1 = mobile1+" / "+mobile2;
-//				}
-//			}
-			bean.setMobile(mobile1);// เบอร์ติดต่อ
-			bean.setFax(row.getCell(16, Row.CREATE_NULL_AS_BLANK).toString());// Fax : 16
-			bean.setEmail("");// E-mail :
-			
-			bean.setNo(row.getCell(5, Row.CREATE_NULL_AS_BLANK).toString());// *บ้านเลขที่ : 5
-//			bean.setSection(row.getCell(13, Row.CREATE_NULL_AS_BLANK).toString());// หมู่ที่ : 13
-//			bean.setBuilding(row.getCell(14, Row.CREATE_NULL_AS_BLANK).toString());// อาคาร : 14
-//			bean.setRoom(row.getCell(15, Row.CREATE_NULL_AS_BLANK).toString());// เลขที่ห้อง : 15
-//			bean.setFloor(row.getCell(16, Row.CREATE_NULL_AS_BLANK).toString());// ชั้นที่ : 16
-//			bean.setVillage(row.getCell(17, Row.CREATE_NULL_AS_BLANK).toString());// หมู่บ้าน : 17
-//			bean.setAlley(row.getCell(18, Row.CREATE_NULL_AS_BLANK).toString());// ตรอกซอย : 18
-//			bean.setRoad(row.getCell(19, Row.CREATE_NULL_AS_BLANK).toString());// ถนน : 19
-			bean.setProvince("59");// *จังหวัด : -> fix สมุทรสาคร = 59
-			bean.setAmphur("814");// *อำเภอ / เขต : -> fix เมืองสมุทรสาคร    = 814
-			bean.setDistrict("7344");// *ตำบล / แขวง : -> fix มหาชัย = 7344
-			bean.setPostcode("74000");// *รหัสไปรษณีย์  -> fix 74000
-			bean.setPlat(row.getCell(11, Row.CREATE_NULL_AS_BLANK).toString());// เพลท000015
-			bean.setNearbyPlaces(row.getCell(4, Row.CREATE_NULL_AS_BLANK).toString());// สถานที่ใกล้เคียง : 4
-			bean.setZone(row.getCell(24, Row.CREATE_NULL_AS_BLANK).toString());// *เขตชุมชน : 24
-			bean.setServiceApplicationDate(row.getCell(19, Row.CREATE_NULL_AS_BLANK).toString());// วันที่สมัคร : 19 bdate
-			 serviceApplicationType = row.getCell(26, Row.CREATE_NULL_AS_BLANK).toString();
-			String servicePackage = "";
-			if("สมาชิกรายเดือน".equals(serviceApplicationType)){
-				serviceApplicationType = "1"; // สมาชิกรายเดือน
-				servicePackage = "PACKAGE0001"; // สมาชิกรายเดือน(จากระบบเก่า)
-			}else if("สมาชิกรายครึ่งปี".equals(serviceApplicationType)){
-				serviceApplicationType = "2"; // สมาชิกรายครึ่งปี
-				servicePackage = "PACKAGE0002"; // สมาชิกรายครึ่งปี(จากระบบเก่า)
-			}else if("สมาชิกรายปี".equals(serviceApplicationType)){
-				serviceApplicationType = "3"; // สมาชิกรายปี
-				servicePackage = "PACKAGE0003"; // สมาชิกรายปี(จากระบบเก่า)
-			}else if("กล้องวงจรปิด".equals(serviceApplicationType)){
-				serviceApplicationType = "6"; // อื่นๆ
-				servicePackage = "PACKAGE0004"; // กล้องวงจรปิด(จากระบบเก่า)
-			}else if("โครงการ".equals(serviceApplicationType)){
-				serviceApplicationType = "6"; // อื่นๆ
-				servicePackage = "PACKAGE0005"; // โครงการ(จากระบบเก่า)
-			}else if("VIP".equals(serviceApplicationType) || "VIPพนักงาน".equals(serviceApplicationType)){
-				serviceApplicationType = "6"; // อื่นๆ
-				servicePackage = "PACKAGE0006"; // VIP(จากระบบเก่า)
-			}else{
-				serviceApplicationType = "6"; // อื่นๆ
-				servicePackage = "PACKAGE0001"; // สมาชิกรายเดือน(จากระบบเก่า)
-			}
-			bean.setServiceApplicationType(serviceApplicationType);// *ประเภทใบสมัคร
-			bean.setServicePackage(servicePackage);
-//			bean.setServiceApplicationDate(row.getCell(32, Row.CREATE_NULL_AS_BLANK).toString());// *ครบกำหนด : 32
-			
-			String dateOrderBill = row.getCell(20, Row.CREATE_NULL_AS_BLANK).toString(); // bdate2
-			bean.setDateOrderBill(dateOrderBill);// *ครบกำหนด : bdate2 = 20
-			bean.setBillingFee(row.getCell(30, Row.CREATE_NULL_AS_BLANK).toString());// *ค่าบริการรอบบิล : 30
-			
-			String totalPoint = row.getCell(35, Row.CREATE_NULL_AS_BLANK).toString(); // จำนวนจุดทั้งหมด : 35
-			
-			bean.setTotalPoint(totalPoint);
-			
-			bean.setDateBill(row.getCell(20, Row.CREATE_NULL_AS_BLANK).toString());
-			bean.setCostBill(row.getCell(27, Row.CREATE_NULL_AS_BLANK).toString());
-			
-//			bean.setDigitalPoint(row.getCell(54, Row.CREATE_NULL_AS_BLANK).toString());// จำนวนจุด Digital : 54
-//			bean.setInstallDigital(row.getCell(55, Row.CREATE_NULL_AS_BLANK).toString());// วันที่ติด Digital : 55
-//			bean.setStatusDigital(row.getCell(56, Row.CREATE_NULL_AS_BLANK).toString());// วันที่ติด Digital : 56
-//			bean.setDigitalPrice(row.getCell(57, Row.CREATE_NULL_AS_BLANK).toString());// ราคา Digital : 57
-//			bean.setAnalogPoint(row.getCell(58, Row.CREATE_NULL_AS_BLANK).toString());// จำนวนจุด Analog : 58
-//			bean.setAnalogPrice(row.getCell(59, Row.CREATE_NULL_AS_BLANK).toString());// ราคา Analog : 59
-//			bean.setDeposit(row.getCell(60, Row.CREATE_NULL_AS_BLANK).toString());// เงินประกัน/ค่ามัดจำ : 60
-//			bean.setRemark(row.getCell(61, Row.CREATE_NULL_AS_BLANK).toString());// หมายเหตุ / ข้อมูลเพิ่มเติม : 61
-		}else{
-			bean = null;
-		}
-		return bean;
-	}
-    
-    @SuppressWarnings("deprecation")
-	private static MigrateCustomerBean setDataMigrateCustomer(Row row, MigrateCustomerBean bean) {
-    	String begin = row.getCell(0, Row.CREATE_NULL_AS_BLANK).toString();
-		if(null != row && !"Begin".equals(begin)){
-			bean.setCustomerCode(row.getCell(0, Row.CREATE_NULL_AS_BLANK).toString());// *รหัสสมาชิก/รหัสลูกค้า : 0
-//			String sex = "-"; //male or female
-//			if("ชาย".equals(row.getCell(2, Row.CREATE_NULL_AS_BLANK).toString())){
-//				sex = "male";
-//			}else if("หญิง".equals(row.getCell(2, Row.CREATE_NULL_AS_BLANK).toString())){
-//				sex = "female";
-//			}
-			bean.setSex("");// *เพศ // ข้อมูลเดิมไม่มี
-			bean.setPrefix("");// คำนำหน้า
-			bean.setIdentityNumber("");// *เลขที่บัตรประชาชน // ข้อมูลเดิมไม่มี
-			String name = row.getCell(2, Row.CREATE_NULL_AS_BLANK).toString();// *ชื่อ : 2
-			if(!"".equals(name) && name.length() > 2){
-				if("คุณ".equals(name.substring(0,3))){ // เช็คคำนำหน้าต้องเป็นคำว่าคุณ
-					name = name.substring(3); // ตัดคำนำหน้าออก "คุณ"
-					bean.setPrefix("คุณ");// คำนำหน้า // กรณีที่คำนำหน้า "คุณ"
-				}
-			}
-			bean.setFirstName(name);
-			bean.setLastName(row.getCell(3, Row.CREATE_NULL_AS_BLANK).toString());// *นามสกุล : 5
-
-			String serviceApplicationType = row.getCell(25, Row.CREATE_NULL_AS_BLANK).toString();
-			// id_type -> 01 = สมาชิกรายเดือน, 02 = สมาชิกรายครึ่งปี, 03 = สมาชิกรายปี, 07 = โครงการ, 08 = กล้องวงจรปิด, VIP = VIP, NET = VIPพนักงาน
-			String customerType = "I"; // บุคคลธรรมดา
-			if("07".equals(serviceApplicationType) || "7".equals(serviceApplicationType) || "7.0".equals(serviceApplicationType)){
-				customerType = "C"; // นิติบุคคล
-			}
-			bean.setCustomerType(customerType);// *ประเภทลูกค้า
-			
-			String customerFeatures = "1"; // สมาชิกบ้าน (ที่พักอาศัยส่วนตัว)
-			if("07".equals(serviceApplicationType) || "7".equals(serviceApplicationType) || "7.0".equals(serviceApplicationType)){
-				customerFeatures = "2"; // สมาชิกโครงการ (ราคาเหมาจ่าย)
-			}else if("VIP".equals(serviceApplicationType)){
-				customerFeatures = "3"; // สมาชิก VIP (ไม่เสียค่าบริการ)
-			}else if("NET".equals(serviceApplicationType)){
-				customerFeatures = "3"; // สมาชิก VIP (ไม่เสียค่าบริการ)
-			}
-			bean.setCustomerFeatures(customerFeatures);// ลักษณะของลูกค้า
-			bean.setCareer(row.getCell(33, Row.CREATE_NULL_AS_BLANK).toString());// อาชีพ : 33
-			
-			String mobile1 = row.getCell(15, Row.CREATE_NULL_AS_BLANK).toString();
-//			String mobile2 = row.getCell(26, Row.CREATE_NULL_AS_BLANK).toString();
-//			if(StringUtils.isBlank(mobile1)){
-//				mobile1 = mobile2;
-//			}else{
-//				if(StringUtils.isNotBlank(mobile2)){
-//					mobile1 = mobile1+" / "+mobile2;
-//				}
-//			}
-			bean.setMobile(mobile1);// เบอร์ติดต่อ
-			bean.setFax(row.getCell(16, Row.CREATE_NULL_AS_BLANK).toString());// Fax : 16
-			bean.setEmail("");// E-mail :
-			
-			bean.setNo(row.getCell(5, Row.CREATE_NULL_AS_BLANK).toString());// *บ้านเลขที่ : 5
-//			bean.setSection(row.getCell(13, Row.CREATE_NULL_AS_BLANK).toString());// หมู่ที่ : 13
-//			bean.setBuilding(row.getCell(14, Row.CREATE_NULL_AS_BLANK).toString());// อาคาร : 14
-//			bean.setRoom(row.getCell(15, Row.CREATE_NULL_AS_BLANK).toString());// เลขที่ห้อง : 15
-//			bean.setFloor(row.getCell(16, Row.CREATE_NULL_AS_BLANK).toString());// ชั้นที่ : 16
-//			bean.setVillage(row.getCell(17, Row.CREATE_NULL_AS_BLANK).toString());// หมู่บ้าน : 17
-//			bean.setAlley(row.getCell(18, Row.CREATE_NULL_AS_BLANK).toString());// ตรอกซอย : 18
-//			bean.setRoad(row.getCell(19, Row.CREATE_NULL_AS_BLANK).toString());// ถนน : 19
-			bean.setProvince("59");// *จังหวัด : -> fix สมุทรสาคร = 59
-			bean.setAmphur("814");// *อำเภอ / เขต : -> fix เมืองสมุทรสาคร    = 814
-			bean.setDistrict("7344");// *ตำบล / แขวง : -> fix มหาชัย = 7344
-			bean.setPostcode("74000");// *รหัสไปรษณีย์  -> fix 74000
-			bean.setPlat(row.getCell(11, Row.CREATE_NULL_AS_BLANK).toString());// เพลท000015
-			bean.setNearbyPlaces(row.getCell(4, Row.CREATE_NULL_AS_BLANK).toString());// สถานที่ใกล้เคียง : 4
-			bean.setZone(row.getCell(24, Row.CREATE_NULL_AS_BLANK).toString());// *เขตชุมชน : 24
-			bean.setServiceApplicationDate(row.getCell(19, Row.CREATE_NULL_AS_BLANK).toString());// วันที่สมัคร : 19 bdate
-			 serviceApplicationType = row.getCell(26, Row.CREATE_NULL_AS_BLANK).toString();
-			String servicePackage = "";
-			if("สมาชิกรายเดือน".equals(serviceApplicationType)){
-				serviceApplicationType = "1"; // สมาชิกรายเดือน
-				servicePackage = "PACKAGE0001"; // สมาชิกรายเดือน(จากระบบเก่า)
-			}else if("สมาชิกรายครึ่งปี".equals(serviceApplicationType)){
-				serviceApplicationType = "2"; // สมาชิกรายครึ่งปี
-				servicePackage = "PACKAGE0002"; // สมาชิกรายครึ่งปี(จากระบบเก่า)
-			}else if("สมาชิกรายปี".equals(serviceApplicationType)){
-				serviceApplicationType = "3"; // สมาชิกรายปี
-				servicePackage = "PACKAGE0003"; // สมาชิกรายปี(จากระบบเก่า)
-			}else if("กล้องวงจรปิด".equals(serviceApplicationType)){
-				serviceApplicationType = "6"; // อื่นๆ
-				servicePackage = "PACKAGE0004"; // กล้องวงจรปิด(จากระบบเก่า)
-			}else if("โครงการ".equals(serviceApplicationType)){
-				serviceApplicationType = "6"; // อื่นๆ
-				servicePackage = "PACKAGE0005"; // โครงการ(จากระบบเก่า)
-			}else if("VIP".equals(serviceApplicationType) || "VIPพนักงาน".equals(serviceApplicationType)){
-				serviceApplicationType = "6"; // อื่นๆ
-				servicePackage = "PACKAGE0006"; // VIP(จากระบบเก่า)
-			}else{
-				serviceApplicationType = "6"; // อื่นๆ
-				servicePackage = "PACKAGE0001"; // สมาชิกรายเดือน(จากระบบเก่า)
-			}
-			bean.setServiceApplicationType(serviceApplicationType);// *ประเภทใบสมัคร
-			bean.setServicePackage(servicePackage);
-//			bean.setServiceApplicationDate(row.getCell(32, Row.CREATE_NULL_AS_BLANK).toString());// *ครบกำหนด : 32
-			
-			String dateOrderBill = row.getCell(20, Row.CREATE_NULL_AS_BLANK).toString(); // bdate2
-			bean.setDateOrderBill(dateOrderBill);// *ครบกำหนด : bdate2 = 20
-			bean.setBillingFee(row.getCell(30, Row.CREATE_NULL_AS_BLANK).toString());// *ค่าบริการรอบบิล : 30
-			
-			String totalPoint = row.getCell(35, Row.CREATE_NULL_AS_BLANK).toString(); // จำนวนจุดทั้งหมด : 35
-			
-			bean.setTotalPoint(totalPoint);
-			
-			bean.setDateBill(row.getCell(20, Row.CREATE_NULL_AS_BLANK).toString());
-			bean.setCostBill(row.getCell(27, Row.CREATE_NULL_AS_BLANK).toString());
-			
-			bean.setDateCut(row.getCell(36, Row.CREATE_NULL_AS_BLANK).toString());
-			
-//			bean.setDigitalPoint(row.getCell(54, Row.CREATE_NULL_AS_BLANK).toString());// จำนวนจุด Digital : 54
-//			bean.setInstallDigital(row.getCell(55, Row.CREATE_NULL_AS_BLANK).toString());// วันที่ติด Digital : 55
-//			bean.setStatusDigital(row.getCell(56, Row.CREATE_NULL_AS_BLANK).toString());// วันที่ติด Digital : 56
-//			bean.setDigitalPrice(row.getCell(57, Row.CREATE_NULL_AS_BLANK).toString());// ราคา Digital : 57
-//			bean.setAnalogPoint(row.getCell(58, Row.CREATE_NULL_AS_BLANK).toString());// จำนวนจุด Analog : 58
-//			bean.setAnalogPrice(row.getCell(59, Row.CREATE_NULL_AS_BLANK).toString());// ราคา Analog : 59
-//			bean.setDeposit(row.getCell(60, Row.CREATE_NULL_AS_BLANK).toString());// เงินประกัน/ค่ามัดจำ : 60
-//			bean.setRemark(row.getCell(61, Row.CREATE_NULL_AS_BLANK).toString());// หมายเหตุ / ข้อมูลเพิ่มเติม : 61
-		}else{
-			bean = null;
-		}
-		return bean;
-	}
 
     static int indexData = 1;
     

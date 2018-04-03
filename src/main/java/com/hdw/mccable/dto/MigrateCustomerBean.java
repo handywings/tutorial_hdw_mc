@@ -1,5 +1,7 @@
 package com.hdw.mccable.dto;
 
+import java.util.Date;
+
 public class MigrateCustomerBean extends DSTPUtilityBean{
 	private String customerCode; // *รหัสสมาชิก/รหัสลูกค้า
 	private String sex; // *เพศ
@@ -32,9 +34,10 @@ public class MigrateCustomerBean extends DSTPUtilityBean{
 	
 	private String servicePackage; // PACKAGE บริการ
 	
-	private String serviceApplicationDate; // วันที่สมัคร
+	private Date serviceApplicationDate; // วันที่สมัคร
 	private String serviceApplicationType; // *ประเภทใบสมัคร
-	private String dateOrderBill; // *ครบกำหนด
+	private String serviceApplicationTypeCode;
+	private Date dateOrderBill; // *ครบกำหนด
 	private String billingFee; // *ค่าบริการรอบบิล
 	private String deposit; // เงินประกัน/ค่ามัดจำ
 	private String digitalPoint; // จำนวนจุด Digital
@@ -51,25 +54,51 @@ public class MigrateCustomerBean extends DSTPUtilityBean{
 
 	private String plat; // เพลท000015
 	
-	private String dateBill; // วันรอบบิล
+	private Date dateBill; // วันรอบบิล
 	private String costBill; 
 
-	private String dateCut; // วันตัดสาย
+	private Date dateCut; // วันตัดสาย
+	private String cutStatus; // 1=ปกติ, 3=ตัดสาย
 	
+	private Date datePayment;
 	
-	public String getDateCut() {
+	public Date getDatePayment() {
+		return datePayment;
+	}
+
+	public void setDatePayment(Date datePayment) {
+		this.datePayment = datePayment;
+	}
+
+	public String getServiceApplicationTypeCode() {
+		return serviceApplicationTypeCode;
+	}
+
+	public void setServiceApplicationTypeCode(String serviceApplicationTypeCode) {
+		this.serviceApplicationTypeCode = serviceApplicationTypeCode;
+	}
+
+	public String getCutStatus() {
+		return cutStatus;
+	}
+
+	public void setCutStatus(String cutStatus) {
+		this.cutStatus = cutStatus;
+	}
+
+	public Date getDateCut() {
 		return dateCut;
 	}
 
-	public void setDateCut(String dateCut) {
+	public void setDateCut(Date dateCut) {
 		this.dateCut = dateCut;
 	}
 
-	public String getDateBill() {
+	public Date getDateBill() {
 		return dateBill;
 	}
 
-	public void setDateBill(String dateBill) {
+	public void setDateBill(Date dateBill) {
 		this.dateBill = dateBill;
 	}
 
@@ -337,11 +366,11 @@ public class MigrateCustomerBean extends DSTPUtilityBean{
 		this.servicePackage = servicePackage;
 	}
 
-	public String getServiceApplicationDate() {
+	public Date getServiceApplicationDate() {
 		return serviceApplicationDate;
 	}
 
-	public void setServiceApplicationDate(String serviceApplicationDate) {
+	public void setServiceApplicationDate(Date serviceApplicationDate) {
 		this.serviceApplicationDate = serviceApplicationDate;
 	}
 
@@ -353,11 +382,11 @@ public class MigrateCustomerBean extends DSTPUtilityBean{
 		this.serviceApplicationType = serviceApplicationType;
 	}
 
-	public String getDateOrderBill() {
+	public Date getDateOrderBill() {
 		return dateOrderBill;
 	}
 
-	public void setDateOrderBill(String dateOrderBill) {
+	public void setDateOrderBill(Date dateOrderBill) {
 		this.dateOrderBill = dateOrderBill;
 	}
 

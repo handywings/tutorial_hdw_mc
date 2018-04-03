@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,8 +33,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.CellReference;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
@@ -66,11 +65,11 @@ import com.hdw.mccable.dto.CustomerBean;
 import com.hdw.mccable.dto.JsonResponse;
 import com.hdw.mccable.dto.MigrateCustomerBean;
 import com.hdw.mccable.dto.MigrateInvoiceBean;
+import com.hdw.mccable.dto.SearchBillScanBean;
 import com.hdw.mccable.entity.Address;
 import com.hdw.mccable.entity.Amphur;
 import com.hdw.mccable.entity.BackupFile;
 import com.hdw.mccable.entity.Career;
-import com.hdw.mccable.entity.Company;
 import com.hdw.mccable.entity.Contact;
 import com.hdw.mccable.entity.Customer;
 import com.hdw.mccable.entity.CustomerFeature;
@@ -83,15 +82,17 @@ import com.hdw.mccable.entity.HistoryTechnicianGroupWork;
 import com.hdw.mccable.entity.InternetProduct;
 import com.hdw.mccable.entity.InternetProductItem;
 import com.hdw.mccable.entity.Invoice;
-import com.hdw.mccable.entity.MenuReport;
+import com.hdw.mccable.entity.InvoiceHistoryPrint;
 import com.hdw.mccable.entity.ProductItem;
 import com.hdw.mccable.entity.Province;
 import com.hdw.mccable.entity.Receipt;
+import com.hdw.mccable.entity.ReceiptHistoryPrint;
 import com.hdw.mccable.entity.ServiceApplication;
 import com.hdw.mccable.entity.ServiceApplicationType;
 import com.hdw.mccable.entity.ServicePackage;
-import com.hdw.mccable.entity.ServicePackageType;
+import com.hdw.mccable.entity.ServiceProduct;
 import com.hdw.mccable.entity.Stock;
+import com.hdw.mccable.entity.TemplateService;
 import com.hdw.mccable.entity.Unit;
 import com.hdw.mccable.entity.Worksheet;
 import com.hdw.mccable.entity.WorksheetSetup;
@@ -198,13 +199,13 @@ public class MigrateController extends BaseController{
 	@Qualifier(value = "internetProductItemService")
 	private InternetProductItemService internetProductItemService;
 	
-	@Autowired(required=true)
-	@Qualifier(value="servicePackageTypeService")
-	private ServicePackageTypeService servicePackageTypeService;
-	
 	@Autowired(required = true)
 	@Qualifier(value = "companyService")
 	private CompanyService companyService;
+	
+	@Autowired(required = true)
+	@Qualifier(value = "servicePackageTypeService")
+	private ServicePackageTypeService servicePackageTypeService;
 	
 	@Autowired
     MessageSource messageSource;
@@ -272,6 +273,8 @@ public class MigrateController extends BaseController{
 			        			processMigrateProductCCTV2(workbook);
 			        		}else if("วีระพงษ์  กล้องวงจรปิด.xlsx".equals(name)){
 			        			processMigrateProductCCTV3(workbook);
+			        		}else if("ข้อมูลลูกค้า(เก่า)_แยกจุด.xlsx".equals(name)){
+			        			processMigratePoint(workbook);
 			        		}else{
 			        			processMigrateProduct(workbook);
 			        		}
@@ -1546,6 +1549,78 @@ public class MigrateController extends BaseController{
 	}
 	
 	@SuppressWarnings("deprecation")
+	private void processMigratePoint(Workbook workbook) throws Exception {
+		int sheetIndex = 1;
+		int intRow = 0;
+
+		for (Row rows : workbook.getSheetAt(sheetIndex)) {
+			intRow++;
+				String customerCode = getDataString(workbook, sheetIndex, "A", intRow);
+				double quantityDigital = getDataDouble(workbook, sheetIndex, "BC", intRow);
+				double quantityAnalog = getDataDouble(workbook, sheetIndex, "BG", intRow);
+				
+				logger.info("customerCode : "+customerCode);
+				logger.info("quantityDigital : "+quantityDigital);
+				logger.info("quantityAnalog : "+quantityAnalog);
+				
+				if(StringUtils.isEmpty(customerCode)) continue;
+
+				Customer customer = customerService.getCustomerByCustCode(customerCode);
+
+				if(null == customer) continue;
+				
+				List<ServiceApplication> serviceApplicationList = customer.getServiceApplications();
+				if(null != serviceApplicationList && serviceApplicationList.size() > 0){
+					ServiceApplication serviceApplication = serviceApplicationList.get(0);
+					List<Worksheet> worksheetList = serviceApplication.getWorksheets();
+					if(null != worksheetList && worksheetList.size() > 0){
+						boolean isAnalog = false;
+						for(Worksheet worksheet:worksheetList){	
+							WorksheetSetup worksheetSetup = worksheet.getWorksheetSetup();
+							if(null != worksheetSetup){
+								List<ProductItem> productItemList = worksheet.getProductItems();
+								if(null != productItemList && productItemList.size() > 0){
+									for(ProductItem productItem:productItemList){
+										ServiceProduct serviceProduct = productItem.getServiceProduct();
+										if(null != serviceProduct && "00002".equals(serviceProduct.getProductCode())){
+											productItem.setQuantity((int)quantityDigital); // 00002 : ค่าติดตั้งจุด Digital
+											productItemService.update(productItem);
+										}
+										if(null != serviceProduct && "00003".equals(serviceProduct.getProductCode())){
+											isAnalog = true;
+										}
+									}
+								}
+								if(!isAnalog){
+									ProductItem productItem = new ProductItem();
+									productItem.setServiceProduct(serviceProductService.getSerivceProductByCode("00003")); // ค่าติดตั้งจุด Analog
+									productItem.setServiceApplication(serviceApplication);
+									productItem.setWorkSheet(worksheet);
+									productItem.setQuantity((int)quantityAnalog);
+									productItem.setPrice(0);
+									productItem.setAmount(0);
+									productItem.setProductTypeMatch("O");
+									productItem.setProductType("S");
+									productItem.setDeposit(0f);
+									productItem.setCreateDate(CURRENT_TIMESTAMP);
+									productItem.setCreatedBy("Migrate");
+									productItem.setFree(Boolean.FALSE);
+									productItem.setLend(Boolean.FALSE);
+									productItem.setDeleted(Boolean.FALSE);
+									productItemService.save(productItem);
+								}
+							}
+						}
+					}
+				}
+				
+		}
+		
+		logger.info("================== END processMigratePoint ====================");
+		
+	}
+	
+	@SuppressWarnings("deprecation")
 	private void processMigrateProduct(Workbook workbook) throws Exception {
 		int sheetIndex = workbook.getNumberOfSheets();
 		int intRow = 0;
@@ -2033,19 +2108,6 @@ public class MigrateController extends BaseController{
 		return data;
 	}
 	
-	private Date getDataDate(Workbook workbook, int indexSheet, String key, int index) throws Exception {
-		
-		Sheet sheet = workbook.getSheetAt(indexSheet);
-	    FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-
-	    CellReference cellReference = new CellReference(key+index); //pass the cell which contains formula
-	    int intRow = cellReference.getRow();
-	    Row row = sheet.getRow(cellReference.getRow());
-	    Date data = row.getCell(cellReference.getCol()).getDateCellValue();
-	    
-		return data;
-	}
-	
 	private String getDataString(Workbook workbook, int indexSheet, String key, int index) throws Exception {
 		String data = "";
 		Sheet sheet = workbook.getSheetAt(indexSheet);
@@ -2384,43 +2446,17 @@ public class MigrateController extends BaseController{
 			try {
 				if(null != file_customer && file_customer.getSize() > 0){
 					InputStream inputStream = file_customer.getInputStream();
+					String fileName = file_customer.getOriginalFilename();
 			        if(null != inputStream){
-			        	if(null != inputStream){
-			        		Workbook workbook = ReadWriteExcelFile.ReadXLSX(inputStream);
-				        	if(null != workbook){
-				        		String name = file_customer.getOriginalFilename();
-				        		logger.info("name : "+name);
-				        		if("[1]para_typeadd.xlsx".equals(name)){
-				        			processMigrateTypeAdd_EasyNet(workbook);
-				        		}else if("[2]para_typepay.xlsx".equals(name)){
-				        			processMigrateTypePay_EasyNet(workbook);
-				        		}else if("[3]customers.xlsx".equals(name)){
-				        			processMigrateCustomer1_EasyNet(workbook);
-				        		}else if("[4]Qrycustomers.xlsx".equals(name)){
-				        			processMigrateCustomer2_EasyNet(workbook);
-				        		}else if("[5]Qrypaycondo.xlsx".equals(name)){
-				        			processMigrateReceipt_EasyNet(workbook);
-				        		}else if("[6]tmpdb_paynext.xlsx".equals(name)){
-				        			processMigrateInvoice_EasyNet(workbook);
-				        		}else if("[4]customers.xlsx".equals(name)){
-				        			processMigrateCustomer3_EasyNet(workbook);
-				        		}else if("[7]สำเนาของ stock คงเหลือ Easy 1-61.xlsx".equals(name)){
-				        			processMigrateEquipmentProduct_EasyNet(workbook);
-				        		}else if("[8]para_typepay_update_price.xlsx".equals(name)){
-				        			processMigrateTypePay_EasyNet_Price(workbook);
-				        		}else if("[9]para_prob.xlsx".equals(name)){
-				        			processMigrateMenuReport(workbook);
-				        		}
-				        		
-				        	}
-				        }
-//			        	List<MigrateCustomerBean> migrateCustomerBeanList = ReadWriteExcelFile.ReadExcelCustomer(inputStream);
-//			        	processMigrateCustomer(migrateCustomerBeanList);
-//			        	processMigrateCustomerInvoice(migrateCustomerBeanList);
+			        	List<MigrateCustomerBean> migrateCustomerBeanList = ReadWriteExcelFile.ReadExcelCustomer(inputStream);
+//			        	processMigrateCustomer(migrateCustomerBeanList, fileName.contains("internet"));
 			        	
 			        	// อัพเดทลูกค้าตัดสาย
-//			        	processMigrateCustomerCut(migrateCustomerBeanList);
-
+			        	processMigrateCustomerCut(migrateCustomerBeanList, fileName.contains("internet"));
+			        	
+			        	// อัพเดตบ้านเลขที่
+//			        	processMigrateCustomerUpdateNo(migrateCustomerBeanList, fileName.contains("internet"));
+			        	
 			        }
 				}
 				jsonResponse.setError(false);
@@ -2436,172 +2472,189 @@ public class MigrateController extends BaseController{
 		return jsonResponse;
 	}
 	
-	private void processMigrateCustomerInvoice(List<MigrateCustomerBean> migrateCustomerBeanList) throws Exception {
-		SimpleDateFormat formatData = new SimpleDateFormat("dd-MMM-yyyy", new Locale("EN", "en"));
-		if(null != migrateCustomerBeanList && migrateCustomerBeanList.size() > 0){
-			long startTime = System.currentTimeMillis();
-			int index = 1, indexNew = 0;
-			for (MigrateCustomerBean bean: migrateCustomerBeanList) {
-				if(null != bean.getDateBill() && !"".equals(bean.getDateBill()) && !"0000-00-00".equals(bean.getDateBill())){
-					Customer customer = customerService.getCustomerByCustCode(bean.getCustomerCode());
-					if(null != customer){					
-						List<ServiceApplication> serviceApplicationList = customer.getServiceApplications();
-						if(null != serviceApplicationList && serviceApplicationList.size() > 0 ){
-							ServiceApplication serviceApplication = serviceApplicationList.get(0);
-							if(null != serviceApplication){
-								Date s1 = formatData.parse(bean.getDateBill());
-								Date s2 = formatData.parse("17-Feb-2018");
-								if(s1.compareTo(s2)==0){
-									s2 = formatData.parse("17-Jan-2018");
-									logger.info(">>>> "+bean.getDateBill());
-									Invoice invoice = new Invoice();
-									invoice.setInvoiceCode(financialService.genInVoiceCode());
-									invoice.setServiceApplication(serviceApplication);
-			//						invoice.setWorkSheet(worksheet);
-									invoice.setInvoiceType("O"); //S=สำหรับติดตั้ง,R=สำหรับซ่อม,O=สำหรับตาม
-			//						invoice.setStatus("S"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
-									invoice.setStatus("W"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
-									invoice.setStatusScan("N");
-									invoice.setIssueDocDate(new Date());
-									invoice.setPaymentDate(s2); // วันครบกำหนดชำระ
-									invoice.setCreateDate(s2); // วันครบกำหนดชำระ
-									
-									float amount = Float.valueOf(bean.getCostBill());
-											
-									Date currentDate = new Date();
-									if(invoice.getCreateDate().before(currentDate)){
-										invoice.setStatus("O"); // O=เกินวันกำหนดชำระ 
-									}
-									
-//									if(0 == amount){
-//										invoice.setStatus("S");
+//	private void processMigrateCustomerInvoice(List<MigrateCustomerBean> migrateCustomerBeanList) throws Exception {
+//		SimpleDateFormat formatData = new SimpleDateFormat("dd-MMM-yyyy", new Locale("EN", "en"));
+//		if(null != migrateCustomerBeanList && migrateCustomerBeanList.size() > 0){
+//			long startTime = System.currentTimeMillis();
+//			int index = 1, indexNew = 0;
+//			for (MigrateCustomerBean bean: migrateCustomerBeanList) {
+//				if(null != bean.getDateBill() && !"".equals(bean.getDateBill()) && !"0000-00-00".equals(bean.getDateBill())){
+//					Customer customer = customerService.getCustomerByCustCode(bean.getCustomerCode());
+//					if(null != customer){					
+//						List<ServiceApplication> serviceApplicationList = customer.getServiceApplications();
+//						if(null != serviceApplicationList && serviceApplicationList.size() > 0 ){
+//							ServiceApplication serviceApplication = serviceApplicationList.get(0);
+//							if(null != serviceApplication){
+//								Date s1 = formatData.parse(bean.getDateBill());
+//								Date s2 = formatData.parse("17-Feb-2018");
+//								if(s1.compareTo(s2)==0){
+//									s2 = formatData.parse("17-Jan-2018");
+//									logger.info(">>>> "+bean.getDateBill());
+//									Invoice invoice = new Invoice();
+//									invoice.setInvoiceCode(financialService.genInVoiceCode());
+//									invoice.setServiceApplication(serviceApplication);
+//			//						invoice.setWorkSheet(worksheet);
+//									invoice.setInvoiceType("O"); //S=สำหรับติดตั้ง,R=สำหรับซ่อม,O=สำหรับตาม
+//			//						invoice.setStatus("S"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
+//									invoice.setStatus("W"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
+//									invoice.setStatusScan("N");
+//									invoice.setIssueDocDate(new Date());
+//									invoice.setPaymentDate(s2); // วันครบกำหนดชำระ
+//									invoice.setCreateDate(s2); // วันครบกำหนดชำระ
+//									
+//									float amount = Float.valueOf(bean.getCostBill());
+//											
+//									Date currentDate = new Date();
+//									if(invoice.getCreateDate().before(currentDate)){
+//										invoice.setStatus("O"); // O=เกินวันกำหนดชำระ 
 //									}
-									
-									amount = 0f;
-									if(serviceApplication.isMonthlyService()){
-										amount += serviceApplication.getMonthlyServiceFee();
-									}else{
-										amount += serviceApplication.getOneServiceFee();
-									}
-									
-									invoice.setAmount(amount);
-									invoice.setBilling(Boolean.FALSE);
-									invoice.setCutting(Boolean.FALSE);
-									invoice.setDeleted(Boolean.FALSE);
-									invoice.setCreatedBy("Migrate");
-									financialService.saveInvoice(invoice);
-									
-									Receipt receipt = new Receipt();
-									receipt.setReceiptCode(financialService.genReceiptCode());
-									receipt.setStatus("H");
-//									if(0 == amount){
-//										amount = 0f;
-//										if(serviceApplication.isMonthlyService()){
-//											amount += serviceApplication.getMonthlyServiceFee();
-//										}else{
-//											amount += serviceApplication.getOneServiceFee();
-//										}
-//										receipt.setAmount(amount);
-//										receipt.setStatus("P");
-//										receipt.setPaymentType("C");
-//										receipt.setPaymentDate(new Date());
-//									}
-									receipt.setInvoice(invoice);
-									receipt.setCreatedBy("Migrate");
-									receipt.setCreateDate(CURRENT_TIMESTAMP);
-									receipt.setDeleted(Boolean.FALSE);
-									financialService.saveReceipt(receipt);
-								}
-								
-								Invoice invoice = new Invoice();
-								invoice.setInvoiceCode(financialService.genInVoiceCode());
-								invoice.setServiceApplication(serviceApplication);
-		//						invoice.setWorkSheet(worksheet);
-								invoice.setInvoiceType("O"); //S=สำหรับติดตั้ง,R=สำหรับซ่อม,O=สำหรับตาม
-		//						invoice.setStatus("S"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
-								invoice.setStatus("W"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
-								invoice.setStatusScan("N");
-								invoice.setIssueDocDate(new Date());
-								invoice.setPaymentDate(s1); // วันครบกำหนดชำระ
-								invoice.setCreateDate(s1); // วันครบกำหนดชำระ
-								
-								float amount = Float.valueOf(bean.getCostBill());
-										
-								Date currentDate = new Date();
-								if(invoice.getCreateDate().before(currentDate)){
-									invoice.setStatus("O"); // O=เกินวันกำหนดชำระ 
-								}
-								
-//								if(0 == amount){
-//									invoice.setStatus("S");
-//								}
-								
-								amount = 0f;
-								if(serviceApplication.isMonthlyService()){
-									amount += serviceApplication.getMonthlyServiceFee();
-								}else{
-									amount += serviceApplication.getOneServiceFee();
-								}
-								
-								invoice.setAmount(amount);
-								invoice.setBilling(Boolean.FALSE);
-								invoice.setCutting(Boolean.FALSE);
-								invoice.setDeleted(Boolean.FALSE);
-								invoice.setCreatedBy("Migrate");
-								financialService.saveInvoice(invoice);
-								
-								Receipt receipt = new Receipt();
-								receipt.setReceiptCode(financialService.genReceiptCode());
-								receipt.setStatus("H");
-//								if(0 == amount){
+//									
+////									if(0 == amount){
+////										invoice.setStatus("S");
+////									}
+//									
 //									amount = 0f;
 //									if(serviceApplication.isMonthlyService()){
 //										amount += serviceApplication.getMonthlyServiceFee();
 //									}else{
 //										amount += serviceApplication.getOneServiceFee();
 //									}
-//									receipt.setAmount(amount);
-//									receipt.setStatus("P");
-//									receipt.setPaymentType("C");
-//									receipt.setPaymentDate(new Date());
+//									
+//									invoice.setAmount(amount);
+//									invoice.setBilling(Boolean.FALSE);
+//									invoice.setCutting(Boolean.FALSE);
+//									invoice.setDeleted(Boolean.FALSE);
+//									invoice.setCreatedBy("Migrate");
+//									financialService.saveInvoice(invoice);
+//									
+//									Receipt receipt = new Receipt();
+//									receipt.setReceiptCode(financialService.genReceiptCode());
+//									receipt.setStatus("H");
+////									if(0 == amount){
+////										amount = 0f;
+////										if(serviceApplication.isMonthlyService()){
+////											amount += serviceApplication.getMonthlyServiceFee();
+////										}else{
+////											amount += serviceApplication.getOneServiceFee();
+////										}
+////										receipt.setAmount(amount);
+////										receipt.setStatus("P");
+////										receipt.setPaymentType("C");
+////										receipt.setPaymentDate(new Date());
+////									}
+//									receipt.setInvoice(invoice);
+//									receipt.setCreatedBy("Migrate");
+//									receipt.setCreateDate(CURRENT_TIMESTAMP);
+//									receipt.setDeleted(Boolean.FALSE);
+//									financialService.saveReceipt(receipt);
 //								}
-								receipt.setInvoice(invoice);
-								receipt.setCreatedBy("Migrate");
-								receipt.setCreateDate(CURRENT_TIMESTAMP);
-								receipt.setDeleted(Boolean.FALSE);
-								financialService.saveReceipt(receipt);
-								
-							}
-						}
-					}
-					
-					
-//					serviceApplication.setStartDate(formatData.parse(bean.getServiceApplicationDate()));
-				}
-			}
-		}
-	}
+//								
+//								Invoice invoice = new Invoice();
+//								invoice.setInvoiceCode(financialService.genInVoiceCode());
+//								invoice.setServiceApplication(serviceApplication);
+//		//						invoice.setWorkSheet(worksheet);
+//								invoice.setInvoiceType("O"); //S=สำหรับติดตั้ง,R=สำหรับซ่อม,O=สำหรับตาม
+//		//						invoice.setStatus("S"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
+//								invoice.setStatus("W"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
+//								invoice.setStatusScan("N");
+//								invoice.setIssueDocDate(new Date());
+//								invoice.setPaymentDate(s1); // วันครบกำหนดชำระ
+//								invoice.setCreateDate(s1); // วันครบกำหนดชำระ
+//								
+//								float amount = Float.valueOf(bean.getCostBill());
+//										
+//								Date currentDate = new Date();
+//								if(invoice.getCreateDate().before(currentDate)){
+//									invoice.setStatus("O"); // O=เกินวันกำหนดชำระ 
+//								}
+//								
+////								if(0 == amount){
+////									invoice.setStatus("S");
+////								}
+//								
+//								amount = 0f;
+//								if(serviceApplication.isMonthlyService()){
+//									amount += serviceApplication.getMonthlyServiceFee();
+//								}else{
+//									amount += serviceApplication.getOneServiceFee();
+//								}
+//								
+//								invoice.setAmount(amount);
+//								invoice.setBilling(Boolean.FALSE);
+//								invoice.setCutting(Boolean.FALSE);
+//								invoice.setDeleted(Boolean.FALSE);
+//								invoice.setCreatedBy("Migrate");
+//								financialService.saveInvoice(invoice);
+//								
+//								Receipt receipt = new Receipt();
+//								receipt.setReceiptCode(financialService.genReceiptCode());
+//								receipt.setStatus("H");
+////								if(0 == amount){
+////									amount = 0f;
+////									if(serviceApplication.isMonthlyService()){
+////										amount += serviceApplication.getMonthlyServiceFee();
+////									}else{
+////										amount += serviceApplication.getOneServiceFee();
+////									}
+////									receipt.setAmount(amount);
+////									receipt.setStatus("P");
+////									receipt.setPaymentType("C");
+////									receipt.setPaymentDate(new Date());
+////								}
+//								receipt.setInvoice(invoice);
+//								receipt.setCreatedBy("Migrate");
+//								receipt.setCreateDate(CURRENT_TIMESTAMP);
+//								receipt.setDeleted(Boolean.FALSE);
+//								financialService.saveReceipt(receipt);
+//								
+//							}
+//						}
+//					}
+//					
+//					
+////					serviceApplication.setStartDate(formatData.parse(bean.getServiceApplicationDate()));
+//				}
+//			}
+//		}
+//	}
 	
-	private void processMigrateCustomerCut(List<MigrateCustomerBean> migrateCustomerBeanList) throws Exception {
-		if(null != migrateCustomerBeanList && migrateCustomerBeanList.size() > 0){
-			for (MigrateCustomerBean bean: migrateCustomerBeanList) {
-				String dateCut = bean.getDateCut();
-				if(null != dateCut && !"".equals(dateCut) && !"0000-00-00".equals(dateCut)){
-					Customer customer = customerService.getCustomerByCustCode(bean.getCustomerCode());
-					if(null != customer){
-						List<ServiceApplication> serviceApplications = customer.getServiceApplications();
-						if(null != serviceApplications && serviceApplications.size() > 0){
-							ServiceApplication serviceApp = serviceApplications.get(0);
-							serviceApp.setStatus("I");
-							serviceApp.setUpdatedBy("Migrate");
-							serviceApp.setUpdatedDate(CURRENT_TIMESTAMP);
-							serviceApplicationService.update(serviceApp);
-						}
-					}
-				}
-			}
-		}
-	}
+//	private void processMigrateCustomerCut(List<MigrateCustomerBean> migrateCustomerBeanList) throws Exception {
+//		SimpleDateFormat formatData = new SimpleDateFormat("dd-MMM-yyyy", new Locale("EN", "en"));
+//		if(null != migrateCustomerBeanList && migrateCustomerBeanList.size() > 0){
+//			for (MigrateCustomerBean bean: migrateCustomerBeanList) {
+//				String dateCut = bean.getDateCut();
+//				String cutStatus = bean.getCutStatus();
+//				Customer customer = customerService.getCustomerByCustCode(bean.getCustomerCode());
+//				if (null != customer) {
+//					List<ServiceApplication> serviceApplications = customer.getServiceApplications();
+//					if (null != serviceApplications && serviceApplications.size() > 0) {
+//						ServiceApplication serviceApp = serviceApplications.get(0);
+//						if ("3.0".equals(cutStatus) && null != dateCut && !"".equals(dateCut) && !"0000-00-00".equals(dateCut)) {
+//							serviceApp.setCancelServiceDate(formatData.parse(dateCut));
+//							serviceApp.setStatus("I");
+//							serviceApp.setUpdatedBy("Migrate");
+//							serviceApp.setUpdatedDate(CURRENT_TIMESTAMP);
+//							
+//							customer.setActive(false);
+//							customer.setUpdatedBy("Migrate");
+//							customer.setUpdatedDate(CURRENT_TIMESTAMP);
+//							customerService.update(customer);
+//						} else {
+//							serviceApp.setStatus("A");
+//							serviceApp.setUpdatedBy("Migrate");
+//							serviceApp.setUpdatedDate(CURRENT_TIMESTAMP);
+//							
+//							customer.setActive(true);
+//							customer.setUpdatedBy("Migrate");
+//							customer.setUpdatedDate(CURRENT_TIMESTAMP);
+//							customerService.update(customer);
+//						}
+//						serviceApplicationService.update(serviceApp);
+//					}
+//				}
+//			}
+//		}
+//	}
 	
 	@RequestMapping(value="migrateInvoice", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
 	@ResponseBody
@@ -2719,38 +2772,106 @@ public class MigrateController extends BaseController{
 		}
 	}
 	
-	private void processMigrateCustomer(List<MigrateCustomerBean> migrateCustomerBeanList) throws Exception {
+	private void processMigrateCustomerUpdateNo(List<MigrateCustomerBean> migrateCustomerBeanList, boolean isInternet) throws Exception {
+		SimpleDateFormat formatData = new SimpleDateFormat("dd-MMM-yyyy", new Locale("EN", "en"));
+		Timestamp CURRENT_TIMESTAMP = new Timestamp(new Date().getTime());
+		if(null != migrateCustomerBeanList && migrateCustomerBeanList.size() > 0){
+			long startTime = System.currentTimeMillis();
+			logger.info("MigrateCustomer Size : "+migrateCustomerBeanList.size());
+			int index = 1;
+			for (MigrateCustomerBean bean: migrateCustomerBeanList) {
+				String no = bean.getNo();
+				logger.info("MigrateCustomer : "+(index++)+" / "+migrateCustomerBeanList.size());
+				logger.info("CustomerCode : "+bean.getCustomerCode());
+				Customer customerOld = customerService.getCustomerByCustCode(bean.getCustomerCode()); // เช็คลูกค้าว่ามีอยู่ในระบบหรือยัง โดยเช็คจาก รหัสลูกค้า
+				logger.info("customerOld : "+customerOld);
+				if(null != customerOld){
+					List<Address> addressList = customerOld.getAddresses();
+					if(null != addressList && addressList.size() > 0){
+						for(Address address:addressList){
+							logger.info("addressNo : "+address.getNo());
+						}
+					}
+					List<ServiceApplication> serviceApplicationList = customerOld.getServiceApplications();
+					if(null != serviceApplicationList){
+						for(ServiceApplication serviceApplication:serviceApplicationList){
+							List<Address> serviceAppAddress = serviceApplication.getAddresses();
+							for(Address address:serviceAppAddress){
+								logger.info("serviceAppAddressNo : "+address.getNo());
+							}
+						}
+					}
+					
+				}
+				logger.info("======================================================");
+			}
+		}
+	}
+	
+	private void processMigrateCustomerCut(List<MigrateCustomerBean> migrateCustomerBeanList, boolean isInternet) throws Exception {
+		SimpleDateFormat formatData = new SimpleDateFormat("dd-MMM-yyyy", new Locale("EN", "en"));
+		Timestamp CURRENT_TIMESTAMP = new Timestamp(new Date().getTime());
+		if(null != migrateCustomerBeanList && migrateCustomerBeanList.size() > 0){
+			long startTime = System.currentTimeMillis();
+			logger.info("MigrateCustomer Size : "+migrateCustomerBeanList.size());
+			int index = 1, indexNew = 0;
+			for (MigrateCustomerBean bean: migrateCustomerBeanList) {
+				Date dateCut = bean.getDateCut();
+				String cutStatus = bean.getCutStatus();
+				
+				logger.info("MigrateCustomer : "+(index++)+" / "+migrateCustomerBeanList.size());
+				logger.info("CustomerCode : "+bean.getCustomerCode());
+				Customer customerOld = customerService.getCustomerByCustCode(bean.getCustomerCode()); // เช็คลูกค้าว่ามีอยู่ในระบบหรือยัง โดยเช็คจาก รหัสลูกค้า
+				logger.info("customerOld : "+customerOld);
+				if(null != customerOld && "3.0".equals(cutStatus)){
+					List<ServiceApplication> serviceApplicationList = customerOld.getServiceApplications();
+					if(null != serviceApplicationList && serviceApplicationList.size() > 0){
+						for(ServiceApplication serviceApplication:serviceApplicationList){
+							serviceApplication.setCancelServiceDate(dateCut);
+							serviceApplication.setStatus("I");
+							serviceApplication.setUpdatedBy(getUserNameLogin());
+							serviceApplication.setUpdatedDate(CURRENT_TIMESTAMP);
+							
+							List<Invoice> invoiceList = serviceApplication.getInvoices();
+							if(null != invoiceList && invoiceList.size() > 0){
+								for(Invoice invoice:invoiceList){
+									if("O".equals(invoice.getInvoiceType())){
+										invoice.setStatus("C");
+										invoice.setUpdatedBy(getUserNameLogin());
+										invoice.setUpdatedDate(CURRENT_TIMESTAMP);
+									}
+								}
+							}
+							
+						}
+					}
+					customerOld.setActive(Boolean.FALSE);
+					customerOld.setUpdatedBy(getUserNameLogin());
+					customerOld.setUpdatedDate(CURRENT_TIMESTAMP);
+					customerService.update(customerOld);
+				}
+				
+			}
+		}
+	}
+				
+	private void processMigrateCustomer(List<MigrateCustomerBean> migrateCustomerBeanList, boolean isInternet) throws Exception {
 		SimpleDateFormat formatData = new SimpleDateFormat("dd-MMM-yyyy", new Locale("EN", "en"));
 		if(null != migrateCustomerBeanList && migrateCustomerBeanList.size() > 0){
 			long startTime = System.currentTimeMillis();
 			logger.info("MigrateCustomer Size : "+migrateCustomerBeanList.size());
 			int index = 1, indexNew = 0;
 			for (MigrateCustomerBean bean: migrateCustomerBeanList) {
+				
+				ServiceApplication serviceApplication = new ServiceApplication();
+				
+				Date dateCut = bean.getDateCut();
+				String cutStatus = bean.getCutStatus();
+				
 				logger.info("MigrateCustomer : "+(index++)+" / "+migrateCustomerBeanList.size());
+				logger.info("CustomerCode : "+bean.getCustomerCode());
 				Customer customerOld = customerService.getCustomerByCustCode(bean.getCustomerCode()); // เช็คลูกค้าว่ามีอยู่ในระบบหรือยัง โดยเช็คจาก รหัสลูกค้า
-				if(null != customerOld && null != bean.getDateOrderBill() && !"".equals(bean.getDateOrderBill()) && !"0000-00-00".equals(bean.getDateOrderBill())){
-					List<ServiceApplication> serviceApplicationList = customerOld.getServiceApplications();
-					if(null != serviceApplicationList && serviceApplicationList.size() > 0){
-						ServiceApplication serviceApplication = serviceApplicationList.get(0);
-						if(null != serviceApplication){
-							List<Worksheet> worksheetList = serviceApplication.getWorksheets();
-							if(null != worksheetList && worksheetList.size() > 0){
-								for(Worksheet worksheet:worksheetList){
-									if(null != worksheet.getWorksheetSetup() && "C_S".equals(worksheet.getWorkSheetType())){
-										if(null != bean.getDateOrderBill() && !"".equals(bean.getDateOrderBill()) && !"0000-00-00".equals(bean.getDateOrderBill())){
-											worksheet.setDateOrderBill(formatData.parse(bean.getDateOrderBill()));
-											worksheet.setUpdatedDate(new Date());
-											worksheet.setUpdatedBy("Migrate");
-											//save worksheet
-											workSheetService.update(worksheet);
-										}
-									}
-								}
-							}
-						}
-						
-					}
-				}
+				logger.info("customerOld : "+customerOld);
 				if(null == customerOld){
 					indexNew++;
 					Customer customer = new Customer();
@@ -2777,7 +2898,7 @@ public class MigrateController extends BaseController{
 					contact.setFax(bean.getFax());
 					contact.setEmail(bean.getEmail());
 					contact.setCreateDate(CURRENT_TIMESTAMP);
-					contact.setCreatedBy("Migrate");
+					contact.setCreatedBy("Migrate_MC");
 					contact.setCustomer(customer);
 					customer.setContact(contact);
 					
@@ -2788,25 +2909,131 @@ public class MigrateController extends BaseController{
 					}
 					
 					customer.setCreateDate(new Date());
-					customer.setCreatedBy("Migrate");
+					customer.setCreatedBy("Migrate_MC");
 					customer.setDeleted(Boolean.FALSE);
-					customer.setActive(Boolean.TRUE);
 										
+					if ("3.0".equals(cutStatus) && null != dateCut ) {
+						customer.setActive(Boolean.FALSE);
+					}else{
+						customer.setActive(Boolean.TRUE);
+					}
+					
 					customerService.save(customer);
 					
-					ServiceApplication serviceApplication = new ServiceApplication();
+					serviceApplication = new ServiceApplication();
 //					serviceApplication.setRemarkOtherDocuments(bean.getRemark());
 					serviceApplication.setServiceApplicationNo(serviceApplicationService.genServiceApplicationCode());
 					serviceApplication.setCustomer(customer);
-					serviceApplication.setStatus("A");
+					
 					serviceApplication.setPlat(bean.getPlat());
 					
-					ServicePackage servicePackage = servicePackageService.getServicePackageByCode(bean.getServicePackage());
-					serviceApplication.setServicePackage(servicePackage);
+					if ("3.0".equals(cutStatus) && null != dateCut ) {
+						serviceApplication.setCancelServiceDate(dateCut);
+						serviceApplication.setStatus("I");
+					}else{
+						serviceApplication.setStatus("A");
+					}
 					
-//					serviceApplication.setEasyInstallationDateTime(serviceApplicationBean.getEasyInstallationDateTime());
+					int perMounth = 1;
 					
-					if("PACKAGE0004".equals(bean.getServicePackage())){ // กล้องวงจรปิด(จากระบบเก่า)
+					if("2 เดือน".equals(bean.getServicePackage())){
+						perMounth = 2;
+					}else if("30 เดือน".equals(bean.getServicePackage())){
+						perMounth = 30;
+					}else if("ราย 3 เดือน".equals(bean.getServicePackage())){
+						perMounth = 3;
+					}else if("ราย 4 เดือน".equals(bean.getServicePackage())){
+						perMounth = 4;
+					}else if("ราย 4 ปี".equals(bean.getServicePackage())){
+						perMounth = 48;
+					}else if("รายเดิอน 15 เดือน".equals(bean.getServicePackage())){
+						perMounth = 15;
+					}else if("รายครึ่งปี".equals(bean.getServicePackage())){
+						perMounth = 6;
+					}else if("รายปี".equals(bean.getServicePackage())){
+						perMounth = 12;
+					}else if("สมาชิกราย 14 เดือน".equals(bean.getServicePackage())){
+						perMounth = 14;
+					}else if("สมาชิกราย 16 เดือน".equals(bean.getServicePackage())){
+						perMounth = 16;
+					}else if("สมาชิกราย 18 เดือน".equals(bean.getServicePackage())){
+						perMounth = 18;
+					}else if("สมาชิกราย 19 เดือน".equals(bean.getServicePackage())){
+						perMounth = 19;
+					}else if("สมาชิกราย 2 เดือน".equals(bean.getServicePackage())){
+						perMounth = 2;
+					}else if("สมาชิกราย 2 ปี".equals(bean.getServicePackage())){
+						perMounth = 24;
+					}else if("สมาชิกราย 20 เดือน".equals(bean.getServicePackage())){
+						perMounth = 20;
+					}else if("สมาชิกราย 27 เดือน".equals(bean.getServicePackage())){
+						perMounth = 27;
+					}else if("สมาชิกราย 3 เดือน".equals(bean.getServicePackage())){
+						perMounth = 3;
+					}else if("สมาชิกราย 3 ปี".equals(bean.getServicePackage())){
+						perMounth = 36;
+					}else if("สมาชิกราย 4 เดือน".equals(bean.getServicePackage())){
+						perMounth = 4;
+					}else if("สมาชิกราย 5 ปี".equals(bean.getServicePackage())){
+						perMounth = 60;
+					}else if("สมาชิกราย 8 เดือน".equals(bean.getServicePackage())){
+						perMounth = 8;
+					}else if("สมาชิกราย15 เดือน".equals(bean.getServicePackage())){
+						perMounth = 15;
+					}else if("สมาชิกราย7เดือน".equals(bean.getServicePackage())){
+						perMounth = 7;
+					}else if("สมาชิกรายครึ่งปี".equals(bean.getServicePackage())){
+						perMounth = 6;
+					}else if("สมาชิกรายปี".equals(bean.getServicePackage())){
+						perMounth = 12;
+					}
+					
+					if("0.0".equals(bean.getServiceApplicationTypeCode())){
+						perMounth = 0;
+					}
+					
+					ServicePackage servicePackage = servicePackageService.getServicePackageByName(bean.getServicePackage()+"_"+bean.getBillingFee());
+					if(null != servicePackage){
+						serviceApplication.setServicePackage(servicePackage);
+					}else{
+						servicePackage = new ServicePackage();
+						servicePackage.setDeposit(0);
+						servicePackage.setFirstBillFree(0);
+						servicePackage.setFirstBillFreeDisCount(0);
+						servicePackage.setInstallationFee(0);
+						servicePackage.setActive(true);
+						servicePackage.setDeleted(false);
+						servicePackage.setMonthlyService(true);
+						servicePackage.setMonthlyServiceFee(StringUtils.isBlank(bean.getBillingFee())?0f:Float.valueOf(bean.getBillingFee()));
+						servicePackage.setOneServiceFee(0);
+						servicePackage.setPackageCode(servicePackageService.genServicePackageCode());
+						servicePackage.setPackageName(bean.getServicePackage()+"_"+bean.getBillingFee());
+						servicePackage.setPerMounth(perMounth);
+						servicePackage.setCompany(companyService.getCompanyById(1L));
+						
+						Long servicePackageTypeId = 1L; // เคเบิล
+						if(0 == perMounth){ // กล้องวงจรปิด(จากระบบเก่า)
+							servicePackageTypeId = 2L; // อินเตอร์เน็ต
+						}
+						
+						servicePackage.setServicePackageType(servicePackageTypeService.getServicePackageTypeById(servicePackageTypeId));
+						
+						TemplateService templateService = new TemplateService();
+						templateService.setAmount(0);
+						templateService.setDeleted(false);
+						templateService.setCreateDate(CURRENT_TIMESTAMP);
+						templateService.setCreatedBy("Migrate_MC");
+						
+						servicePackage.setTemplateService(templateService);
+						
+						servicePackage.setCreateDate(CURRENT_TIMESTAMP);
+						servicePackage.setCreatedBy("Migrate_MC");
+						
+						servicePackageService.save(servicePackage);
+						serviceApplication.setServicePackage(servicePackage);
+					}
+					
+					if(0 == perMounth){ // กล้องวงจรปิด(จากระบบเก่า)
 						serviceApplication.setMonthlyService(false);
 						serviceApplication.setOneServiceFee(StringUtils.isBlank(bean.getBillingFee())?0f:Float.valueOf(bean.getBillingFee()));
 					}else{
@@ -2819,23 +3046,15 @@ public class MigrateController extends BaseController{
 					serviceApplication.setFirstBillFree(0);
 					serviceApplication.setFirstBillFreeDisCount(0);
 					
-					if("PACKAGE0001".equals(bean.getServicePackage())){
-						serviceApplication.setPerMonth(1);  // สมาชิกรายเดือน(จากระบบเก่า)
-					}else if("PACKAGE0002".equals(bean.getServicePackage())){
-						serviceApplication.setPerMonth(6);  // สมาชิกรายครึ่งปี(จากระบบเก่า)
-					}else if("PACKAGE0003".equals(bean.getServicePackage())){
-						serviceApplication.setPerMonth(12); // สมาชิกรายปี(จากระบบเก่า)
-					}else {
-						serviceApplication.setPerMonth(1); // กล้องวงจรปิด(จากระบบเก่า)
-					}
+					serviceApplication.setPerMonth(perMounth);
 					
 					serviceApplication.setHouseRegistrationDocuments(Boolean.FALSE);
 					serviceApplication.setIdentityCardDocuments(Boolean.FALSE);
 					serviceApplication.setOtherDocuments(Boolean.FALSE);
 					
 					serviceApplication.setRemark(bean.getRemark());
-					if(null != bean.getServiceApplicationDate() && !"".equals(bean.getServiceApplicationDate()) && !"0000-00-00".equals(bean.getServiceApplicationDate()) ){
-						serviceApplication.setStartDate(formatData.parse(bean.getServiceApplicationDate()));
+					if(null != bean.getServiceApplicationDate() ){
+						serviceApplication.setStartDate(bean.getServiceApplicationDate());
 					}
 					
 //					serviceApplication.setPlateNumber(serviceApplicationBean.getPlateNumber());
@@ -2843,13 +3062,20 @@ public class MigrateController extends BaseController{
 //					serviceApplication.setLongitude(serviceApplicationBean.getLongitude());
 					
 					ServiceApplicationType serviceApplicationType = 
-							serviceApplicationService.getServiceApplicationTypeById(Long.valueOf(bean.getServiceApplicationType()));
+							serviceApplicationService.getServiceApplicationTypeByName(bean.getServiceApplicationType());
 					// serviceApplicationType
-					serviceApplication.setServiceApplicationType(serviceApplicationType);
-					
+					if(null != serviceApplicationType){
+						serviceApplication.setServiceApplicationType(serviceApplicationType);
+					}else{
+						serviceApplicationType = new ServiceApplicationType();
+						serviceApplicationType.setServiceApplicationTypeCode("SA"+bean.getServiceApplicationTypeCode());
+						serviceApplicationType.setServiceApplicationTypeName(bean.getServiceApplicationType());
+						serviceApplicationService.save(serviceApplicationType);
+						serviceApplication.setServiceApplicationType(serviceApplicationType);
+					}
 					serviceApplication.setDeleted(Boolean.FALSE);
 					serviceApplication.setCreateDate(CURRENT_TIMESTAMP);
-					serviceApplication.setCreatedBy("Migrate");
+					serviceApplication.setCreatedBy("Migrate_MC");
 					
 					serviceApplicationService.save(serviceApplication);
 					
@@ -2889,16 +3115,32 @@ public class MigrateController extends BaseController{
 						address.setPostcode(""+Math.round(Float.valueOf(bean.getPostcode())));
 						address.setNearbyPlaces(bean.getNearbyPlaces());
 
-						Zone zone = zoneService.getZoneByZoneDetail(bean.getZone());
+						String zoneDetail = bean.getZone(), zoneName = "";
+//						String[] zoneArray = bean.getZone().split(" ");
+//						if (zoneArray.length > 1) {
+//							zoneName = zoneArray[0];
+//							int j = 0;
+//							for (String z : zoneArray) {
+//								if ((j++) > 0) {
+//									zoneDetail = zoneDetail + " " + z;
+//								}
+//							}
+//						}
+						logger.info("zoneDetail : "+zoneDetail);
+						Zone zone = zoneService.getZoneByZoneDetail(zoneDetail);
 						if(null != zone){
 							address.setZone(zone);
 						}else{
-							zone = zoneService.getZoneByZoneDetail("ไม่ได้ระบุ");
-							if(null != zone){
-								address.setZone(zone);
-							}
+							zone = new Zone();
+							zone.setZoneDetail(zoneDetail);
+							zone.setZoneName(zoneDetail);
+							zone.setZoneType("-");
+							zone.setCreateDate(CURRENT_TIMESTAMP);
+							zone.setCreatedBy("Migrate_MC");
+							zoneService.save(zone);
+							
+							address.setZone(zone);
 						}
-						
 						address.setOverrideAddressId(1L); // อ้างอิงจากที่อยู่ 1
 						if(i==1 || i == 2){
 							address.setCustomer(customer);
@@ -2908,20 +3150,20 @@ public class MigrateController extends BaseController{
 						}
 						
 						address.setCreateDate(CURRENT_TIMESTAMP);
-						address.setCreatedBy("Migrate");
+						address.setCreatedBy("Migrate_MC");
 						addressService.save(address);	
 					}
 					
 					Worksheet worksheet = new Worksheet();
 					WorksheetSetup worksheetSetup = new WorksheetSetup();
 					worksheetSetup.setCreateDate(CURRENT_TIMESTAMP);
-					worksheetSetup.setCreatedBy("Migrate");
+					worksheetSetup.setCreatedBy("Migrate_MC");
 					worksheetSetup.setDeleted(Boolean.FALSE);
 					worksheetSetup.setWorkSheet(worksheet);
 					worksheet.setWorkSheetCode(workSheetService.genWorkSheetCode());
 					
-					if(null != bean.getDateOrderBill() && !"".equals(bean.getDateOrderBill()) && !"0000-00-00".equals(bean.getDateOrderBill())){
-						worksheet.setDateOrderBill(formatData.parse(bean.getDateOrderBill()));
+					if(null != bean.getDateOrderBill() ){
+						worksheet.setDateOrderBill(bean.getDateOrderBill());
 					}
 
 					worksheet.setServiceApplication(serviceApplication);
@@ -2929,17 +3171,17 @@ public class MigrateController extends BaseController{
 					worksheet.setStatus(messageSource.getMessage("worksheet.status.value.s", null, LocaleContextHolder.getLocale()));
 					worksheet.setWorksheetSetup(worksheetSetup);
 					worksheet.setCreateDate(CURRENT_TIMESTAMP);
-					worksheet.setCreatedBy("Migrate");
+					worksheet.setCreatedBy("Migrate_MC");
 					worksheet.setDeleted(Boolean.FALSE);
 					
 					// set historyTechnicianGroupWorks <!-- วันที่เริ่มใช้บริการ -->
-					if(null != bean.getServiceApplicationDate() && !"".equals(bean.getServiceApplicationDate()) && !"0000-00-00".equals(bean.getServiceApplicationDate())){
-						serviceApplication.setStartDate(formatData.parse(bean.getServiceApplicationDate()));
+					if(null != bean.getServiceApplicationDate() ){
+						serviceApplication.setStartDate(bean.getServiceApplicationDate());
 						List<HistoryTechnicianGroupWork> historyTechnicianGroupWorks = new ArrayList<HistoryTechnicianGroupWork>();
 						HistoryTechnicianGroupWork his = new HistoryTechnicianGroupWork();
 						his.setCreateDate(CURRENT_TIMESTAMP);
-						his.setCreatedBy("Migrate");
-						his.setAssignDate(formatData.parse(bean.getServiceApplicationDate()));
+						his.setCreatedBy("Migrate_MC");
+						his.setAssignDate(bean.getServiceApplicationDate());
 						his.setWorkSheet(worksheet);
 						historyTechnicianGroupWorks.add(his);
 						worksheet.setHistoryTechnicianGroupWorks(historyTechnicianGroupWorks);
@@ -2975,7 +3217,7 @@ public class MigrateController extends BaseController{
 					}
 					
 					productItem.setCreateDate(CURRENT_TIMESTAMP);
-					productItem.setCreatedBy("Migrate");
+					productItem.setCreatedBy("Migrate_MC");
 					productItem.setFree(Boolean.FALSE);
 					productItem.setDeleted(Boolean.FALSE);
 					productItemService.save(productItem);
@@ -2991,14 +3233,102 @@ public class MigrateController extends BaseController{
 //					productItem.setProductType("S");
 //					productItem.setDeposit(0f);
 //					productItem.setCreateDate(CURRENT_TIMESTAMP);
-//					productItem.setCreatedBy("Migrate");
+//					productItem.setCreatedBy("Migrate_MC");
 //					productItem.setFree(Boolean.FALSE);
 //					productItem.setLend(Boolean.FALSE);
 //					productItem.setDeleted(Boolean.FALSE);
 //					productItemService.save(productItem);
 					
+					// invoice
+					if(null != bean.getDatePayment()){
+						Invoice invoice = new Invoice();
+						invoice.setInvoiceCode(financialService.genInVoiceCode());
+						invoice.setServiceApplication(serviceApplication);
+						invoice.setInvoiceType("O"); //S=สำหรับติดตั้ง,R=สำหรับซ่อม,O=สำหรับตาม
+						invoice.setStatus("W"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
+						invoice.setStatusScan("N");
+						invoice.setIssueDocDate(new Date());
+						invoice.setPaymentDate(bean.getDatePayment());
+						invoice.setCreateDate(bean.getDatePayment());
+	
+						Date currentDate = new Date();
+						if(invoice.getCreateDate().before(currentDate)){
+							invoice.setStatus("O"); // O=เกินวันกำหนดชำระ 
+						}
+						
+						float amount = 0f;
+						if(serviceApplication.isMonthlyService()){
+							amount += serviceApplication.getMonthlyServiceFee();
+						}else{
+							amount += serviceApplication.getOneServiceFee();
+						}
+	
+						invoice.setAmount(amount);
+						invoice.setBilling(Boolean.FALSE);
+						invoice.setCutting(Boolean.FALSE);
+						invoice.setDeleted(Boolean.FALSE);
+						invoice.setCreatedBy("Migrate_MC");
+						financialService.saveInvoice(invoice);
+						
+						Receipt receipt = new Receipt();
+						receipt.setReceiptCode(financialService.genReceiptCode());
+						receipt.setStatus("H");
+						receipt.setInvoice(invoice);
+						receipt.setCreatedBy("Migrate_MC");
+						receipt.setCreateDate(CURRENT_TIMESTAMP);
+						receipt.setDeleted(Boolean.FALSE);
+						financialService.saveReceipt(receipt);
+					}
+					
+				}else{
+					List<ServiceApplication> serviceApplicationList = customerOld.getServiceApplications();
+					if(null != serviceApplicationList && serviceApplicationList.size() > 0){
+						serviceApplication = serviceApplicationList.get(0);
+						// invoice
+						if(null != bean.getDatePayment()){
+							Invoice invoice = new Invoice();
+							invoice.setInvoiceCode(financialService.genInVoiceCode());
+							invoice.setServiceApplication(serviceApplication);
+							invoice.setInvoiceType("O"); //S=สำหรับติดตั้ง,R=สำหรับซ่อม,O=สำหรับตาม
+							invoice.setStatus("W"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
+							invoice.setStatusScan("N");
+							invoice.setIssueDocDate(new Date());
+							invoice.setPaymentDate(bean.getDatePayment());
+							invoice.setCreateDate(bean.getDatePayment());
+		
+							Date currentDate = new Date();
+							if(invoice.getCreateDate().before(currentDate)){
+								invoice.setStatus("O"); // O=เกินวันกำหนดชำระ 
+							}
+							
+							float amount = 0f;
+							if(serviceApplication.isMonthlyService()){
+								amount += serviceApplication.getMonthlyServiceFee();
+							}else{
+								amount += serviceApplication.getOneServiceFee();
+							}
+		
+							invoice.setAmount(amount);
+							invoice.setBilling(Boolean.FALSE);
+							invoice.setCutting(Boolean.FALSE);
+							invoice.setDeleted(Boolean.FALSE);
+							invoice.setCreatedBy("Migrate_MC");
+							financialService.saveInvoice(invoice);
+							
+							Receipt receipt = new Receipt();
+							receipt.setReceiptCode(financialService.genReceiptCode());
+							receipt.setStatus("H");
+							receipt.setInvoice(invoice);
+							receipt.setCreatedBy("Migrate_MC");
+							receipt.setCreateDate(CURRENT_TIMESTAMP);
+							receipt.setDeleted(Boolean.FALSE);
+							financialService.saveReceipt(receipt);
+						}
+					}
 				}
+				
 			}
+			
 			logger.info("MigrateCustomer New Total : "+indexNew);
 			long endTime   = System.currentTimeMillis();
 			long totalTime = endTime - startTime;
@@ -3007,59 +3337,6 @@ public class MigrateController extends BaseController{
 			int hours   = (int) ((totalTime / (1000*60*60)) % 24);
 			logger.info("totalTime : "+String.format("%d hour, %d min, %d sec", hours,minutes,seconds));
 		}
-	}
-	
-	@RequestMapping(value="mergeCustomer", method = RequestMethod.POST, produces={MediaType.APPLICATION_JSON_VALUE})
-	@ResponseBody
-	public JsonResponse mergeCustomer(@RequestParam("file_MergeCustomer") final MultipartFile fileMergeCustomer,
-			HttpServletRequest request) {
-		logger.info("[method : mergeCustomer][Type : Controller]");
-		long startTime = System.currentTimeMillis();
-		JsonResponse jsonResponse = new JsonResponse();
-		if (isPermission()) {
-			try {
-				SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", new Locale("EN", "en"));
-				List<Invoice> invoiceList = financialService.findInvoiceByCreateDate();
-				if(null != invoiceList && invoiceList.size() > 0){
-					for(Invoice invoice:invoiceList){
-						ServiceApplication serviceApplication = invoice.getServiceApplication();
-						if(null != serviceApplication){
-							boolean isUpdate = true;
-							List<Invoice> invoices = serviceApplication.getInvoices();
-							for(Invoice inv:invoices){
-								Date createDate = inv.getCreateDate();
-								SimpleDateFormat formatData = new SimpleDateFormat("MM", new Locale("EN", "en"));
-								String dateStr = formatData.format(createDate);
-								if("02".equals(dateStr)){
-									isUpdate = false;
-								}
-							}
-							if(isUpdate){
-								invoice.setCreateDate(sdf.parse("05-02-2018"));
-								invoice.setUpdatedBy("UpdateBill");
-								invoice.setUpdatedDate(CURRENT_TIMESTAMP);
-								financialService.updateInvoice(invoice);
-							}
-						}
-					}
-				}
-				jsonResponse.setError(false);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				jsonResponse.setMessage(ex.getMessage());
-				jsonResponse.setError(true);
-			}
-		} else {
-			jsonResponse.setError(true);
-		}
-		long endTime   = System.currentTimeMillis();
-		long totalTime = endTime - startTime;
-		int seconds = (int) (totalTime / 1000) % 60 ;
-		int minutes = (int) ((totalTime / (1000*60)) % 60);
-		int hours   = (int) ((totalTime / (1000*60*60)) % 24);
-		logger.info("mergeCustomer totalTime : "+String.format("%d hour, %d min, %d sec", hours,minutes,seconds));
-		generateAlert(jsonResponse, request, messageSource.getMessage("alert.title.save.success", null, LocaleContextHolder.getLocale()), messageSource.getMessage("migrate.success", null, LocaleContextHolder.getLocale()));
-		return jsonResponse;
 	}
 	
 	private void processMergeCustomer(Map<String, List<Customer>> map) throws Exception {
@@ -3119,1169 +3396,6 @@ public class MigrateController extends BaseController{
 			}
 		}
 		logger.info("countMerge : "+countMerge);
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateMenuReport(Workbook workbook) throws Exception {
-		int sheetIndex = 0;
-		int intRow = 0;
-	    
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 1) {
-				String menuReportCode = getDataString(workbook, sheetIndex, "A", intRow);
-				String menuReportName = getDataString(workbook, sheetIndex, "B", intRow);
-				
-				logger.info("menuReportCode : "+menuReportCode);
-				logger.info("menuReportName : "+menuReportName);
-				
-				MenuReport menuReport = unitService.getMenuReportByName(menuReportName);
-				if(null==menuReport){
-					menuReport = new MenuReport();
-					menuReport.setMenuReportName(menuReportName);
-					menuReport.setMenuReportCode(menuReportCode);
-					menuReport.setCreateDate(CURRENT_TIMESTAMP);
-					menuReport.setCreatedBy("MigrateEasyNet");
-					unitService.save(menuReport);
-				}else{
-					logger.info("not null");
-				}
-				
-			}
-
-		}
-		
-		logger.info("================== END ====================");
-		
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateTypeAdd_EasyNet(Workbook workbook) throws Exception {
-		int sheetIndex = 0;
-		int intRow = 0;
-	    
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 1) {
-				String customerFeatureCode = getDataString(workbook, sheetIndex, "A", intRow);
-				String customerFeatureName = getDataString(workbook, sheetIndex, "B", intRow);
-				
-				logger.info("customerFeatureCode : "+customerFeatureCode);
-				logger.info("customerFeatureName : "+customerFeatureName);
-				
-				CustomerFeature customerFeature = customerService.findCustomerFeatureByCustomerFeatureName(customerFeatureName);
-				if(null==customerFeature){
-					customerFeature = new CustomerFeature();
-					customerFeature.setCustomerFeatureName(customerFeatureName);
-					customerFeature.setCustomerFeatureCode(customerFeatureCode);
-					customerService.save(customerFeature);
-				}else{
-					logger.info("customerFeature not null");
-				}
-				
-			}
-
-		}
-		
-		logger.info("================== END ====================");
-		
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateTypePay_EasyNet(Workbook workbook) throws Exception {
-	String[] servicePackageTypeNameArray = {"wifi เหมาจ่าย", "ลูกค้าเคเบิล", "wifi ร่วมเก็บ", "ลูกค้าเคเบิลอาคาร", "FTTX", "Lan to Room", "EOC", "FTTxท่อine", "JBP ร่วมเก็บ", "Line@"};
-	String[] servicePackageTypeCodeArray = {"C001", "H001", "R001", "K001", "SU01", "L001", "E001", "I001", "J001", "L002"};
-	
-		int i = 0;
-		for(String packageTypeName:servicePackageTypeNameArray){
-			ServicePackageType servicePackageType = servicePackageTypeService.getServicePackageTypeByPackageTypeName(packageTypeName);
-			if(null == servicePackageType){
-				servicePackageType = new ServicePackageType();
-				servicePackageType.setPackageTypeName(packageTypeName);
-				servicePackageType.setDescription("-");
-				servicePackageType.setPackageTypeCode(servicePackageTypeCodeArray[i++]);
-				servicePackageType.setCreateDate(CURRENT_TIMESTAMP);
-				servicePackageType.setCreatedBy("MigrateEasyNet");
-				servicePackageTypeService.save(servicePackageType);
-			}
-		}
-		
-		int sheetIndex = 0;
-		int intRow = 0;
-
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 1) {
-				String packageCode = getDataString(workbook, sheetIndex, "A", intRow);
-				String packageName = getDataString(workbook, sheetIndex, "B", intRow);
-				String description = getDataString(workbook, sheetIndex, "P", intRow);
-				double timepay = getDataDouble(workbook, sheetIndex, "H", intRow);
-				double price = getDataDouble(workbook, sheetIndex, "E", intRow);
-				String packageTypeName = "";
-						
-//				String m1 = "--------";
-//				Pattern pattern = Pattern.compile(m1);
-//				Matcher matcher = pattern.matcher(packageTypeName);
-//				if(matcher.lookingAt()){
-//					packageTypeName = "-";
-//				}
-				
-				if(packageName.contains("JBP")){
-					packageTypeName = servicePackageTypeNameArray[8];
-				}else if(packageCode.contains("C")){
-					packageTypeName = servicePackageTypeNameArray[0];
-				}else if(packageCode.contains("H")){
-					packageTypeName = servicePackageTypeNameArray[1];
-				}else if(packageCode.contains("R")){
-					packageTypeName = servicePackageTypeNameArray[2];
-				}else if(packageCode.contains("K")){
-					packageTypeName = servicePackageTypeNameArray[3];
-				}else if(packageCode.contains("S") || packageCode.contains("U")){
-					packageTypeName = servicePackageTypeNameArray[4];
-				}else if(packageCode.contains("L")){
-					packageTypeName = servicePackageTypeNameArray[5];
-				}else if(packageCode.contains("E")){
-					packageTypeName = servicePackageTypeNameArray[6];
-				}else if(packageCode.contains("I")){
-					packageTypeName = servicePackageTypeNameArray[7];
-				}else if(packageCode.contains("A")){
-					packageTypeName = servicePackageTypeNameArray[9];
-				}
-				
-				ServicePackageType servicePackageType = servicePackageTypeService.getServicePackageTypeByPackageTypeName(packageTypeName);
-				
-				if (null != servicePackageType) {
-					ServicePackage servicePackage = new ServicePackage();
-					servicePackage.setPackageCode(packageCode);
-					servicePackage.setPackageName(packageName);
-					servicePackage.setActive(Boolean.TRUE);
-					servicePackage.setDeleted(Boolean.FALSE);
-					servicePackage.setCreateDate(CURRENT_TIMESTAMP);
-					// change when LoginController success ------>
-					servicePackage.setCreatedBy("MigrateEasyNet");
-					servicePackage.setInstallationFee(0);
-					servicePackage.setDeposit(0);
-
-					if (0 != timepay) {
-						servicePackage.setMonthlyServiceFee((float) price);
-						servicePackage.setPerMounth((int) timepay);
-						servicePackage.setFirstBillFree(0);
-						servicePackage.setFirstBillFreeDisCount(0);
-						servicePackage.setMonthlyService(true);
-					} else {
-						servicePackage.setOneServiceFee((float) price);
-					}
-					// company
-					Company company = companyService.getCompanyById(1L);
-					servicePackage.setCompany(company);
-					// package type
-					servicePackage.setServicePackageType(servicePackageType);
-					servicePackageService.save(servicePackage);
-				}
-				
-			}
-
-		}
-		
-		logger.info("================== END ====================");
-		
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateTypePay_EasyNet_Price(Workbook workbook) throws Exception {
-		Company company = companyService.getCompanyById(1L);
-		int sheetIndex = 0;
-		int intRow = 0;
-		double price = 0;
-		double notVat = 0;
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 1) {
-				String packageCode = getDataString(workbook, sheetIndex, "A", intRow);
-				String packageName = getDataString(workbook, sheetIndex, "B", intRow);
-				String description = getDataString(workbook, sheetIndex, "P", intRow);
-				double timepay = getDataDouble(workbook, sheetIndex, "H", intRow);
-				price = getDataDouble(workbook, sheetIndex, "E", intRow);
-				String packageTypeName = "";
-				
-				ServicePackage servicePackage = servicePackageService.getServicePackageByCode(packageCode);
-				
-				if (null != servicePackage) {
-					
-					double vat = 7, resultVat = 0;
-					if(null != company){
-						vat = company.getVat();
-					}
-					
-					resultVat = (price*vat) / (100 + vat);
-					if(price > resultVat){
-						notVat = price-(resultVat);
-					}
-					
-					if (0 != timepay) {
-						servicePackage.setMonthlyServiceFee((float) notVat);
-						servicePackage.setPerMounth((int) timepay);
-						servicePackage.setFirstBillFree(0);
-						servicePackage.setFirstBillFreeDisCount(0);
-						servicePackage.setMonthlyService(true);
-					} else {
-						servicePackage.setOneServiceFee((float) notVat);
-					}
-					
-					servicePackageService.update(servicePackage);
-				}
-				
-			}
-
-		}
-		
-		// update price in serviceApplicationService
-		List<ServiceApplication> serviceApplications = serviceApplicationService.findAlls();
-		if(null != serviceApplications && serviceApplications.size() > 0){
-			for(ServiceApplication serviceApplication:serviceApplications){
-				ServicePackage servicePackage = serviceApplication.getServicePackage();
-				float serviceFree = 0;
-				if(null != servicePackage){
-					boolean isMonthlyService = servicePackage.isMonthlyService();
-					if(isMonthlyService){
-						serviceFree = servicePackage.getMonthlyServiceFee();
-						serviceApplication.setMonthlyServiceFee(serviceFree);
-					}else{
-						serviceFree = servicePackage.getOneServiceFee();
-						serviceApplication.setOneServiceFee(serviceFree);
-					}
-					serviceApplicationService.update(serviceApplication);
-				}
-				// update invoice
-				List<Invoice> invoiceList = serviceApplication.getInvoices();
-				if(null != invoiceList && invoiceList.size() > 0){
-					for(Invoice invoice:invoiceList){
-						String invoiceType = invoice.getInvoiceType();
-						if("O".equals(invoiceType)){
-							if("S".equals(invoice.getStatus())){
-								double vat = (serviceFree*(company.getVat()/100));
-								invoice.setAmount((float)(serviceFree+vat));
-							}else{
-								invoice.setAmount(serviceFree);
-							}
-							
-						}
-						financialService.updateInvoice(invoice);
-					}
-				}
-				
-			}
-		}
-		
-		
-		
-		logger.info("================== END ====================");
-		
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateCustomer1_EasyNet(Workbook workbook) throws Exception {
-		int sheetIndex = 0;
-		int intRow = 0;
-		ServicePackageType servicePackageType = new ServicePackageType();
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 1) {
-				String custCode = getDataString(workbook, sheetIndex, "A", intRow);
-				String sex = getDataString(workbook, sheetIndex, "F", intRow);
-				String prefix = getDataString(workbook, sheetIndex, "D", intRow);
-				String fullName = getDataString(workbook, sheetIndex, "E", intRow);
-				String[] fullNameArray = fullName.split(" ");
-				String mobile1 = getDataString(workbook, sheetIndex, "J", intRow);
-				String mobile2 = getDataString(workbook, sheetIndex, "K", intRow);
-				if(StringUtils.isBlank(mobile1)){
-					mobile1 = mobile2;
-				}else{
-					if(StringUtils.isNotBlank(mobile2)){
-						mobile1 = mobile1 + "," + mobile2;
-					}
-				}
-				String fax = getDataString(workbook, sheetIndex, "L", intRow);
-				String customerFeatureCode = getDataString(workbook, sheetIndex, "I", intRow);
-				String address1 = getDataString(workbook, sheetIndex, "G", intRow);
-				String address2 = getDataString(workbook, sheetIndex, "H", intRow);
-				
-//				logger.info("packageTypeCode : "+packageTypeCode);
-//				logger.info("packageTypeName : "+packageTypeName);
-//				logger.info("description : "+description);
-				
-				if(StringUtils.isNotBlank(custCode)){
-					Customer customer = new Customer();
-					customer.setCustCode(custCode);
-					customer.setSex(sex.equals("TRUE")?"male":"female");
-					customer.setPrefix(prefix);
-					customer.setFirstName(fullNameArray.length>=1?fullNameArray[0]:"");
-					
-					String lastName = "";
-					int index = 0;
-					for(String lname:fullNameArray){
-						if((index++)>0){
-							lastName = lastName + " " + lname;
-						}
-					}
-					customer.setLastName(lastName);
-					customer.setCustType("I");
-					customer.setIdentityNumber("");
-					
-					Career career = customerService.findCareerByCareerName("อื่นๆ");
-					if(null != career){
-						customer.setCareer(career);
-					}
-	
-					Contact contact = new Contact();
-					contact.setMobile(mobile1);
-					contact.setFax(fax);
-					contact.setEmail("");
-					contact.setCreateDate(CURRENT_TIMESTAMP);
-					contact.setCreatedBy("MigrateEasyNet");
-					contact.setCustomer(customer);
-					customer.setContact(contact);
-					
-					//customerFeature
-					CustomerFeature customerFeature = customerService.findCustomerFeatureByCustomerFeatureCode(customerFeatureCode);
-					if(null != customerFeature){
-						customer.setCustomerFeature(customerFeature);
-					}else{
-						customerFeature = customerService.findCustomerFeatureById(1L);
-						customer.setCustomerFeature(customerFeature);
-					}
-					
-					customer.setCreateDate(new Date());
-					customer.setCreatedBy("MigrateEasyNet");
-					customer.setDeleted(Boolean.FALSE);
-					customer.setActive(Boolean.TRUE);
-										
-					customerService.save(customer);
-					
-					// ต.บางตลาด อ.ปากเกร็ด จ.นนทบุรี 11120
-					// ต.ท่าทราย อ.เมือง จ.นนทบุรี 11000
-					// ต.ปากเกร็ด อ.ปากเกร็ด จ. นนทบุรี 11120
-					// ต.บางกระสอ อ.เมือง จ.นนทบุรี 11000
-					
-					Long provinceById = 3L;
-					Long amphurById = 0L;
-					Long districtById = 0L;
-					String postcode = "";
-					
-					if("ต.ท่าทราย อ.เมือง จ.นนทบุรี 11000".equals(address2)){ // ต.ท่าทราย อ.เมือง จ.นนทบุรี 11000
-						amphurById = 58L;
-						districtById = 305L;
-						postcode = "11000";
-					}else if("ต.ปากเกร็ด อ.ปากเกร็ด จ. นนทบุรี 11120".equals(address2)){ // ต.ปากเกร็ด อ.ปากเกร็ด จ. นนทบุรี 11120
-						amphurById = 63L;
-						districtById = 341L;
-						postcode = "11120";
-					}else if("ต.บางกระสอ อ.เมือง จ.นนทบุรี 11000".equals(address2)){ // ต.บางกระสอ อ.เมือง จ.นนทบุรี 11000
-						amphurById = 58L;
-						districtById = 304L;
-						postcode = "11000";
-					}else{ // ต.บางตลาด อ.ปากเกร็ด จ.นนทบุรี 11120
-						amphurById = 63L;
-						districtById = 342L;
-						postcode = "11120";
-						contact.setEmail("ตรวจสอบที่อยู่");
-					}
-					
-					for(int i = 1; i <= 2; i++){
-						Address address = new Address();
-						address.setAddressType(""+i);
-						address.setNo(address1);
-						
-						Province provinceModel = addressService.getProvinceById(provinceById);
-						address.setProvinceModel(provinceModel);
-						
-						Amphur amphur = addressService.getAmphurById(amphurById);
-						address.setAmphur(amphur);
-						
-						District districtModel = addressService.getDistrictById(districtById);
-						address.setDistrictModel(districtModel);
-						
-						address.setPostcode(postcode);
-						
-						address.setNearbyPlaces(address2);
-
-						Zone zone = zoneService.getZoneByZoneDetail("ไม่ได้ระบุ");
-						if(null != zone){
-							address.setZone(zone);
-						}
-						
-						address.setOverrideAddressId(1L); // อ้างอิงจากที่อยู่ 1
-						if(i==1 || i == 2){
-							address.setCustomer(customer);
-						}
-						
-						address.setCreateDate(CURRENT_TIMESTAMP);
-						address.setCreatedBy("MigrateEasyNet");
-						addressService.save(address);	
-					}
-					
-				}
-				
-			}
-
-		}
-		
-		logger.info("================== END ====================");
-		
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateCustomer2_EasyNet(Workbook workbook) throws Exception {
-		int sheetIndex = 0;
-		int intRow = 0;
-		ServicePackageType servicePackageType = new ServicePackageType();
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 1) {
-				String custCode = getDataString(workbook, sheetIndex, "A", intRow);
-				String packageTypeCode = getDataString(workbook, sheetIndex, "K", intRow);
-				Date startDate = getDataDate(workbook, sheetIndex, "R", intRow);
-//				double timepay = getDataDouble(workbook, sheetIndex, "H", intRow);
-//				double price = getDataDouble(workbook, sheetIndex, "E", intRow);
-				
-				if("58TM1737".equals(custCode)){
-					logger.info("=================");
-				}
-				if(StringUtils.isNotBlank(custCode)){
-										
-					Customer customer = customerService.getCustomerByCustCode(custCode);
-					
-					if(null != customer){
-					
-					ServiceApplication serviceApplication = new ServiceApplication();
-//					serviceApplication.setRemarkOtherDocuments(bean.getRemark());
-					serviceApplication.setServiceApplicationNo(serviceApplicationService.genServiceApplicationCode());
-					serviceApplication.setCustomer(customer);
-					serviceApplication.setStatus("A");
-//					serviceApplication.setPlat(bean.getPlat());
-					
-					ServicePackage servicePackage = servicePackageService.getServicePackageByCode(packageTypeCode);
-					if(null==servicePackage) continue;
-					serviceApplication.setServicePackage(servicePackage);
-					
-//					serviceApplication.setEasyInstallationDateTime(serviceApplicationBean.getEasyInstallationDateTime());
-					
-					if(servicePackage.getPerMounth() == 0){
-						serviceApplication.setMonthlyService(false);
-						serviceApplication.setOneServiceFee(servicePackage.getOneServiceFee());
-					}else{
-						serviceApplication.setMonthlyService(true); // รายเดือน
-						serviceApplication.setMonthlyServiceFee(servicePackage.getMonthlyServiceFee());
-					}
-					
-					serviceApplication.setInstallationFee(servicePackage.getInstallationFee());
-					serviceApplication.setDeposit(servicePackage.getDeposit());
-					serviceApplication.setFirstBillFree(servicePackage.getFirstBillFree());
-					serviceApplication.setFirstBillFreeDisCount(servicePackage.getFirstBillFreeDisCount());
-					serviceApplication.setPerMonth(servicePackage.getPerMounth());
-					serviceApplication.setHouseRegistrationDocuments(Boolean.FALSE);
-					serviceApplication.setIdentityCardDocuments(Boolean.FALSE);
-					serviceApplication.setOtherDocuments(Boolean.FALSE);
-					
-					serviceApplication.setRemark("");
-					
-					serviceApplication.setStartDate(startDate);
-					
-//					serviceApplication.setPlateNumber(serviceApplicationBean.getPlateNumber());
-//					serviceApplication.setLatitude(serviceApplicationBean.getLatitude());
-//					serviceApplication.setLongitude(serviceApplicationBean.getLongitude());
-					
-					Long serviceApplicationTypeId = 0L;
-					int per = servicePackage.getPerMounth();
-					if(per == 1){
-						serviceApplicationTypeId = 1L;
-					}else if(per == 6){
-						serviceApplicationTypeId = 2L;
-					}else if(per == 12){
-						serviceApplicationTypeId = 3L;
-					}else{
-						serviceApplicationTypeId = 6L;
-					}
-					
-					ServiceApplicationType serviceApplicationType = 
-							serviceApplicationService.getServiceApplicationTypeById(serviceApplicationTypeId);
-					// serviceApplicationType
-					serviceApplication.setServiceApplicationType(serviceApplicationType);
-					
-					serviceApplication.setDeleted(Boolean.FALSE);
-					serviceApplication.setCreateDate(CURRENT_TIMESTAMP);
-					serviceApplication.setCreatedBy("MigrateEasyNet");
-					
-					serviceApplicationService.save(serviceApplication);
-					
-					List<Address> addressCustomer = customer.getAddresses();
-					Address addressMain = new Address();
-					if(null != addressCustomer ){
-						for(Address address:addressCustomer){
-							addressMain = address;
-							address.setServiceApplication(serviceApplication);
-							address.setUpdatedBy("MigrateEasyNet");
-							addressService.update(address);
-						}
-					}
-					
-					for(int i = 3; i <= 5; i++){
-						Address address = new Address();
-						address.setAddressType(""+i);
-						address.setNo(addressMain.getNo());
-						
-						Province provinceModel = addressService.getProvinceById(addressMain.getProvinceModel().getId());
-						address.setProvinceModel(provinceModel);
-						
-						Amphur amphur = addressService.getAmphurById(addressMain.getAmphur().getId());
-						address.setAmphur(amphur);
-						
-						District districtModel = addressService.getDistrictById(addressMain.getDistrictModel().getId());
-						address.setDistrictModel(districtModel);
-						
-						address.setPostcode(addressMain.getPostcode());
-
-						address.setNearbyPlaces(addressMain.getNearbyPlaces());
-						
-						Zone zone = zoneService.getZoneByZoneDetail("ไม่ได้ระบุ");
-						if(null != zone){
-							address.setZone(zone);
-						}
-						
-						address.setOverrideAddressId(1L); // อ้างอิงจากที่อยู่ 1
-						if(i==3 || i == 4 || i == 5){
-							address.setServiceApplication(serviceApplication);
-						}
-						
-						address.setCreateDate(CURRENT_TIMESTAMP);
-						address.setCreatedBy("MigrateEasyNet");
-						addressService.save(address);	
-					}
-					
-					Worksheet worksheet = new Worksheet();
-					WorksheetSetup worksheetSetup = new WorksheetSetup();
-					worksheetSetup.setCreateDate(CURRENT_TIMESTAMP);
-					worksheetSetup.setCreatedBy("MigrateEasyNet");
-					worksheetSetup.setDeleted(Boolean.FALSE);
-					worksheetSetup.setWorkSheet(worksheet);
-					worksheet.setWorkSheetCode(workSheetService.genWorkSheetCode());
-					
-					if(null != startDate && !"".equals(startDate) && !"0000-00-00".equals(startDate)){
-						Date dateOrderBill = startDate;
-						Calendar calDateGenBill = Calendar.getInstance(new Locale("EN", "en"));
-						calDateGenBill.setTime(dateOrderBill);
-						int day = calDateGenBill.get(Calendar.DAY_OF_MONTH);
-						calDateGenBill.add(Calendar.DAY_OF_MONTH, -day);
-						calDateGenBill.add(Calendar.DAY_OF_MONTH, 5);
-						worksheet.setDateOrderBill(calDateGenBill.getTime());
-					}
-
-					worksheet.setServiceApplication(serviceApplication);
-					worksheet.setWorkSheetType(messageSource.getMessage("worksheet.type.cable.setup", null, LocaleContextHolder.getLocale()));
-					worksheet.setStatus(messageSource.getMessage("worksheet.status.value.s", null, LocaleContextHolder.getLocale()));
-					worksheet.setWorksheetSetup(worksheetSetup);
-					worksheet.setCreateDate(CURRENT_TIMESTAMP);
-					worksheet.setCreatedBy("MigrateEasyNet");
-					worksheet.setDeleted(Boolean.FALSE);
-					
-					// set historyTechnicianGroupWorks <!-- วันที่เริ่มใช้บริการ -->
-					if(null != startDate && !"".equals(startDate) && !"0000-00-00".equals(startDate)){
-						serviceApplication.setStartDate(startDate);
-						List<HistoryTechnicianGroupWork> historyTechnicianGroupWorks = new ArrayList<HistoryTechnicianGroupWork>();
-						HistoryTechnicianGroupWork his = new HistoryTechnicianGroupWork();
-						his.setCreateDate(CURRENT_TIMESTAMP);
-						his.setCreatedBy("MigrateEasyNet");
-						Date dateOrderBill = startDate;
-						Calendar calDateGenBill = Calendar.getInstance(new Locale("EN", "en"));
-						calDateGenBill.setTime(dateOrderBill);
-						int day = calDateGenBill.get(Calendar.DAY_OF_MONTH);
-						calDateGenBill.add(Calendar.DAY_OF_MONTH, -day);
-						calDateGenBill.add(Calendar.DAY_OF_MONTH, 5);
-						his.setAssignDate(calDateGenBill.getTime());
-						his.setWorkSheet(worksheet);
-						historyTechnicianGroupWorks.add(his);
-						worksheet.setHistoryTechnicianGroupWorks(historyTechnicianGroupWorks);
-					}
-					
-					//save worksheet
-					workSheetService.save(worksheet);
-					
-//					ProductItem productItem = new ProductItem();
-//					productItem.setServiceProduct(serviceProductService.getSerivceProductByCode("00002")); // ค่าติดตั้งจุด Digital
-//					productItem.setServiceApplication(serviceApplication);
-//					productItem.setWorkSheet(worksheet);
-////					productItem.setQuantity(StringUtils.isBlank(bean.getDigitalPoint())?0:Math.round(Float.valueOf(bean.getDigitalPoint())));
-//					productItem.setQuantity(StringUtils.isBlank(bean.getTotalPoint())?0:Math.round(Float.valueOf(bean.getTotalPoint())));
-//					productItem.setPrice(StringUtils.isBlank(bean.getDigitalPrice())?0f:Float.valueOf(bean.getDigitalPrice()));
-//					productItem.setAmount(StringUtils.isBlank(bean.getDigitalPrice())?0f:Float.valueOf(bean.getDigitalPrice()));
-//					productItem.setProductTypeMatch("O");
-//					productItem.setProductType("S");
-//					productItem.setDeposit(0f);
-//					
-//					logger.info("Name : "+bean.getFirstName()+" "+bean.getLastName());
-//					logger.info("StatusDigital : "+bean.getStatusDigital());
-//					productItem.setIs_Deposit(false);
-//					if("มัดจำ".equals(bean.getStatusDigital())){
-//						productItem.setIs_Deposit(true);
-//					}else if("ยืม".equals(bean.getStatusDigital())){																																																																																																																																																																																													
-//						productItem.setLend(true);
-//					} // ถ้า Deposit และ Lend เท่ากับ false สถานะเท่ากันขายขาด
-//					
-//					// วันที่ติดตั้ง Digital
-//					if(null != bean.getInstallDigital() && !"".equals(bean.getInstallDigital()) && !"0000-00-00".equals(bean.getInstallDigital())){
-//						productItem.setInstallDigital(formatData.parse(bean.getInstallDigital()));
-//					}
-//					
-//					productItem.setCreateDate(CURRENT_TIMESTAMP);
-//					productItem.setCreatedBy("Migrate");
-//					productItem.setFree(Boolean.FALSE);
-//					productItem.setDeleted(Boolean.FALSE);
-//					productItemService.save(productItem);
-					
-//					productItem = new ProductItem();
-//					productItem.setServiceProduct(serviceProductService.getSerivceProductByCode("00003")); // ค่าติดตั้งจุด Analog
-//					productItem.setServiceApplication(serviceApplication);
-//					productItem.setWorkSheet(worksheet);
-//					productItem.setQuantity(StringUtils.isBlank(bean.getAnalogPoint())?0:Math.round(Float.valueOf(bean.getAnalogPoint())));
-//					productItem.setPrice(StringUtils.isBlank(bean.getAnalogPrice())?0f:Float.valueOf(bean.getAnalogPrice()));
-//					productItem.setAmount(StringUtils.isBlank(bean.getAnalogPrice())?0f:Float.valueOf(bean.getAnalogPrice()));
-//					productItem.setProductTypeMatch("O");
-//					productItem.setProductType("S");
-//					productItem.setDeposit(0f);
-//					productItem.setCreateDate(CURRENT_TIMESTAMP);
-//					productItem.setCreatedBy("Migrate");
-//					productItem.setFree(Boolean.FALSE);
-//					productItem.setLend(Boolean.FALSE);
-//					productItem.setDeleted(Boolean.FALSE);
-//					productItemService.save(productItem);
-					
-					}
-				}
-				
-			}
-
-		}
-		
-		logger.info("================== END ====================");
-		
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateCustomer3_EasyNet(Workbook workbook) throws Exception {
-		int sheetIndex = 0;
-		int intRow = 0;
-		ServicePackageType servicePackageType = new ServicePackageType();
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 1) {
-				String custCode = getDataString(workbook, sheetIndex, "E", intRow);
-				String packageTypeCode = getDataString(workbook, sheetIndex, "K", intRow);
-				Date startDate = getDataDate(workbook, sheetIndex, "R", intRow);
-//				double timepay = getDataDouble(workbook, sheetIndex, "H", intRow);
-//				double price = getDataDouble(workbook, sheetIndex, "E", intRow);
-				
-				if("58TM1737".equals(custCode)){
-					logger.info("=================");
-				}
-				if(StringUtils.isNotBlank(custCode)){
-										
-					Customer customer = customerService.getCustomerByCustCode(custCode);
-					
-					if(null != customer){
-					
-					ServiceApplication serviceApplication = new ServiceApplication();
-//					serviceApplication.setRemarkOtherDocuments(bean.getRemark());
-					serviceApplication.setServiceApplicationNo(serviceApplicationService.genServiceApplicationCode());
-					serviceApplication.setCustomer(customer);
-					serviceApplication.setStatus("A");
-//					serviceApplication.setPlat(bean.getPlat());
-					
-					ServicePackage servicePackage = servicePackageService.getServicePackageByCode(packageTypeCode);
-					if(null==servicePackage) servicePackage = servicePackageService.getServicePackageByCode("A0001");
-					serviceApplication.setServicePackage(servicePackage);
-					
-//					serviceApplication.setEasyInstallationDateTime(serviceApplicationBean.getEasyInstallationDateTime());
-					
-					if(servicePackage.getPerMounth() == 0){
-						serviceApplication.setMonthlyService(false);
-						serviceApplication.setOneServiceFee(servicePackage.getOneServiceFee());
-					}else{
-						serviceApplication.setMonthlyService(true); // รายเดือน
-						serviceApplication.setMonthlyServiceFee(servicePackage.getMonthlyServiceFee());
-					}
-					
-					serviceApplication.setInstallationFee(servicePackage.getInstallationFee());
-					serviceApplication.setDeposit(servicePackage.getDeposit());
-					serviceApplication.setFirstBillFree(servicePackage.getFirstBillFree());
-					serviceApplication.setFirstBillFreeDisCount(servicePackage.getFirstBillFreeDisCount());
-					serviceApplication.setPerMonth(servicePackage.getPerMounth());
-					serviceApplication.setHouseRegistrationDocuments(Boolean.FALSE);
-					serviceApplication.setIdentityCardDocuments(Boolean.FALSE);
-					serviceApplication.setOtherDocuments(Boolean.FALSE);
-					
-					serviceApplication.setRemark("");
-					
-					serviceApplication.setStartDate(startDate);
-					
-//					serviceApplication.setPlateNumber(serviceApplicationBean.getPlateNumber());
-//					serviceApplication.setLatitude(serviceApplicationBean.getLatitude());
-//					serviceApplication.setLongitude(serviceApplicationBean.getLongitude());
-					
-					Long serviceApplicationTypeId = 0L;
-					int per = servicePackage.getPerMounth();
-					if(per == 1){
-						serviceApplicationTypeId = 1L;
-					}else if(per == 6){
-						serviceApplicationTypeId = 2L;
-					}else if(per == 12){
-						serviceApplicationTypeId = 3L;
-					}else{
-						serviceApplicationTypeId = 6L;
-					}
-					
-					ServiceApplicationType serviceApplicationType = 
-							serviceApplicationService.getServiceApplicationTypeById(serviceApplicationTypeId);
-					// serviceApplicationType
-					serviceApplication.setServiceApplicationType(serviceApplicationType);
-					
-					serviceApplication.setDeleted(Boolean.FALSE);
-					serviceApplication.setCreateDate(CURRENT_TIMESTAMP);
-					serviceApplication.setCreatedBy("MigrateEasyNet");
-					
-					serviceApplicationService.save(serviceApplication);
-					
-					List<Address> addressCustomer = customer.getAddresses();
-					Address addressMain = new Address();
-					if(null != addressCustomer ){
-						for(Address address:addressCustomer){
-							addressMain = address;
-							address.setServiceApplication(serviceApplication);
-							address.setUpdatedBy("MigrateEasyNet");
-							addressService.update(address);
-						}
-					}
-					
-					for(int i = 3; i <= 5; i++){
-						Address address = new Address();
-						address.setAddressType(""+i);
-						address.setNo(addressMain.getNo());
-						
-						Province provinceModel = addressService.getProvinceById(addressMain.getProvinceModel().getId());
-						address.setProvinceModel(provinceModel);
-						
-						Amphur amphur = addressService.getAmphurById(addressMain.getAmphur().getId());
-						address.setAmphur(amphur);
-						
-						District districtModel = addressService.getDistrictById(addressMain.getDistrictModel().getId());
-						address.setDistrictModel(districtModel);
-						
-						address.setPostcode(addressMain.getPostcode());
-
-						address.setNearbyPlaces(addressMain.getNearbyPlaces());
-						
-						Zone zone = zoneService.getZoneByZoneDetail("ไม่ได้ระบุ");
-						if(null != zone){
-							address.setZone(zone);
-						}
-						
-						address.setOverrideAddressId(1L); // อ้างอิงจากที่อยู่ 1
-						if(i==3 || i == 4 || i == 5){
-							address.setServiceApplication(serviceApplication);
-						}
-						
-						address.setCreateDate(CURRENT_TIMESTAMP);
-						address.setCreatedBy("MigrateEasyNet");
-						addressService.save(address);	
-					}
-					
-					Worksheet worksheet = new Worksheet();
-					WorksheetSetup worksheetSetup = new WorksheetSetup();
-					worksheetSetup.setCreateDate(CURRENT_TIMESTAMP);
-					worksheetSetup.setCreatedBy("MigrateEasyNet");
-					worksheetSetup.setDeleted(Boolean.FALSE);
-					worksheetSetup.setWorkSheet(worksheet);
-					worksheet.setWorkSheetCode(workSheetService.genWorkSheetCode());
-					
-					if(null != startDate && !"".equals(startDate) && !"0000-00-00".equals(startDate)){
-						Date dateOrderBill = startDate;
-						Calendar calDateGenBill = Calendar.getInstance(new Locale("EN", "en"));
-						calDateGenBill.setTime(dateOrderBill);
-						int day = calDateGenBill.get(Calendar.DAY_OF_MONTH);
-						calDateGenBill.add(Calendar.DAY_OF_MONTH, -day);
-						calDateGenBill.add(Calendar.DAY_OF_MONTH, 5);
-						worksheet.setDateOrderBill(calDateGenBill.getTime());
-					}
-
-					worksheet.setServiceApplication(serviceApplication);
-					worksheet.setWorkSheetType(messageSource.getMessage("worksheet.type.cable.setup", null, LocaleContextHolder.getLocale()));
-					worksheet.setStatus(messageSource.getMessage("worksheet.status.value.s", null, LocaleContextHolder.getLocale()));
-					worksheet.setWorksheetSetup(worksheetSetup);
-					worksheet.setCreateDate(CURRENT_TIMESTAMP);
-					worksheet.setCreatedBy("MigrateEasyNet");
-					worksheet.setDeleted(Boolean.FALSE);
-					
-					// set historyTechnicianGroupWorks <!-- วันที่เริ่มใช้บริการ -->
-					if(null != startDate && !"".equals(startDate) && !"0000-00-00".equals(startDate)){
-						serviceApplication.setStartDate(startDate);
-						List<HistoryTechnicianGroupWork> historyTechnicianGroupWorks = new ArrayList<HistoryTechnicianGroupWork>();
-						HistoryTechnicianGroupWork his = new HistoryTechnicianGroupWork();
-						his.setCreateDate(CURRENT_TIMESTAMP);
-						his.setCreatedBy("MigrateEasyNet");
-						Date dateOrderBill = startDate;
-						Calendar calDateGenBill = Calendar.getInstance(new Locale("EN", "en"));
-						calDateGenBill.setTime(dateOrderBill);
-						int day = calDateGenBill.get(Calendar.DAY_OF_MONTH);
-						calDateGenBill.add(Calendar.DAY_OF_MONTH, -day);
-						calDateGenBill.add(Calendar.DAY_OF_MONTH, 5);
-						his.setAssignDate(calDateGenBill.getTime());
-						his.setWorkSheet(worksheet);
-						historyTechnicianGroupWorks.add(his);
-						worksheet.setHistoryTechnicianGroupWorks(historyTechnicianGroupWorks);
-					}
-					
-					//save worksheet
-					workSheetService.save(worksheet);
-					
-//					ProductItem productItem = new ProductItem();
-//					productItem.setServiceProduct(serviceProductService.getSerivceProductByCode("00002")); // ค่าติดตั้งจุด Digital
-//					productItem.setServiceApplication(serviceApplication);
-//					productItem.setWorkSheet(worksheet);
-////					productItem.setQuantity(StringUtils.isBlank(bean.getDigitalPoint())?0:Math.round(Float.valueOf(bean.getDigitalPoint())));
-//					productItem.setQuantity(StringUtils.isBlank(bean.getTotalPoint())?0:Math.round(Float.valueOf(bean.getTotalPoint())));
-//					productItem.setPrice(StringUtils.isBlank(bean.getDigitalPrice())?0f:Float.valueOf(bean.getDigitalPrice()));
-//					productItem.setAmount(StringUtils.isBlank(bean.getDigitalPrice())?0f:Float.valueOf(bean.getDigitalPrice()));
-//					productItem.setProductTypeMatch("O");
-//					productItem.setProductType("S");
-//					productItem.setDeposit(0f);
-//					
-//					logger.info("Name : "+bean.getFirstName()+" "+bean.getLastName());
-//					logger.info("StatusDigital : "+bean.getStatusDigital());
-//					productItem.setIs_Deposit(false);
-//					if("มัดจำ".equals(bean.getStatusDigital())){
-//						productItem.setIs_Deposit(true);
-//					}else if("ยืม".equals(bean.getStatusDigital())){																																																																																																																																																																																													
-//						productItem.setLend(true);
-//					} // ถ้า Deposit และ Lend เท่ากับ false สถานะเท่ากันขายขาด
-//					
-//					// วันที่ติดตั้ง Digital
-//					if(null != bean.getInstallDigital() && !"".equals(bean.getInstallDigital()) && !"0000-00-00".equals(bean.getInstallDigital())){
-//						productItem.setInstallDigital(formatData.parse(bean.getInstallDigital()));
-//					}
-//					
-//					productItem.setCreateDate(CURRENT_TIMESTAMP);
-//					productItem.setCreatedBy("Migrate");
-//					productItem.setFree(Boolean.FALSE);
-//					productItem.setDeleted(Boolean.FALSE);
-//					productItemService.save(productItem);
-					
-//					productItem = new ProductItem();
-//					productItem.setServiceProduct(serviceProductService.getSerivceProductByCode("00003")); // ค่าติดตั้งจุด Analog
-//					productItem.setServiceApplication(serviceApplication);
-//					productItem.setWorkSheet(worksheet);
-//					productItem.setQuantity(StringUtils.isBlank(bean.getAnalogPoint())?0:Math.round(Float.valueOf(bean.getAnalogPoint())));
-//					productItem.setPrice(StringUtils.isBlank(bean.getAnalogPrice())?0f:Float.valueOf(bean.getAnalogPrice()));
-//					productItem.setAmount(StringUtils.isBlank(bean.getAnalogPrice())?0f:Float.valueOf(bean.getAnalogPrice()));
-//					productItem.setProductTypeMatch("O");
-//					productItem.setProductType("S");
-//					productItem.setDeposit(0f);
-//					productItem.setCreateDate(CURRENT_TIMESTAMP);
-//					productItem.setCreatedBy("Migrate");
-//					productItem.setFree(Boolean.FALSE);
-//					productItem.setLend(Boolean.FALSE);
-//					productItem.setDeleted(Boolean.FALSE);
-//					productItemService.save(productItem);
-					
-					}
-				}
-				
-			}
-
-		}
-		
-		logger.info("================== END ====================");
-		
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateReceipt_EasyNet(Workbook workbook) throws Exception {
-		int sheetIndex = 0;
-		int intRow = 0;
-		String custCodeMain = "";
-		boolean isNext = true;
-		ServicePackageType servicePackageType = new ServicePackageType();
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 1) {
-				String invoiceCode = getDataString(workbook, sheetIndex, "A", intRow);
-				String custCode = getDataString(workbook, sheetIndex, "M", intRow);
-				String receiptCode = getDataString(workbook, sheetIndex, "T", intRow);
-				Date paymentDate = getDataDate(workbook, sheetIndex, "B", intRow);
-				double price = getDataDouble(workbook, sheetIndex, "G", intRow);
-				int lastRow = (workbook.getSheetAt(sheetIndex).getLastRowNum()+1);
-				logger.info(intRow + " == "+lastRow);
-				if(intRow == 6605){
-					logger.info(intRow + " == "+lastRow);
-				}
-				if(intRow == 2){
-					custCodeMain = custCode;
-				}
-				if(!custCodeMain.equals(custCode)){
-					isNext = false;
-				}
-				if(isNext){
-					continue;
-				}
-				createReceipt(workbook, sheetIndex, intRow-1);
-				custCodeMain = custCode;
-				isNext = true;
-				if(intRow == lastRow){ // row last
-					createReceipt(workbook, sheetIndex, intRow);
-					continue;
-				}
-			}
-
-		}
-		
-		logger.info("================== END ====================");
-		
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateInvoice_EasyNet(Workbook workbook) throws Exception {
-		int sheetIndex = 0;
-		int intRow = 0;
-		String custCodeMain = "";
-		boolean isNext = true;
-		ServicePackageType servicePackageType = new ServicePackageType();
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 1) {
-				String custCode = getDataString(workbook, sheetIndex, "A", intRow);
-				Date paymentDate = getDataDate(workbook, sheetIndex, "E", intRow);
-				double price = getDataDouble(workbook, sheetIndex, "G", intRow);
-				
-				Customer customer = customerService.getCustomerByCustCode(custCode);
-				
-				if(null != customer){
-					Invoice invoice = new Invoice();
-					invoice.setInvoiceCode(financialService.genInVoiceCode());
-					invoice.setServiceApplication(customer.getServiceApplications().get(0));
-			//				invoice.setWorkSheet(worksheet);
-					invoice.setInvoiceType("O"); //S=สำหรับติดตั้ง,R=สำหรับซ่อม,O=สำหรับตาม
-			//				invoice.setStatus("S"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
-					invoice.setStatus("W"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
-					invoice.setStatusScan("N");
-					invoice.setIssueDocDate(new Date());
-					invoice.setPaymentDate(paymentDate); // วันครบกำหนดชำระ
-					invoice.setCreateDate(paymentDate);// วันครบกำหนดชำระ
-					
-					float amount = (float)price;
-					
-					invoice.setAmount(amount);
-					invoice.setBilling(Boolean.FALSE);
-					invoice.setCutting(Boolean.FALSE);
-					invoice.setDeleted(Boolean.FALSE);
-					invoice.setCreatedBy("MigrateEasyNet");
-					financialService.saveInvoice(invoice);
-					
-					Receipt receipt = new Receipt();
-					receipt.setReceiptCode(financialService.genReceiptCode());
-					receipt.setAmount(amount);
-					receipt.setStatus("H");
-					receipt.setPaymentType("");
-					receipt.setPaymentDate(paymentDate);
-					receipt.setInvoice(invoice);
-					receipt.setCreatedBy("MigrateEasyNet");
-					receipt.setCreateDate(CURRENT_TIMESTAMP);
-					receipt.setDeleted(Boolean.FALSE);
-					financialService.saveReceipt(receipt);
-				}
-				
-			}
-
-		}
-		
-		logger.info("================== END ====================");
-		
-	}
-	
-	public void createReceipt(Workbook workbook, int sheetIndex, int intRow) throws Exception{
-		String invoiceCode = getDataString(workbook, sheetIndex, "A", intRow);
-		String custCode = getDataString(workbook, sheetIndex, "M", intRow);
-		String receiptCode = getDataString(workbook, sheetIndex, "T", intRow);
-		Date paymentDate = getDataDate(workbook, sheetIndex, "B", intRow);
-		double price = getDataDouble(workbook, sheetIndex, "G", intRow);
-		
-		Customer customer = customerService.getCustomerByCustCode(custCode);
-		
-		if(null != customer){
-			Invoice invoice = new Invoice();
-			invoice.setInvoiceCode(invoiceCode);
-			
-			List<ServiceApplication> serviceApplication = customer.getServiceApplications();
-			
-			if(null != serviceApplication && serviceApplication.size() > 0) {
-			
-			invoice.setServiceApplication(customer.getServiceApplications().get(0));
-	//				invoice.setWorkSheet(worksheet);
-			invoice.setInvoiceType("O"); //S=สำหรับติดตั้ง,R=สำหรับซ่อม,O=สำหรับตาม
-	//				invoice.setStatus("S"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
-			invoice.setStatus("S"); //W=รอลูกค้าชำระ,S=ชำระแล้ว,O=เกินวันกำหนดชำระ
-			invoice.setStatusScan("N");
-			invoice.setIssueDocDate(new Date());
-			invoice.setPaymentDate(paymentDate); // วันครบกำหนดชำระ
-			invoice.setCreateDate(paymentDate);// วันครบกำหนดชำระ
-			
-			float amount = (float)price;
-			
-			invoice.setAmount(amount);
-			invoice.setBilling(Boolean.FALSE);
-			invoice.setCutting(Boolean.FALSE);
-			invoice.setDeleted(Boolean.FALSE);
-			invoice.setCreatedBy("MigrateEasyNet");
-			financialService.saveInvoice(invoice);
-			
-			Receipt receipt = new Receipt();
-			receipt.setReceiptCode(receiptCode);
-			receipt.setAmount(amount);
-			receipt.setStatus("P");
-			receipt.setPaymentType("C");
-			receipt.setPaymentDate(paymentDate);
-			receipt.setInvoice(invoice);
-			receipt.setCreatedBy("MigrateEasyNet");
-			receipt.setCreateDate(CURRENT_TIMESTAMP);
-			receipt.setDeleted(Boolean.FALSE);
-			financialService.saveReceipt(receipt);
-			}
-		}
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void processMigrateEquipmentProduct_EasyNet(Workbook workbook) throws Exception {
-		int sheetIndex = 1;
-		int intRow = 0;
-		// ข้อมูลสินค้าและอุปกรณ์
-		Long stockId = 1L;
-	    
-		for (Row rows : workbook.getSheetAt(sheetIndex)) {
-			intRow++;
-			if (intRow > 3) {
-				String unitName = getDataString(workbook, sheetIndex, "F", intRow);
-				String financialType = "";
-				String productName = getDataString(workbook, sheetIndex, "J", intRow);
-				
-				if("TP Link outdoor".equals(productName)) break;
-				
-				String productCode = getDataString(workbook, sheetIndex, "B", intRow)+"_"+getDataString(workbook, sheetIndex, "C", intRow)+"_"+getDataString(workbook, sheetIndex, "D", intRow);
-				double minumun = getDataDouble(workbook, sheetIndex, "DV", intRow);
-				String supplier = getDataString(workbook, sheetIndex, "E", intRow);
-				double productCostDouble = getDataDouble(workbook, sheetIndex, "K", intRow);
-				double priceIncTaxDouble = getDataDouble(workbook, sheetIndex, "K", intRow);
-				double productSalePriceDouble = getDataDouble(workbook, sheetIndex, "K", intRow);
-				String checkSN = "N";
-				double balanceDouble = getDataDouble(workbook, sheetIndex, "DQ", intRow);
-				
-				String equipmentProductCategory = getDataString(workbook, sheetIndex, "I", intRow);
-				
-				EquipmentProductCategory epc = equipmentProductCategoryService
-						.getEquipmentProductCategoryByEquipmentProductCategoryName(equipmentProductCategory);
-				if(null == epc){
-					epc = new EquipmentProductCategory();
-					epc.setEquipmentProductCategoryName(equipmentProductCategory);
-					epc.setEquipmentProductCategoryCode(equipmentProductCategoryService.genEquipmentProductCategoryCode());
-					epc.setDeleted(false);
-					epc.setCreateDate(CURRENT_TIMESTAMP);
-					epc.setCreatedBy("MigrateEasyNet");
-					equipmentProductCategoryService.save(epc);
-				}
-				
-				
-				logger.info("productName : "+productName);
-				logger.info("productCode : "+productCode);
-				logger.info("productCostDouble : "+productCostDouble);
-				logger.info("priceIncTaxDouble : "+priceIncTaxDouble);
-				logger.info("productSalePriceDouble : "+productSalePriceDouble);
-				
-				if(StringUtils.isEmpty(productName)) continue;
-				
-				EquipmentProduct equipmentProduct = equipmentProductService.getEquipmentProductByProductNameAndStock(productName, stockId);
-				
-				if(null != equipmentProduct) continue;
-				
-				equipmentProduct = new EquipmentProduct();
-				equipmentProduct.setProductCode(productCode);
-				equipmentProduct.setProductName(productName);
-				
-				float productCost = (float)productCostDouble;
-				float priceIncTax = (float)priceIncTaxDouble * 0.07f;
-				float productSalePrice = (float)productSalePriceDouble * 0.07f;
-				
-				equipmentProduct.setCost(productCost);
-				equipmentProduct.setPriceIncTax(priceIncTax);
-				equipmentProduct.setSalePrice(productSalePrice);
-				
-				int balance = (int)balanceDouble;
-				equipmentProduct.setBalance(balance);
-				equipmentProduct.setStockAmount(balance);
-				
-				equipmentProduct.setEquipmentProductCategory(epc);
-				equipmentProduct.setSupplier(supplier);
-				
-				Stock stock = stockService.getStockById(stockId);
-				equipmentProduct.setStock(stock);
-				
-				Unit unit = unitService.getUnitByUnitName(unitName);
-				if(null == unit){
-					unit = new Unit();
-					unit.setUnitName(unitName);
-					unit.setDeleted(false);
-					unit.setCreateDate(CURRENT_TIMESTAMP);
-					unit.setCreatedBy("MigrateEasyNet");
-					unitService.save(unit);
-				}
-				equipmentProduct.setUnit(unit);
-				
-				financialType = "C"; // ต้นทุน
-				
-				equipmentProduct.setFinancial_type(financialType);
-				long min = (long)minumun;
-				if(0 < min){
-					equipmentProduct.setMinimum(true);
-					equipmentProduct.setMinimumNumber(min);
-				}else{
-					equipmentProduct.setMinimum(false);
-					equipmentProduct.setMinimumNumber(ZERO_VALUE);
-				}
-				equipmentProduct.setDeleted(false);
-				equipmentProduct.setCreateDate(CURRENT_TIMESTAMP);
-				equipmentProduct.setCreatedBy("MigrateEasyNet");
-				Long equipmentProductId = productService.saveMasterProduct(equipmentProduct);
-				
-				if("N".equals(checkSN)){
-					EquipmentProductItem equipmentProductItem = new EquipmentProductItem();
-					equipmentProductItem.setEquipmentProduct(equipmentProduct);
-					equipmentProductItem.setSerialNo("");
-					equipmentProductItem.setNumberImport(balance);
-					equipmentProductItem.setBalance(balance);
-					equipmentProductItem.setStatus(1);
-					equipmentProductItem.setReference("");
-//					equipmentProductItem.setGuaranteeDate(datepickerGuarantee);
-//					equipmentProductItem.setOrderDate(new Date());
-					equipmentProductItem.setCost(equipmentProduct.getCost());
-					equipmentProductItem.setPriceIncTax(equipmentProduct.getSalePrice());
-					equipmentProductItem.setSalePrice(equipmentProduct.getSalePrice());
-					equipmentProductItem.setCreateDate(CURRENT_TIMESTAMP);
-					equipmentProductItem.setCreatedBy("MigrateEasyNet");
-					equipmentProductItemService.save(equipmentProductItem);
-
-				}
-				
-			}
-
-		}
-		
-		logger.info("================== END ====================");
-		
 	}
 	
 	public void generateAlert(JsonResponse jsonResponse, HttpServletRequest request, String title, String detail){
