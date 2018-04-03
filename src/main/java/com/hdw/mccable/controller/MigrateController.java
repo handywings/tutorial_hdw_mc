@@ -2452,6 +2452,7 @@ public class MigrateController extends BaseController{
 //			        	processMigrateCustomer(migrateCustomerBeanList, fileName.contains("internet"));
 			        	
 			        	
+			        	
 			        	// อัพเดทลูกค้าตัดสาย
 			        	processMigrateCustomerCut(migrateCustomerBeanList, fileName.contains("internet"));
 			        	

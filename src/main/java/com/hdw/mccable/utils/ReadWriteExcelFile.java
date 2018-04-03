@@ -90,6 +90,7 @@ public class ReadWriteExcelFile {
         return workbook;
     }
     
+    
     public static List<MigrateCustomerBean> ReadExcelCustomer(InputStream inputStream) throws Exception {
     	long startTime = System.currentTimeMillis();
     	List<MigrateCustomerBean> result = new ArrayList<MigrateCustomerBean>();

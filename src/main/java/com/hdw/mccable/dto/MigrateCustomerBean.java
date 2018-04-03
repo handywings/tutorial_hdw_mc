@@ -446,5 +446,6 @@ public class MigrateCustomerBean extends DSTPUtilityBean{
 		this.remark = remark;
 	}
 	
+	
 
 }
